@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aibek — Репетитор английского языка · Павлодар</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,700&family=Jost:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=Nunito:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Pacifico&family=Bebas+Neue&family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- GSAP -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+  <style>
+    /* ── CSS Custom Properties ── */
+    :root {
+      --p: #1E3A8A;
+      --pm: #2563EB;
+      --pl: #DBEAFE;
+      --a: #DC2626;
+      --ah: #B91C1C;
+      --bg: #F4F4F8;
+      --df: 'Cormorant Garamond', serif;
+      --af: 'Jost', sans-serif;
+    }
+
+    /* ── Shiny CTA @property ── */
+    @property --shiny-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+    @keyframes shinyRingRot { to { --shiny-angle: 360deg; } }
+
+    /* ── Keyframes ── */
+    @keyframes blobMorph {
+      0%,100%{border-radius:60% 40% 30% 70% / 60% 30% 70% 40%}
+      25%{border-radius:30% 60% 70% 40% / 50% 60% 30% 60%}
+      50%{border-radius:50% 30% 60% 40% / 40% 50% 60% 30%}
+      75%{border-radius:40% 60% 30% 70% / 60% 40% 50% 40%}
+    }
+    @keyframes floatA {
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-16px) rotate(4deg)}
+    }
+    @keyframes floatB {
+      0%,100%{transform:translateY(0) rotate(0deg)}
+      50%{transform:translateY(-10px) rotate(-3deg)}
+    }
+    @keyframes floatFlag {
+      0%,100%{transform:rotate(-4deg) scale(1)}
+      50%{transform:rotate(4deg) scale(1.06)}
+    }
+    @keyframes pulseCta {
+      0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}
+      50%{box-shadow:0 0 0 16px rgba(220,38,38,0)}
+    }
+
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--af);
+      background: var(--bg);
+      color: #1a1a2e;
+      overflow-x: hidden;
+    }
+    body.anim-ready .hw,
+    body.anim-ready .hero-cursive,
+    body.anim-ready .hero-cta,
+    body.anim-ready .hero-badge-float { opacity: 1 !important; transform: none !important; }
+
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+
+    /* ── Scroll Progress ── */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--p), var(--a));
+      transform: scaleX(0); transform-origin: 0 50%;
+      z-index: 1100; will-change: transform;
+    }
+
+    /* ── Shiny CTA ── */
+    .shiny-cta {
+      position: relative; isolation: isolate;
+      border: 2.5px solid transparent !important;
+    }
+    .shiny-cta::before {
+      content: ""; position: absolute; inset: -3px; border-radius: inherit;
+      padding: 3px; pointer-events: none; z-index: -1;
+      background: conic-gradient(from var(--shiny-angle), transparent 0%, rgba(255,20,20,0.55) 4%, #ff1414 9%, #ff4d4d 13%, #ff1414 17%, rgba(255,20,20,0.55) 22%, transparent 32%, transparent 100%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      animation: shinyRingRot 3s linear infinite;
+      filter: drop-shadow(0 0 8px rgba(255,20,20,1));
+    }
+    .shiny-cta::after {
+      content: ""; position: absolute; inset: 0; border-radius: inherit;
+      pointer-events: none; z-index: -1; overflow: hidden;
+      background: radial-gradient(circle at 50% 120%, rgba(255,20,20,0.9), transparent 60%);
+      opacity: 0; transition: opacity .5s ease;
+    }
+    .shiny-cta:hover::before { animation-duration: 1.1s; }
+    .shiny-cta:hover::after { opacity: 1; }
+
+    /* ── Tilt Card ── */
+    .tilt-card { transform-style: preserve-3d; will-change: transform; transition: box-shadow .3s; }
+
+    /* ── FAQ ── */
+    .faq-ans { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.4,0,.2,1); }
+    .faq-ans.open { max-height: 300px; }
+
+    /* ── Navbar ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      padding: 0 32px; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,0);
+      border-bottom: 1px solid transparent;
+      transition: background .3s, box-shadow .3s, border-color .3s;
+    }
+    .nav-logo {
+      display: flex; flex-direction: column; line-height: 1;
+      gap: 1px;
+    }
+    .nav-logo-name {
+      font-family: var(--df); font-size: 1.55rem; font-weight: 700;
+      color: var(--p); letter-spacing: 0.04em;
+    }
+    .nav-logo-sub {
+      font-family: var(--af); font-size: 0.78rem; font-weight: 600;
+      color: var(--a); letter-spacing: 0.12em; text-transform: lowercase;
+      font-style: italic;
+    }
+    .nav-subtitle {
+      font-size: 0.72rem; color: #666; font-family: var(--af);
+      letter-spacing: 0.02em;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500; color: #333;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--p); }
+    .nav-actions {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-btn {
+      padding: 8px 16px; border-radius: 8px; font-size: 0.82rem;
+      font-weight: 600; transition: background .2s, color .2s;
+    }
+    .nav-btn-wa {
+      background: #25d366; color: #fff;
+    }
+    .nav-btn-wa:hover { background: #1fa855; }
+    .nav-btn-tg {
+      background: #0088cc; color: #fff;
+    }
+    .nav-btn-tg:hover { background: #006ba3; }
+    .nav-cta {
+      background: var(--a); color: #fff;
+      padding: 10px 20px; border-radius: 9px;
+      font-size: 0.85rem; font-weight: 700;
+      animation: pulseCta 2.5s infinite;
+      transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--ah); }
+    .burger-btn {
+      display: none; background: none; border: 2px solid var(--p);
+      color: var(--p); font-size: 1.35rem; padding: 4px 12px;
+      border-radius: 7px; font-weight: 700;
+    }
+    .mobile-menu {
+      display: none; flex-direction: column; gap: 8px;
+      position: fixed; top: 72px; left: 0; right: 0;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      padding: 18px 24px;
+      max-height: 0; opacity: 0; overflow: hidden;
+      transition: max-height .36s ease, opacity .28s ease;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      z-index: 998;
+    }
+    .mobile-menu a, .mobile-menu button {
+      display: block; padding: 12px 0;
+      font-size: 1rem; font-weight: 600; color: #222;
+      border-bottom: 1px solid #eee;
+      text-align: left; background: none;
+    }
+    .mobile-menu .mob-cta {
+      background: var(--a); color: #fff; border-radius: 8px;
+      padding: 12px; text-align: center; border: none; margin-top: 8px;
+    }
+    .mob-socials { display: flex; gap: 10px; margin-top: 10px; }
+    .mob-socials a {
+      flex: 1; text-align: center; border-radius: 8px; padding: 10px;
+      font-weight: 600; border-bottom: none; color: #fff;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100svh; background: #fff;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column;
+      padding-top: 72px;
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: center;
+      max-width: 1280px; margin: 0 auto;
+      padding: 60px 48px 0;
+      position: relative; z-index: 2; flex: 1;
+    }
+    .hero-deco-a {
+      position: absolute; top: -60px; left: -40px;
+      font-family: var(--df); font-size: clamp(280px, 35vw, 520px);
+      font-weight: 700; color: var(--p); opacity: 0.05;
+      line-height: 1; pointer-events: none; z-index: 0;
+      animation: floatA 8s ease-in-out infinite;
+    }
+    .hero-blob-bg {
+      position: absolute; top: 0; right: -120px;
+      width: 55vw; max-width: 780px; height: 100%;
+      background: linear-gradient(135deg, var(--pl) 0%, rgba(219,234,254,0.3) 100%);
+      animation: blobMorph 9s ease-in-out infinite;
+      pointer-events: none; z-index: 0;
+    }
+    .hero-statue {
+      position: absolute; right: 0; bottom: 0; height: 90%;
+      object-fit: contain; object-position: bottom;
+      opacity: 0.28; pointer-events: none; z-index: 1;
+    }
+    .hero-uk-flag {
+      position: absolute; bottom: 110px; right: 370px;
+      width: 58px; height: 42px;
+      animation: floatFlag 5s ease-in-out infinite;
+      z-index: 3; pointer-events: none;
+    }
+    .hero-left { position: relative; z-index: 3; }
+    .hero-badge-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--pl); color: var(--p);
+      padding: 7px 18px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-badge-pill::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--p); display: block;
+    }
+    .hero-h1 {
+      font-family: var(--df); font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 700; line-height: 1.08;
+      color: #0f172a; margin-bottom: 12px;
+    }
+    .hw { display: inline-block; opacity: 0; }
+    .hero-inline-badge {
+      display: inline-block;
+      background: var(--a); color: #fff;
+      font-family: var(--af); font-size: 0.72rem; font-weight: 700;
+      padding: 5px 14px; border-radius: 6px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      vertical-align: middle; margin-left: 10px;
+    }
+    .hero-cursive {
+      font-family: var(--af); font-style: italic;
+      font-size: clamp(1.4rem, 3vw, 2.1rem); font-weight: 400;
+      color: var(--pm); margin-bottom: 32px; opacity: 0;
+    }
+    .hero-cta {
+      display: flex; align-items: center; gap: 14px;
+      flex-wrap: wrap; opacity: 0;
+    }
+    .btn-primary {
+      background: var(--a); color: #fff;
+      padding: 15px 30px; border-radius: 12px;
+      font-size: 1rem; font-weight: 700;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--ah); transform: translateY(-1px); }
+    .btn-arrow {
+      width: 50px; height: 50px; border-radius: 50%;
+      background: var(--p); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; transition: background .2s, transform .15s;
+    }
+    .btn-arrow:hover { background: var(--pm); transform: translateX(3px); }
+
+    /* Hero right */
+    .hero-photo-wrap {
+      position: relative; z-index: 3;
+      display: flex; justify-content: center; align-items: flex-end;
+    }
+    .hero-photo-blob {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--pl), rgba(219,234,254,0.4));
+      border-radius: 60% 40% 45% 55% / 55% 45% 55% 45%;
+      animation: blobMorph 11s ease-in-out infinite reverse;
+    }
+    .hero-photo {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 420px;
+      object-fit: cover; object-position: top;
+      filter: drop-shadow(0 20px 60px rgba(30,58,138,0.18));
+    }
+    .hero-badge-float {
+      position: absolute;
+      background: #fff; border-radius: 12px;
+      padding: 10px 16px; box-shadow: 0 4px 24px rgba(30,58,138,0.15);
+      display: flex; align-items: center; gap: 10px;
+      opacity: 0; z-index: 4;
+      animation: floatB 6s ease-in-out infinite;
+    }
+    .hero-badge-float:nth-child(3) { top: 22%; left: -18px; }
+    .hero-badge-float:nth-child(4) { top: 38%; right: -14px; animation-delay: -2s; }
+    .hero-badge-float:nth-child(5) {
+      bottom: 14%; left: -14px;
+      background: var(--p); color: #fff;
+      animation-delay: -4s;
+    }
+    .hbf-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--pl); display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .hbf-label { font-size: 0.7rem; font-weight: 500; opacity: 0.7; }
+    .hbf-value { font-size: 1rem; font-weight: 800; line-height: 1.1; }
+
+    /* Stats bar */
+    #stats-bar {
+      background: var(--p); color: #fff;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      text-align: center; padding: 28px 48px;
+      margin-top: 40px; position: relative; z-index: 2;
+    }
+    .stat-item { padding: 8px; border-right: 1px solid rgba(255,255,255,0.15); }
+    .stat-item:last-child { border-right: none; }
+    .stat-value {
+      font-family: var(--df); font-size: 2.4rem; font-weight: 700;
+      line-height: 1; display: flex; align-items: baseline;
+      justify-content: center; gap: 4px;
+    }
+    .stat-suffix { font-size: 1.2rem; }
+    .stat-label { font-size: 0.72rem; font-weight: 500; opacity: 0.75; margin-top: 5px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── About ── */
+    #about {
+      background: #fff; padding: 100px 48px;
+      position: relative; overflow: hidden;
+    }
+    .about-big-ben {
+      position: absolute; right: -20px; top: 50%;
+      transform: translateY(-50%);
+      height: 85%; object-fit: contain;
+      opacity: 0.25; pointer-events: none;
+    }
+    .about-inner {
+      max-width: 760px; margin: 0 auto;
+      text-align: center; position: relative; z-index: 2;
+    }
+    .about-label {
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #888; font-weight: 600; margin-bottom: 8px;
+    }
+    .about-name {
+      font-family: var(--af); font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; color: var(--pm); margin-bottom: 12px;
+    }
+    .about-title {
+      font-family: var(--df); font-size: clamp(1.1rem, 2.2vw, 1.65rem);
+      font-weight: 700; color: #0f172a; line-height: 1.25;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .about-text {
+      font-size: 1.02rem; line-height: 1.75; color: #444;
+      margin-bottom: 28px;
+    }
+    .about-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--pm); font-weight: 700; font-size: 0.9rem;
+      transition: gap .2s;
+    }
+    .about-link:hover { gap: 14px; }
+
+    /* ── Benefits ── */
+    #benefits {
+      background: var(--bg); padding: 100px 48px;
+      position: relative; overflow: hidden;
+    }
+    .benefits-sky-deco {
+      position: absolute; left: -30px; top: 50%;
+      transform: translateY(-50%);
+      height: 80%; object-fit: contain;
+      opacity: 0.20; pointer-events: none;
+    }
+    .benefits-flag-deco {
+      position: absolute; right: -20px; top: 50%;
+      transform: translateY(-50%);
+      height: 75%; object-fit: contain;
+      opacity: 0.28; pointer-events: none;
+    }
+    .section-heading {
+      text-align: center; position: relative; z-index: 2;
+      margin-bottom: 12px;
+    }
+    .section-eyebrow {
+      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
+      color: #888; font-weight: 600; margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: var(--df); font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 700; color: #0f172a; line-height: 1.15;
+    }
+    .section-title span { color: var(--pm); }
+    .gallery-note {
+      text-align: center; font-size: 0.78rem; color: #888;
+      margin-bottom: 24px; position: relative; z-index: 2;
+    }
+
+    /* ── Groups ── */
+    #groups {
+      background: #fff; padding: 100px 48px;
+      position: relative;
+    }
+    .group-tabs {
+      display: flex; gap: 0;
+      background: #f1f5f9; border-radius: 12px;
+      padding: 6px; width: fit-content;
+      margin: 32px auto;
+    }
+    .group-tab {
+      padding: 11px 28px; border-radius: 8px;
+      font-size: 0.88rem; font-weight: 700;
+      background: transparent; color: #555;
+      transition: background .25s, color .25s;
+      border: none;
+    }
+    .group-panel {
+      max-width: 1100px; margin: 0 auto;
+      align-items: stretch; gap: 0;
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 8px 48px rgba(30,58,138,0.10);
+    }
+    .grp-photo-wrap {
+      position: relative; width: 340px; flex-shrink: 0; overflow: hidden;
+    }
+    .grp-photo {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .grp-photo-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(30,58,138,0.7) 0%, transparent 60%);
+    }
+    .grp-age-badge {
+      position: absolute; bottom: 18px; left: 18px;
+      background: var(--a); color: #fff;
+      padding: 5px 14px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em;
+    }
+    .grp-content {
+      flex: 1; padding: 40px 44px; background: #fff;
+    }
+    .grp-tag {
+      background: var(--pl); color: var(--p);
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 999px;
+      display: inline-block; margin-bottom: 14px;
+    }
+    .grp-title {
+      font-family: var(--df); font-size: 1.7rem; font-weight: 700;
+      margin-bottom: 18px; color: #0f172a;
+    }
+    .grp-list { list-style: none; margin-bottom: 24px; }
+    .grp-list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 6px 0; font-size: 0.92rem; color: #333;
+    }
+    .grp-check {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--pl); color: var(--p);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;
+    }
+    .grp-info-box {
+      background: var(--bg); border-radius: 10px;
+      padding: 14px 18px; font-size: 0.82rem; color: #555;
+    }
+    .grp-info-box strong { color: var(--p); }
+
+    /* ── Pricing ── */
+    #pricing {
+      background: var(--bg); padding: 100px 48px;
+    }
+    .pricing-cards {
+      display: flex; gap: 28px; max-width: 860px;
+      margin: 48px auto 0; justify-content: center;
+    }
+    .price-card {
+      flex: 1; border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 32px rgba(30,58,138,0.12);
+      background: #fff;
+    }
+    .price-card-header {
+      background: var(--p); color: #fff;
+      padding: 26px 28px 22px;
+    }
+    .price-type {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; opacity: 0.75; margin-bottom: 4px;
+    }
+    .price-name {
+      font-family: var(--df); font-size: 1.55rem; font-weight: 700;
+    }
+    .price-body { padding: 28px; }
+    .price-amount {
+      font-family: var(--df); font-size: 2.6rem; font-weight: 700;
+      color: var(--p); margin-bottom: 4px;
+    }
+    .price-period {
+      font-size: 0.8rem; color: #777; margin-bottom: 22px;
+    }
+    .price-cta {
+      width: 100%; padding: 14px; border-radius: 10px;
+      background: var(--a); color: #fff;
+      font-size: 0.95rem; font-weight: 700;
+      transition: background .2s;
+    }
+    .price-cta:hover { background: var(--ah); }
+
+    /* ── Reviews ── */
+    #reviews {
+      background: #fff; padding: 100px 48px;
+    }
+    .reviews-heading-wrap { text-align: center; margin-bottom: 36px; }
+    .reviews-cursive {
+      font-family: var(--af); font-style: italic;
+      font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 400;
+      color: var(--pm); display: block; margin-bottom: 4px;
+    }
+    .reviews-title {
+      font-family: var(--df); font-size: clamp(1.6rem, 3vw, 2.5rem);
+      font-weight: 700; color: #0f172a;
+    }
+    .reviews-tabs {
+      display: flex; gap: 0; background: #f1f5f9;
+      border-radius: 12px; padding: 5px;
+      width: fit-content; margin: 0 auto 40px;
+    }
+    .reviews-tab-btn {
+      padding: 10px 26px; border-radius: 8px;
+      font-size: 0.85rem; font-weight: 700;
+      transition: background .25s, color .25s;
+      border: none; background: transparent;
+    }
+    .certs-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 18px; max-width: 1100px; margin: 0 auto;
+    }
+    .cert-card {
+      border-radius: 14px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(30,58,138,0.10);
+      background: #fff;
+    }
+    .cert-card-top {
+      background: linear-gradient(135deg, var(--p), var(--pm));
+      color: #fff; padding: 22px;
+    }
+    .cert-badge {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em;
+      text-transform: uppercase; opacity: 0.75;
+    }
+    .cert-name {
+      font-family: var(--df); font-size: 1.5rem; font-weight: 700;
+      margin-top: 6px;
+    }
+    .cert-score {
+      font-family: var(--df); font-size: 2rem; font-weight: 700;
+      color: #fff; margin-top: 4px;
+    }
+    .cert-desc {
+      padding: 16px; font-size: 0.82rem; color: #555;
+    }
+    .reviews-grid {
+      display: none; grid-template-columns: repeat(3, 1fr);
+      gap: 24px; max-width: 1000px; margin: 0 auto;
+    }
+    .review-card {
+      border-radius: 16px; padding: 24px;
+      box-shadow: 0 4px 24px rgba(30,58,138,0.09);
+      background: #fff;
+    }
+    .review-stars { color: #f59e0b; font-size: 1rem; margin-bottom: 12px; }
+    .review-text { font-size: 0.9rem; color: #444; line-height: 1.6; margin-bottom: 18px; }
+    .review-author { display: flex; align-items: center; gap: 12px; }
+    .review-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--pl); display: flex; align-items: center;
+      justify-content: center; font-weight: 800; color: var(--p);
+      font-size: 1rem;
+    }
+    .review-name { font-weight: 700; font-size: 0.88rem; }
+    .review-score { font-size: 0.76rem; color: #888; }
+
+    /* ── Trial CTA ── */
+    #trial {
+      background: var(--bg); padding: 100px 48px;
+    }
+    .trial-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 60px; align-items: center;
+    }
+    .trial-heading {
+      font-family: var(--df); font-size: clamp(1.8rem, 3.5vw, 3rem);
+      font-weight: 700; line-height: 1.15; margin-bottom: 18px; color: #0f172a;
+    }
+    .trial-heading span { color: var(--a); }
+    .trial-text { font-size: 1rem; color: #555; line-height: 1.7; margin-bottom: 28px; }
+    .trial-right { position: relative; }
+    .trial-blob {
+      position: absolute; inset: -30px;
+      background: linear-gradient(135deg, var(--pl), rgba(219,234,254,0.3));
+      border-radius: 60% 40% 45% 55% / 55% 45% 55% 45%;
+      animation: blobMorph 10s ease-in-out infinite;
+    }
+    .trial-img {
+      position: relative; z-index: 2;
+      border-radius: 16px; box-shadow: 0 8px 48px rgba(30,58,138,0.15);
+      width: 100%;
+    }
+
+    /* ── FAQ ── */
+    #faq {
+      background: #fff; padding: 100px 48px;
+    }
+    .faq-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 340px 1fr;
+      gap: 60px; align-items: start;
+    }
+    .faq-heading {
+      font-family: var(--df); font-size: clamp(1.6rem, 2.8vw, 2.5rem);
+      font-weight: 700; color: #0f172a; line-height: 1.2;
+    }
+    .faq-heading span { color: var(--pm); }
+    .faq-list { display: flex; flex-direction: column; gap: 10px; }
+    .faq-item { border-radius: 12px; overflow: hidden; }
+    .faq-header {
+      background: var(--p); color: #fff;
+      padding: 16px 20px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      font-weight: 700; font-size: 0.9rem; line-height: 1.4;
+      transition: background .25s;
+      gap: 12px;
+    }
+    .faq-icon {
+      font-size: 1.4rem; font-weight: 400; flex-shrink: 0;
+      width: 24px; text-align: center;
+    }
+    .faq-ans-inner {
+      padding: 18px 20px; font-size: 0.9rem;
+      color: #444; line-height: 1.7;
+    }
+
+    /* ── Contacts ── */
+    #contacts {
+      background: var(--bg); padding: 100px 48px;
+    }
+    .contacts-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: start;
+    }
+    .contacts-map {
+      border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 32px rgba(30,58,138,0.10);
+      height: 360px;
+    }
+    .contacts-map iframe { width: 100%; height: 100%; border: none; }
+    .contacts-info h2 {
+      font-family: var(--df); font-size: 2rem; font-weight: 700;
+      margin-bottom: 24px; color: #0f172a;
+    }
+    .contact-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 18px;
+    }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--pl); display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.72rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.08em; }
+    .contact-value { font-size: 0.98rem; font-weight: 600; color: #222; margin-top: 2px; }
+    .contacts-btns { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
+    .contacts-btn {
+      padding: 13px 22px; border-radius: 10px;
+      font-size: 0.88rem; font-weight: 700; color: #fff;
+      transition: opacity .2s;
+    }
+    .contacts-btn:hover { opacity: 0.88; }
+    .contacts-btn-wa { background: #25d366; }
+    .contacts-btn-tg { background: #0088cc; }
+
+    /* ── Footer ── */
+    footer {
+      background: #0f172a; color: #fff;
+      padding: 40px 48px;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 18px;
+    }
+    .footer-logo-name { font-family: var(--df); font-size: 1.3rem; font-weight: 700; }
+    .footer-logo-sub { font-family: var(--af); font-style: italic; font-size: 0.78rem; color: #ef4444; }
+    .footer-copy { font-size: 0.76rem; color: #888; }
+    .footer-links { display: flex; gap: 18px; align-items: center; }
+    .footer-links a { font-size: 0.8rem; color: #aaa; transition: color .2s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-cta {
+      background: var(--a); color: #fff;
+      padding: 11px 22px; border-radius: 9px;
+      font-size: 0.85rem; font-weight: 700;
+      transition: background .2s;
+    }
+    .footer-cta:hover { background: var(--ah); }
+
+    /* ── Tweaks Panel ── */
+    #tweaks-panel {
+      position: fixed; right: 0; top: 50%;
+      transform: translateY(-50%);
+      z-index: 1050;
+      display: flex; align-items: center;
+    }
+    .tweaks-toggle {
+      background: var(--p); color: #fff;
+      width: 36px; height: 80px; border-radius: 10px 0 0 10px;
+      display: flex; align-items: center; justify-content: center;
+      writing-mode: vertical-rl; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.1em; cursor: pointer;
+      border: none; transition: background .2s;
+    }
+    .tweaks-toggle:hover { background: var(--pm); }
+    .tweaks-body {
+      background: #fff; box-shadow: -4px 0 32px rgba(0,0,0,0.14);
+      padding: 20px; width: 220px;
+      border-radius: 12px 0 0 12px;
+      display: none;
+    }
+    .tweaks-body.open { display: block; }
+    .tweaks-section { margin-bottom: 18px; }
+    .tweaks-label {
+      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #888; margin-bottom: 8px;
+    }
+    .tweaks-options { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tweaks-opt {
+      padding: 5px 12px; border-radius: 6px; border: 1.5px solid #e0e0e0;
+      font-size: 0.76rem; font-weight: 600; cursor: pointer;
+      background: #f9f9f9; transition: background .18s, border-color .18s, color .18s;
+    }
+    .tweaks-opt:hover, .tweaks-opt.active {
+      background: var(--p); color: #fff; border-color: var(--p);
+    }
+
+    /* ── Utility classes ── */
+    .d-hide { display: none !important; }
+    .m-only { display: none; }
+    .landmark-deco { pointer-events: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .certs-grid { grid-template-columns: repeat(2, 1fr); }
+      .faq-inner { grid-template-columns: 1fr; gap: 36px; }
+      .trial-inner { grid-template-columns: 1fr; gap: 40px; }
+      .contacts-inner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-actions, .nav-subtitle { display: none !important; }
+      .nav-cta { display: none; }
+      .burger-btn { display: block; }
+      .mobile-menu { display: flex; }
+      .m-only { display: block; }
+
+      .hero-inner {
+        grid-template-columns: 1fr;
+        padding: 32px 24px 0;
+        gap: 24px;
+      }
+      .hero-photo-wrap { order: -1; max-height: 340px; overflow: hidden; }
+      .hero-h1 { font-size: 2rem; }
+      .hero-cursive { font-size: 1.2rem; }
+      .d-hide { display: none !important; }
+      .hero-blob-bg { display: none; }
+      .hero-statue { display: none; }
+      .hero-uk-flag { display: none; }
+
+      #stats-bar { grid-template-columns: repeat(2, 1fr); padding: 20px 16px; }
+      .stat-item:nth-child(2) { border-right: none; }
+
+      #about, #benefits, #groups, #pricing, #reviews, #trial, #faq, #contacts { padding: 64px 24px; }
+      .hero-inner { padding: 32px 24px 0; }
+
+      .group-tabs { width: 100%; justify-content: stretch; }
+      .group-tab { flex: 1; padding: 10px 12px; font-size: 0.78rem; }
+      .group-panel { flex-direction: column !important; }
+      .grp-photo-wrap { width: 100%; height: 220px; }
+      .grp-content { padding: 24px 20px; }
+
+      .pricing-cards { flex-direction: column; }
+
+      .certs-grid { grid-template-columns: repeat(2, 1fr); }
+      .reviews-grid { grid-template-columns: 1fr; }
+
+      .faq-inner { grid-template-columns: 1fr; }
+      .contacts-inner { grid-template-columns: 1fr; }
+      .trial-inner { grid-template-columns: 1fr; }
+
+      footer { padding: 32px 24px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+
+      .landmark-deco.d-hide { display: block !important; opacity: 0.12; }
+    }
+
+    @media (max-width: 480px) {
+      .certs-grid { grid-template-columns: 1fr; }
+      .hero-badge-float { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-name">AIBEK</span>
+    <span class="nav-logo-sub">english</span>
+  </a>
+  <span class="nav-subtitle d-hide" style="display:block">Репетитор английского языка · Павлодар</span>
+  <ul class="nav-links">
+    <li><a href="#about">О репетиторе</a></li>
+    <li><a href="#groups">Группы</a></li>
+    <li><a href="#pricing">Цены</a></li>
+    <li><a href="#faq">FAQ</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a href="https://wa.me/87074292567" target="_blank" rel="noopener" class="nav-btn nav-btn-wa">WhatsApp</a>
+    <a href="https://t.me/toolegen" target="_blank" rel="noopener" class="nav-btn nav-btn-tg">Telegram</a>
+    <a href="https://wa.me/87074292567" class="nav-cta shiny-cta">Оставить заявку</a>
+  </div>
+  <button class="burger-btn" onclick="toggleMobileMenu()" aria-label="Меню">☰</button>
+</nav>
+
+<!-- Mobile dropdown -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about" onclick="toggleMobileMenu()">О репетиторе</a>
+  <a href="#groups" onclick="toggleMobileMenu()">Группы</a>
+  <a href="#pricing" onclick="toggleMobileMenu()">Цены</a>
+  <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
+  <a href="#contacts" onclick="toggleMobileMenu()">Контакты</a>
+  <div class="mob-socials">
+    <a href="https://wa.me/87074292567" target="_blank" style="background:#25d366">WhatsApp</a>
+    <a href="https://t.me/toolegen" target="_blank" style="background:#0088cc">Telegram</a>
+  </div>
+  <a href="https://wa.me/87074292567" class="mob-cta">Оставить заявку</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-deco-a landmark-deco">А</div>
+  <div class="hero-blob-bg landmark-deco"></div>
+  <img src="project/uploads/Statue_of_Liberty_Colmar_01.png" alt="" class="hero-statue landmark-deco d-hide" />
+
+  <div class="hero-inner">
+    <!-- Left column -->
+    <div class="hero-left">
+      <div class="hero-badge-pill">Репетитор · Павлодар</div>
+      <h1 class="hero-h1">
+        <span class="hw">НАУЧУ</span>
+        <span class="hw"> ТЕБЯ</span>
+        <span class="hw"> ГОВОРИТЬ</span>
+        <span class="hero-inline-badge hw">Первый урок — бесплатно!</span>
+      </h1>
+      <p class="hero-cursive">на английском языке</p>
+      <div class="hero-cta">
+        <a href="https://wa.me/87074292567" target="_blank" class="btn-primary shiny-cta">Записаться на урок</a>
+        <a href="#about" class="btn-arrow">→</a>
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-blob"></div>
+      <img src="project/uploads/photo-1781354916837.png" alt="Айбек — репетитор английского" class="hero-photo" />
+
+      <!-- IELTS badge -->
+      <div class="hero-badge-float">
+        <div class="hbf-icon">🎓</div>
+        <div>
+          <div class="hbf-label">Сертификат</div>
+          <div class="hbf-value">IELTS 7.5</div>
+        </div>
+      </div>
+
+      <!-- SAT badge (hidden mobile) -->
+      <div class="hero-badge-float d-hide">
+        <div class="hbf-icon">📝</div>
+        <div>
+          <div class="hbf-label">Результат</div>
+          <div class="hbf-value">SAT 1450</div>
+        </div>
+      </div>
+
+      <!-- Years badge (hidden mobile) -->
+      <div class="hero-badge-float d-hide">
+        <div class="hbf-icon">⭐</div>
+        <div>
+          <div class="hbf-label">Опыт преподавания</div>
+          <div class="hbf-value">6 лет</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UK Flag SVG -->
+  <svg class="hero-uk-flag d-hide" viewBox="0 0 60 42" xmlns="http://www.w3.org/2000/svg">
+    <rect width="60" height="42" fill="#012169"/>
+    <path d="M0,0 L60,42 M60,0 L0,42" stroke="#fff" stroke-width="6"/>
+    <path d="M0,0 L60,42 M60,0 L0,42" stroke="#C8102E" stroke-width="4"/>
+    <path d="M30,0 V42 M0,21 H60" stroke="#fff" stroke-width="10"/>
+    <path d="M30,0 V42 M0,21 H60" stroke="#C8102E" stroke-width="6"/>
+  </svg>
+
+  <!-- Stats bar -->
+  <div id="stats-bar">
+    <div class="stat-item">
+      <div class="stat-value"><span id="counter-ielts">0.0</span></div>
+      <div class="stat-label">IELTS Score</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value"><span id="counter-sat">0</span></div>
+      <div class="stat-label">SAT Score</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value"><span id="counter-ent">0</span></div>
+      <div class="stat-label">ЕНТ Балл</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-value"><span id="counter-years">0</span><span class="stat-suffix">+</span></div>
+      <div class="stat-label">Лет опыта</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" style="background:#fff; padding:100px 48px; position:relative; overflow:hidden;">
+  <img src="project/uploads/big_ben_4.png" alt="" class="about-big-ben landmark-deco d-hide" />
+  <div class="about-inner reveal">
+    <p class="about-label">О репетиторе</p>
+    <p class="about-name">Айбек Толеген</p>
+    <h2 class="about-title">Я ДИПЛОМИРОВАННЫЙ ПРЕПОДАВАТЕЛЬ<br>АНГЛИЙСКОГО ЯЗЫКА</h2>
+    <p class="about-text">
+      Привет! Меня зовут Айбек, и я помогаю ученикам достигать высоких результатов на экзаменах IELTS, SAT и ЕНТ уже более 6 лет. Я сам прошёл этот путь — сдал IELTS на 7.5, SAT на 1450 баллов и поступил в Назарбаев Университет. Мои занятия — это не просто грамматика, это живое общение, реальные задачи и постоянный прогресс. Занимаюсь как онлайн, так и офлайн в Павлодаре. Первый урок — бесплатно!
+    </p>
+    <a href="#reviews" class="about-link">Смотреть отзывы и сертификаты →</a>
+  </div>
+</section>
+
+<!-- ═══ BENEFITS ═══ -->
+<section id="benefits">
+  <img src="project/uploads/picture_17-grafikov-kotorye-d_855_p0.png" alt="" class="benefits-sky-deco landmark-deco d-hide" />
+  <img src="project/uploads/1000014610-ce7160b6.png" alt="" class="benefits-flag-deco landmark-deco d-hide" />
+
+  <div class="section-heading reveal">
+    <p class="section-eyebrow">Почему я?</p>
+    <h2 class="section-title">Преимущества<br><span>ОБУЧЕНИЯ СО МНОЙ</span></h2>
+  </div>
+
+  <p class="gallery-note">Перетащите или прокрутите колёсиком над галереей</p>
+
+  <circular-gallery
+    style="display:block;width:100%;height:440px;"
+    bend="3"
+    border-radius="0.04"
+    scroll-ease="0.05"
+    font="700 28px Jost"
+    font-url="https://fonts.googleapis.com/css2?family=Jost:wght@700&family=Plus+Jakarta+Sans:wght@400&display=swap"
+    color-dark="#1f2937"
+    color-gray="#667085"
+    color-accent="#DC2626"
+  ></circular-gallery>
+</section>
+
+<!-- ═══ GROUPS ═══ -->
+<section id="groups">
+  <div class="section-heading reveal">
+    <p class="section-eyebrow">Форматы обучения</p>
+    <h2 class="section-title">Учебные <span>Группы</span></h2>
+  </div>
+
+  <div class="group-tabs">
+    <button class="group-tab" onclick="setGroup(0)" style="background:var(--a);color:#fff;">Дети 8–12</button>
+    <button class="group-tab" onclick="setGroup(1)">Подростки 13–17</button>
+    <button class="group-tab" onclick="setGroup(2)">Взрослые 18+</button>
+  </div>
+
+  <!-- Kids -->
+  <div class="group-panel" id="group-kids" style="display:flex;">
+    <div class="grp-photo-wrap">
+      <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&h=500&fit=crop&q=80" alt="Дети" class="grp-photo" />
+      <div class="grp-photo-overlay"></div>
+      <span class="grp-age-badge">8–12 лет</span>
+    </div>
+    <div class="grp-content">
+      <span class="grp-tag">Дети</span>
+      <h3 class="grp-title">Английский для детей</h3>
+      <ul class="grp-list">
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Интерактивные игры и упражнения для лёгкого усвоения</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Разговорная практика с первого урока</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовка к Cambridge Young Learners</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Домашние задания с обратной связью</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Не более 4 детей в группе</span></li>
+      </ul>
+      <div class="grp-info-box">
+        <strong>Расписание:</strong> 2 раза в неделю по 60 минут &nbsp;·&nbsp; <strong>Формат:</strong> Онлайн / Офлайн
+      </div>
+    </div>
+  </div>
+
+  <!-- Teens -->
+  <div class="group-panel" id="group-teens" style="display:none;">
+    <div class="grp-photo-wrap">
+      <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&h=500&fit=crop&q=80" alt="Подростки" class="grp-photo" />
+      <div class="grp-photo-overlay"></div>
+      <span class="grp-age-badge">13–17 лет</span>
+    </div>
+    <div class="grp-content">
+      <span class="grp-tag">Подростки</span>
+      <h3 class="grp-title">Английский для подростков</h3>
+      <ul class="grp-list">
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовка к ЕНТ, IELTS, SAT и Cambridge</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Актуальные темы и современные материалы</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Разговорный клуб внутри группы</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Грамматика через живые примеры</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>До 5 человек в группе</span></li>
+      </ul>
+      <div class="grp-info-box">
+        <strong>Расписание:</strong> 2–3 раза в неделю по 60 минут &nbsp;·&nbsp; <strong>Формат:</strong> Онлайн / Офлайн
+      </div>
+    </div>
+  </div>
+
+  <!-- Adults -->
+  <div class="group-panel" id="group-adults" style="display:none;">
+    <div class="grp-photo-wrap">
+      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&h=500&fit=crop&q=80" alt="Взрослые" class="grp-photo" />
+      <div class="grp-photo-overlay"></div>
+      <span class="grp-age-badge">18+</span>
+    </div>
+    <div class="grp-content">
+      <span class="grp-tag">Взрослые</span>
+      <h3 class="grp-title">Английский для взрослых</h3>
+      <ul class="grp-list">
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Деловой и разговорный английский</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовка к IELTS, TOEFL и собеседованиям</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Гибкое расписание под ваш график</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Практические кейсы и ролевые игры</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Индивидуальный подход даже в группе</span></li>
+      </ul>
+      <div class="grp-info-box">
+        <strong>Расписание:</strong> Гибкое, по договорённости &nbsp;·&nbsp; <strong>Формат:</strong> Онлайн / Офлайн
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section id="pricing">
+  <div class="section-heading reveal">
+    <p class="section-eyebrow">Стоимость</p>
+    <h2 class="section-title">ВАРИАНТЫ <span>ЗАНЯТИЙ</span></h2>
+  </div>
+
+  <div class="pricing-cards">
+    <!-- Group -->
+    <div class="price-card tilt-card">
+      <div class="price-card-header">
+        <div class="price-type">До 5 человек</div>
+        <div class="price-name">Групповые занятия</div>
+      </div>
+      <div class="price-body">
+        <div class="price-amount">32 000 ₸</div>
+        <div class="price-period">8 занятий за месяц</div>
+        <ul class="grp-list" style="margin-bottom:22px;">
+          <li><div class="grp-check">✓</div><span>Мини-группы до 5 человек</span></li>
+          <li><div class="grp-check">✓</div><span>60 минут каждое занятие</span></li>
+          <li><div class="grp-check">✓</div><span>Разговорная практика</span></li>
+          <li><div class="grp-check">✓</div><span>Домашние задания</span></li>
+        </ul>
+        <a href="https://wa.me/87074292567" target="_blank" class="price-cta shiny-cta" style="display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:0.95rem;color:#fff;background:var(--a);">Записаться</a>
+      </div>
+    </div>
+
+    <!-- Individual -->
+    <div class="price-card tilt-card">
+      <div class="price-card-header">
+        <div class="price-type">1 на 1</div>
+        <div class="price-name">Индивидуальные занятия</div>
+      </div>
+      <div class="price-body">
+        <div class="price-amount">72 000 ₸</div>
+        <div class="price-period">Занятие 60 минут</div>
+        <ul class="grp-list" style="margin-bottom:22px;">
+          <li><div class="grp-check">✓</div><span>Персональная программа</span></li>
+          <li><div class="grp-check">✓</div><span>Гибкое расписание</span></li>
+          <li><div class="grp-check">✓</div><span>Максимальный прогресс</span></li>
+          <li><div class="grp-check">✓</div><span>Подготовка к любому экзамену</span></li>
+        </ul>
+        <a href="https://wa.me/87074292567" target="_blank" class="price-cta shiny-cta" style="display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:0.95rem;color:#fff;background:var(--a);">Записаться</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS ═══ -->
+<section id="reviews">
+  <div class="reviews-heading-wrap reveal">
+    <span class="reviews-cursive">Сертификаты</span>
+    <h2 class="reviews-title">И ОТЗЫВЫ УЧЕНИКОВ</h2>
+  </div>
+
+  <div class="reviews-tabs">
+    <button class="reviews-tab-btn" id="cert-tab-btn"
+      onclick="setReviewTab('certs')"
+      style="background:var(--a);color:#fff;">Сертификаты</button>
+    <button class="reviews-tab-btn" id="rev-tab-btn"
+      onclick="setReviewTab('reviews')"
+      style="background:transparent;color:var(--p);">Отзывы учеников</button>
+  </div>
+
+  <!-- Certs -->
+  <div class="certs-grid" id="certs-panel">
+    <div class="cert-card tilt-card">
+      <div class="cert-card-top">
+        <div class="cert-badge">Cambridge</div>
+        <div class="cert-name">Cambridge C1</div>
+        <div class="cert-score">Advanced</div>
+      </div>
+      <p class="cert-desc">Сертификат C1 Advanced подтверждает высокий уровень владения английским языком.</p>
+    </div>
+    <div class="cert-card tilt-card">
+      <div class="cert-card-top">
+        <div class="cert-badge">IELTS</div>
+        <div class="cert-name">IELTS</div>
+        <div class="cert-score">7.5</div>
+      </div>
+      <p class="cert-desc">Международный экзамен по английскому языку. Результат подтверждён официально.</p>
+    </div>
+    <div class="cert-card tilt-card">
+      <div class="cert-card-top">
+        <div class="cert-badge">SAT</div>
+        <div class="cert-name">SAT</div>
+        <div class="cert-score">1450</div>
+      </div>
+      <p class="cert-desc">Американский вступительный экзамен. Высокий балл для поступления в ведущие вузы.</p>
+    </div>
+    <div class="cert-card tilt-card">
+      <div class="cert-card-top">
+        <div class="cert-badge">ЕНТ</div>
+        <div class="cert-name">ЕНТ</div>
+        <div class="cert-score">135</div>
+      </div>
+      <p class="cert-desc">Единое национальное тестирование Казахстана. Личный результат — 135 баллов.</p>
+    </div>
+  </div>
+
+  <!-- Reviews -->
+  <div class="reviews-grid" id="reviews-panel">
+    <div class="review-card tilt-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Благодаря Айбеку я набрала 7.0 на IELTS с первого раза! Очень структурированный подход и понятные объяснения. Рекомендую всем, кто серьёзно готовится к экзамену.</p>
+      <div class="review-author">
+        <div class="review-avatar">А</div>
+        <div>
+          <div class="review-name">Асель М.</div>
+          <div class="review-score">IELTS 7.0 ✓</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card tilt-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Готовилась к ЕНТ и набрала 132 балла! Айбек объясняет доступно, всегда на связи и даёт чёткий план подготовки. Очень довольна результатом!</p>
+      <div class="review-author">
+        <div class="review-avatar">Г</div>
+        <div>
+          <div class="review-name">Гульнара К.</div>
+          <div class="review-score">ЕНТ 132 ✓</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card tilt-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Сдал SAT на 1390 после 3 месяцев подготовки. Айбек знает все нюансы теста и учит работать со временем. Уже поступил в университет мечты!</p>
+      <div class="review-author">
+        <div class="review-avatar">Д</div>
+        <div>
+          <div class="review-name">Даниял Н.</div>
+          <div class="review-score">SAT 1390 ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TRIAL CTA ═══ -->
+<section id="trial">
+  <div class="trial-inner">
+    <div class="trial-left reveal">
+      <h2 class="trial-heading">
+        ЗАПИШИТЕСЬ<br>на бесплатное<br><span>ПРОБНОЕ ЗАНЯТИЕ</span>
+      </h2>
+      <p class="trial-text">Первый урок — бесплатно и без обязательств. Познакомимся, определим ваш уровень и составим персональный план занятий.</p>
+      <a href="https://wa.me/87074292567" target="_blank" class="btn-primary shiny-cta" style="display:inline-block;">Записаться сейчас</a>
+    </div>
+    <div class="trial-right">
+      <div class="trial-blob"></div>
+      <img src="project/uploads/SmartSelect_20260614_193054_Chrome.png" alt="Расписание занятий" class="trial-img" />
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section id="faq">
+  <div class="faq-inner">
+    <div>
+      <h2 class="faq-heading">
+        ЧАСТО<br>ЗАДАВАЕМЫЕ<br><span>ВОПРОСЫ</span>
+      </h2>
+    </div>
+    <div class="faq-list">
+
+      <div class="faq-item" id="faq-0">
+        <div class="faq-header" onclick="toggleFaq(0)" style="background:var(--a);">
+          <span>Сколько длятся занятия?</span>
+          <span class="faq-icon">−</span>
+        </div>
+        <div class="faq-ans open">
+          <div class="faq-ans-inner">Занятия длятся 60 минут. Такой формат оптимален для продуктивного усвоения материала — достаточно, чтобы разобрать тему, отработать её и получить домашнее задание.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-1">
+        <div class="faq-header" onclick="toggleFaq(1)">
+          <span>Сколько человек в группе?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">В группе не более 4–5 человек. Это позволяет уделять внимание каждому ученику и сохранять темп занятия, комфортный для всех.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-2">
+        <div class="faq-header" onclick="toggleFaq(2)">
+          <span>Какие методики использует преподаватель?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">Коммуникативный метод — основа моего подхода. Мы не зубрим правила, мы учимся говорить через практику. Также использую задания в формате реальных экзаменов IELTS, SAT, ЕНТ.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-3">
+        <div class="faq-header" onclick="toggleFaq(3)">
+          <span>Возможно ли проведение онлайн-занятий?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">Да, провожу занятия онлайн через Zoom или Google Meet. Для онлайн-урока нужен только компьютер с камерой и стабильный интернет. Формат ничуть не уступает очному.</div>
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-4">
+        <div class="faq-header" onclick="toggleFaq(4)">
+          <span>Как записаться на пробное занятие?</span>
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-ans">
+          <div class="faq-ans-inner">Напишите в WhatsApp +7 707 429-25-67 или в Telegram @toolegen. Первое занятие — полностью бесплатно. Мы познакомимся, определим ваш уровень и составим план.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACTS ═══ -->
+<section id="contacts">
+  <div class="section-heading reveal" style="margin-bottom:48px;">
+    <p class="section-eyebrow">Где найти</p>
+    <h2 class="section-title">Контакты <span>и адрес</span></h2>
+  </div>
+  <div class="contacts-inner">
+    <div class="contacts-map">
+      <iframe
+        src="https://yandex.kz/map-widget/v1/?text=%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%2C+%D1%83%D0%BB%D0%B8%D1%86%D0%B0+%D0%9B%D0%BE%D0%BC%D0%BE%D0%B2%D0%B0%2C+186%D0%B0&z=16&l=map"
+        allowfullscreen title="Карта"></iframe>
+    </div>
+    <div class="contacts-info">
+      <h2>Свяжитесь со мной</h2>
+
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Телефон</div>
+          <div class="contact-value"><a href="tel:+77074292567">+7 (707) 429-25-67</a></div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">✈️</div>
+        <div>
+          <div class="contact-label">Telegram</div>
+          <div class="contact-value"><a href="https://t.me/toolegen" target="_blank">@toolegen</a></div>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Адрес</div>
+          <div class="contact-value">г. Павлодар, ул. Академика Маргулана, 75</div>
+        </div>
+      </div>
+
+      <div class="contacts-btns">
+        <a href="https://wa.me/87074292567" target="_blank" class="contacts-btn contacts-btn-wa">WhatsApp</a>
+        <a href="https://t.me/toolegen" target="_blank" class="contacts-btn contacts-btn-tg">Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo-name">AIBEK <span class="footer-logo-sub">english</span></div>
+      <div class="footer-copy" style="margin-top:6px;">© 2025 Айбек Толеген. Все права защищены.</div>
+    </div>
+    <div class="footer-links">
+      <a href="#faq">FAQ</a>
+      <a href="#contacts">Контакты</a>
+      <a href="#">Политика конфиденциальности</a>
+    </div>
+    <a href="https://wa.me/87074292567" target="_blank" class="footer-cta shiny-cta">Записаться на урок</a>
+  </div>
+</footer>
+
+<!-- ═══ TWEAKS PANEL ═══ -->
+<div id="tweaks-panel">
+  <div class="tweaks-body" id="tweaks-body"></div>
+  <button class="tweaks-toggle" onclick="toggleTweaks()" id="tweaks-toggle-btn">СТИЛЬ</button>
+</div>
+
+<!-- ═══ GALLERY ITEMS (must be before module import) ═══ -->
+<script>
+window.GALLERY_ITEMS = [
+  { image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80", badge: "IELTS", title: "IELTS 7.5", desc: "Знаю экзамен изнутри. Помогу набрать 7.0+ по всем секциям." },
+  { image: "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=800&q=80", badge: "SAT", title: "SAT 1450", desc: "Подготовка к SAT: Reading, Writing и Math для поступления." },
+  { image: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&q=80", badge: "ЕНТ", title: "ЕНТ 135", desc: "Личный результат. Мои ученики стабильно набирают от 130 баллов." },
+  { image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80", badge: "Опыт", title: "6 лет опыта", desc: "Преподаю с 2019 года. Более 100 учеников по всему Казахстану." },
+  { image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", badge: "NU", title: "Студент NU", desc: "Назарбаев Университет — лучший вуз Казахстана по рейтингу QS." },
+  { image: "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=800&q=80", badge: "Ученики", title: "100+ учеников", desc: "Онлайн и оффлайн занятия с учениками по всему Казахстану." },
+  { image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80", badge: "Cambridge", title: "Cambridge A2–C1", desc: "Подготовка к A2 Key, B2 First и C1 Advanced по программе Cambridge." },
+  { image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80", badge: "TOEFL", title: "TOEFL iBT", desc: "Подготовка к TOEFL iBT: Reading, Listening, Speaking и Writing." },
+  { image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80", badge: "Гарантия", title: "Гарантия 100%", desc: "Постоянный контроль прогресса и домашние задания на каждом уроке." }
+];
+</script>
+
+<!-- Circular Gallery (ES Module) -->
+<script type="module" src="project/circular-gallery.js"></script>
+
+<!-- ═══ MAIN SCRIPT ═══ -->
+<script>
+(function() {
+  // ── Mobile menu ──
+  let mobileMenuOpen = false;
+  window.toggleMobileMenu = function() {
+    mobileMenuOpen = !mobileMenuOpen;
+    const menu = document.querySelector('.mobile-menu');
+    const btn = document.querySelector('.burger-btn');
+    menu.style.maxHeight = mobileMenuOpen ? '420px' : '0';
+    menu.style.opacity = mobileMenuOpen ? '1' : '0';
+    btn.textContent = mobileMenuOpen ? '✕' : '☰';
+  };
+
+  // ── Nav scroll ──
+  window.addEventListener('scroll', function() {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 60) {
+      nav.style.background = 'rgba(255,255,255,0.96)';
+      nav.style.boxShadow = '0 2px 24px rgba(0,0,0,0.08)';
+      nav.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
+    } else {
+      nav.style.background = 'rgba(255,255,255,0)';
+      nav.style.boxShadow = 'none';
+      nav.style.borderBottom = '1px solid transparent';
+    }
+  });
+
+  // ── Group tabs ──
+  let activeGroup = 0;
+  window.setGroup = function(idx) {
+    if (idx === activeGroup) return;
+    const ids = ['group-kids', 'group-teens', 'group-adults'];
+    document.getElementById(ids[activeGroup]).style.display = 'none';
+    activeGroup = idx;
+    const el = document.getElementById(ids[idx]);
+    el.style.display = 'flex';
+    document.querySelectorAll('.group-tab').forEach(function(btn, i) {
+      btn.style.background = i === idx ? 'var(--a)' : 'transparent';
+      btn.style.color = i === idx ? '#fff' : '#555';
+    });
+    if (window.gsap) {
+      const g = window.gsap;
+      const photo = el.querySelector('.grp-photo');
+      const rows = el.querySelectorAll('.grp-anim');
+      const tl = g.timeline();
+      tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' }, 0);
+      if (photo) tl.fromTo(photo, { xPercent: -6, scale: 1.08 }, { xPercent: 0, scale: 1, duration: 0.6, ease: 'power3.out' }, 0);
+      if (rows.length) tl.fromTo(rows, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power2.out' }, 0.12);
+    }
+  };
+
+  // ── Reviews tabs ──
+  let activeTab = 'certs';
+  window.setReviewTab = function(tab) {
+    if (tab === activeTab) return;
+    activeTab = tab;
+    document.getElementById('certs-panel').style.display = tab === 'certs' ? 'grid' : 'none';
+    document.getElementById('reviews-panel').style.display = tab === 'reviews' ? 'grid' : 'none';
+    const certBtn = document.getElementById('cert-tab-btn');
+    const revBtn = document.getElementById('rev-tab-btn');
+    certBtn.style.background = tab === 'certs' ? 'var(--a)' : 'transparent';
+    certBtn.style.color = tab === 'certs' ? '#fff' : 'var(--p)';
+    revBtn.style.background = tab === 'reviews' ? 'var(--p)' : 'transparent';
+    revBtn.style.color = tab === 'reviews' ? '#fff' : 'var(--p)';
+    if (window.gsap) {
+      const panel = document.getElementById(tab === 'certs' ? 'certs-panel' : 'reviews-panel');
+      const cards = panel.querySelectorAll('.tilt-card');
+      window.gsap.fromTo(cards,
+        { y: 26, opacity: 0, scale: 0.96 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.06, ease: 'back.out(1.3)' }
+      );
+    }
+  };
+
+  // ── FAQ accordion ──
+  let openFaq = 0;
+  function applyFaqState() {
+    document.querySelectorAll('.faq-item').forEach(function(item, idx) {
+      const ans = item.querySelector('.faq-ans');
+      const header = item.querySelector('.faq-header');
+      const icon = item.querySelector('.faq-icon');
+      const isOpen = idx === openFaq;
+      ans.classList.toggle('open', isOpen);
+      header.style.background = isOpen ? 'var(--a)' : 'var(--p)';
+      icon.textContent = isOpen ? '−' : '+';
+    });
+  }
+  window.toggleFaq = function(i) {
+    openFaq = openFaq === i ? -1 : i;
+    applyFaqState();
+  };
+  // Initialize first FAQ open
+  applyFaqState();
+
+  // ── Counter animation ──
+  function animateCounter(id, start, end, inc, isFloat, ms) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    let cur = start;
+    const t = setInterval(function() {
+      cur = Math.min(cur + inc, end);
+      el.textContent = isFloat ? cur.toFixed(1) : Math.round(cur);
+      if (cur >= end) clearInterval(t);
+    }, ms);
+  }
+
+  function initCounters() {
+    const statsBar = document.getElementById('stats-bar');
+    if (!statsBar) return;
+    let started = false;
+    const obs = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting && !started) {
+        started = true;
+        animateCounter('counter-ielts', 0, 7.5, 0.1, true, 40);
+        animateCounter('counter-sat', 0, 1450, 22, false, 22);
+        animateCounter('counter-ent', 0, 135, 3, false, 32);
+        animateCounter('counter-years', 0, 6, 1, false, 90);
+      }
+    }, { threshold: 0.4 });
+    obs.observe(statsBar);
+  }
+  initCounters();
+
+  // ── Tilt cards ──
+  function initTiltCards() {
+    document.querySelectorAll('.tilt-card').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = 'perspective(900px) rotateY(' + (x * 14) + 'deg) rotateX(' + (-y * 14) + 'deg) scale(1.025)';
+        card.style.boxShadow = (-x * 24) + 'px ' + (-y * 24) + 'px 44px rgba(30,58,138,0.16)';
+        card.style.transition = 'none';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+        card.style.transition = 'box-shadow .3s, transform .35s';
+      });
+    });
+  }
+  initTiltCards();
+
+  // ── GSAP animations ──
+  function initGsap() {
+    if (!window.gsap || !window.ScrollTrigger) return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Scroll progress
+    gsap.to('#scroll-progress', {
+      scaleX: 1, ease: 'none',
+      scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 }
+    });
+
+    // Hero words stagger
+    gsap.fromTo('.hw',
+      { opacity: 0, y: 70 },
+      { opacity: 1, y: 0, stagger: 0.1, duration: 0.85, ease: 'power3.out', delay: 0.15 }
+    );
+    gsap.fromTo('.hero-cursive',
+      { opacity: 0, x: -50 },
+      { opacity: 1, x: 0, duration: 0.9, ease: 'power2.out', delay: 0.7 }
+    );
+    gsap.fromTo('.hero-cta',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', delay: 1.15 }
+    );
+    gsap.fromTo('.hero-badge-float',
+      { opacity: 0, scale: 0.6 },
+      { opacity: 1, scale: 1, stagger: 0.18, duration: 0.75, ease: 'back.out(1.7)', delay: 1.35 }
+    );
+
+    // Parallax
+    gsap.to('.hero-photo-wrap', {
+      yPercent: -10, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
+    });
+    gsap.to('.hero-deco-a', {
+      yPercent: 28, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 2 }
+    });
+
+    // Reveal elements
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      gsap.fromTo(el,
+        { opacity: 0, y: 48 },
+        { opacity: 1, y: 0, duration: 0.78, ease: 'power2.out',
+          scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' } }
+      );
+    });
+
+    // Pricing flip
+    gsap.fromTo('.price-card',
+      { opacity: 0, y: 60, rotationX: -28, transformPerspective: 900, transformOrigin: 'center top' },
+      { opacity: 1, y: 0, rotationX: 0, stagger: 0.16, duration: 0.85, ease: 'power3.out',
+        scrollTrigger: { trigger: '#pricing', start: 'top 78%' } }
+    );
+
+    // Landmark parallax
+    document.querySelectorAll('.landmark-deco').forEach(function(img, i) {
+      const yShift = i % 3 === 0 ? -18 : i % 3 === 1 ? 14 : -10;
+      gsap.to(img, {
+        yPercent: yShift, ease: 'none',
+        scrollTrigger: { trigger: img.closest('section'), start: 'top bottom', end: 'bottom top', scrub: 1.6 }
+      });
+    });
+
+    // FAQ heading slide
+    gsap.fromTo('.faq-heading',
+      { opacity: 0, x: -45 },
+      { opacity: 1, x: 0, duration: 0.82, ease: 'power2.out',
+        scrollTrigger: { trigger: '#faq', start: 'top 86%' } }
+    );
+  }
+
+  // Fallback if GSAP doesn't load
+  setTimeout(function() {
+    if (!window.gsap) {
+      document.body.classList.add('anim-ready');
+    } else {
+      initGsap();
+    }
+  }, 1800);
+
+  // Also init immediately if GSAP is already loaded
+  if (window.gsap && window.ScrollTrigger) {
+    initGsap();
+  } else {
+    window.addEventListener('load', function() {
+      if (window.gsap && window.ScrollTrigger) initGsap();
+    });
+  }
+
+  // ── Tweaks panel ──
+  const schemes = {
+    'blue-red':    { p: '#1E3A8A', pm: '#2563EB', pl: '#DBEAFE', a: '#DC2626', ah: '#B91C1C', bg: '#F4F4F8' },
+    'purple-gold': { p: '#4C1D95', pm: '#7C3AED', pl: '#EDE9FE', a: '#D97706', ah: '#B45309', bg: '#F5F3FF' },
+    'teal-coral':  { p: '#0F766E', pm: '#14B8A6', pl: '#CCFBF1', a: '#F43F5E', ah: '#E11D48', bg: '#F0FDFA' },
+    'dark-red':    { p: '#1F2937', pm: '#374151', pl: '#F3F4F6', a: '#DC2626', ah: '#B91C1C', bg: '#F3F4F6' }
+  };
+  const fontCombos = {
+    'playful':   { df: "'Nunito',sans-serif",           af: "'Pacifico',cursive" },
+    'brutal':    { df: "'Bebas Neue',sans-serif",        af: "'Bebas Neue',sans-serif" },
+    'luxury':    { df: "'Cormorant Garamond',serif",     af: "'Jost',sans-serif" },
+    'techy':     { df: "'Syne',sans-serif",              af: "'Outfit',sans-serif" },
+    'editorial': { df: "'Plus Jakarta Sans',sans-serif", af: "'Space Grotesk',sans-serif" }
+  };
+
+  function applyScheme(name) {
+    const s = schemes[name];
+    const r = document.documentElement;
+    Object.entries(s).forEach(function([k, v]) { r.style.setProperty('--' + k, v); });
+    document.querySelectorAll('.scheme-opt').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.scheme === name);
+    });
+  }
+
+  function applyFont(name) {
+    const f = fontCombos[name];
+    const r = document.documentElement;
+    r.style.setProperty('--df', f.df);
+    r.style.setProperty('--af', f.af);
+    document.querySelectorAll('.font-opt').forEach(function(b) {
+      b.classList.toggle('active', b.dataset.font === name);
+    });
+  }
+
+  let tweaksOpen = false;
+  window.toggleTweaks = function() {
+    tweaksOpen = !tweaksOpen;
+    const body = document.getElementById('tweaks-body');
+    body.classList.toggle('open', tweaksOpen);
+  };
+
+  // Build tweaks panel HTML
+  const tweaksBody = document.getElementById('tweaks-body');
+  const schemeNames = { 'blue-red': 'Blue/Red', 'purple-gold': 'Purple/Gold', 'teal-coral': 'Teal/Coral', 'dark-red': 'Dark/Red' };
+  const fontNames = { 'playful': 'Playful', 'brutal': 'Brutal', 'luxury': 'Luxury', 'techy': 'Techy', 'editorial': 'Editorial' };
+
+  let schemeHTML = '<div class="tweaks-section"><div class="tweaks-label">Цветовая схема</div><div class="tweaks-options">';
+  Object.keys(schemes).forEach(function(k) {
+    schemeHTML += '<button class="tweaks-opt scheme-opt' + (k === 'blue-red' ? ' active' : '') + '" data-scheme="' + k + '" onclick="applySchemeFromBtn(this)">' + schemeNames[k] + '</button>';
+  });
+  schemeHTML += '</div></div>';
+
+  let fontHTML = '<div class="tweaks-section"><div class="tweaks-label">Шрифт</div><div class="tweaks-options">';
+  Object.keys(fontCombos).forEach(function(k) {
+    fontHTML += '<button class="tweaks-opt font-opt' + (k === 'luxury' ? ' active' : '') + '" data-font="' + k + '" onclick="applyFontFromBtn(this)">' + fontNames[k] + '</button>';
+  });
+  fontHTML += '</div></div>';
+
+  tweaksBody.innerHTML = schemeHTML + fontHTML;
+
+  window.applySchemeFromBtn = function(btn) { applyScheme(btn.dataset.scheme); };
+  window.applyFontFromBtn = function(btn) { applyFont(btn.dataset.font); };
+
+})();
+</script>
+
+</body>
+</html>
