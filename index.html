@@ -254,42 +254,48 @@
       background: var(--p); display: block;
     }
     .hero-h1 {
-      font-family: var(--df); font-size: clamp(2.4rem, 5vw, 4.2rem);
-      font-weight: 700; line-height: 1.08;
-      color: #0f172a; margin-bottom: 12px;
+      font-family: var(--df); font-size: clamp(40px, 5.6vw, 76px);
+      font-weight: 900; line-height: 0.92;
+      color: #111; margin-bottom: 10px;
+      text-transform: uppercase; letter-spacing: -2px;
     }
+    .hero-row {
+      display: flex; align-items: baseline; gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-row + .hero-row { margin-top: 8px; align-items: center; }
     .hw { display: inline-block; opacity: 0; }
     .hero-inline-badge {
-      display: inline-block;
+      display: inline-flex; align-items: center;
       background: var(--a); color: #fff;
-      font-family: var(--af); font-size: 0.72rem; font-weight: 700;
-      padding: 5px 14px; border-radius: 6px;
-      letter-spacing: 0.06em; text-transform: uppercase;
-      vertical-align: middle; margin-left: 10px;
+      font-family: var(--af); font-size: 12px; font-weight: 700;
+      padding: 8px 18px; border-radius: 999px;
+      text-transform: none; letter-spacing: 0; line-height: 1; flex-shrink: 0;
     }
     .hero-cursive {
-      font-family: var(--af); font-style: italic;
-      font-size: clamp(1.4rem, 3vw, 2.1rem); font-weight: 400;
-      color: var(--pm); margin-bottom: 32px; opacity: 0;
+      font-family: var(--af);
+      font-size: clamp(30px, 4.4vw, 58px); font-weight: 700;
+      color: var(--pm); margin-bottom: 20px; opacity: 0;
+      line-height: 1; letter-spacing: -1px; margin-top: -2px;
     }
     .hero-cta {
-      display: flex; align-items: center; gap: 14px;
-      flex-wrap: wrap; opacity: 0;
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap; opacity: 0; margin-top: 4px;
     }
     .btn-primary {
       background: var(--a); color: #fff;
-      padding: 15px 30px; border-radius: 12px;
-      font-size: 1rem; font-weight: 700;
-      transition: background .2s, transform .15s;
+      padding: 17px 36px; border-radius: 999px;
+      font-size: 16px; font-weight: 700;
+      transition: background .2s;
     }
-    .btn-primary:hover { background: var(--ah); transform: translateY(-1px); }
+    .btn-primary:hover { background: var(--ah); }
     .btn-arrow {
-      width: 50px; height: 50px; border-radius: 50%;
-      background: var(--p); color: #fff;
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #111; color: #fff;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; transition: background .2s, transform .15s;
+      font-size: 1.3rem; transition: background .2s; flex-shrink: 0;
     }
-    .btn-arrow:hover { background: var(--pm); transform: translateX(3px); }
+    .btn-arrow:hover { background: var(--p); }
 
     /* Hero right */
     .hero-photo-wrap {
@@ -310,26 +316,27 @@
     }
     .hero-badge-float {
       position: absolute;
-      background: #fff; border-radius: 12px;
-      padding: 10px 16px; box-shadow: 0 4px 24px rgba(30,58,138,0.15);
-      display: flex; align-items: center; gap: 10px;
+      background: #fff; border-radius: 18px;
+      padding: 14px 20px; box-shadow: 0 10px 36px rgba(0,0,0,0.13);
       opacity: 0; z-index: 4;
-      animation: floatB 6s ease-in-out infinite;
+      animation: floatA 3.5s ease-in-out infinite;
     }
-    .hero-badge-float:nth-child(3) { top: 22%; left: -18px; }
-    .hero-badge-float:nth-child(4) { top: 38%; right: -14px; animation-delay: -2s; }
+    .hero-badge-float:nth-child(3) { top: 40px; left: -16px; }
+    .hero-badge-float:nth-child(4) { top: 130px; right: -10px; animation: floatB 4.2s ease-in-out infinite 0.5s; }
     .hero-badge-float:nth-child(5) {
-      bottom: 14%; left: -14px;
+      bottom: 90px; left: 8px;
       background: var(--p); color: #fff;
-      animation-delay: -4s;
+      animation: floatA 3.2s ease-in-out infinite 0.9s;
     }
-    .hbf-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      background: var(--pl); display: flex; align-items: center;
-      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    .hbf-value {
+      font-size: 25px; font-weight: 900;
+      font-family: var(--df); line-height: 1;
     }
-    .hbf-label { font-size: 0.7rem; font-weight: 500; opacity: 0.7; }
-    .hbf-value { font-size: 1rem; font-weight: 800; line-height: 1.1; }
+    .hero-badge-float:nth-child(3) .hbf-value { color: var(--p); }
+    .hero-badge-float:nth-child(4) .hbf-value { color: var(--a); }
+    .hero-badge-float:nth-child(5) .hbf-value { color: #fff; }
+    .hbf-label { font-size: 11px; color: #888; margin-top: 3px; }
+    .hero-badge-float:nth-child(5) .hbf-label { color: rgba(255,255,255,0.72); }
 
     /* Stats bar */
     #stats-bar {
@@ -368,8 +375,9 @@
       color: #888; font-weight: 600; margin-bottom: 8px;
     }
     .about-name {
-      font-family: var(--af); font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 900; color: var(--pm); margin-bottom: 12px;
+      font-family: var(--af); font-size: clamp(52px, 8vw, 96px);
+      font-weight: 700; color: var(--pm); margin-bottom: 10px;
+      line-height: 1; letter-spacing: -1px;
     }
     .about-title {
       font-family: var(--df); font-size: clamp(1.1rem, 2.2vw, 1.65rem);
@@ -381,11 +389,11 @@
       margin-bottom: 28px;
     }
     .about-link {
-      display: inline-flex; align-items: center; gap: 8px;
-      color: var(--pm); font-weight: 700; font-size: 0.9rem;
-      transition: gap .2s;
+      display: inline-flex; align-items: center; gap: 12px;
+      color: var(--p); font-weight: 600; font-size: 15px;
+      transition: opacity .2s;
     }
-    .about-link:hover { gap: 14px; }
+    .about-link:hover { opacity: 0.7; }
 
     /* ── Benefits ── */
     #benefits {
@@ -691,9 +699,9 @@
       margin-bottom: 18px;
     }
     .contact-icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: var(--pl); display: flex; align-items: center;
-      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+      width: 48px; height: 48px; border-radius: 14px;
+      display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
     }
     .contact-label { font-size: 0.72rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.08em; }
     .contact-value { font-size: 0.98rem; font-weight: 600; color: #222; margin-top: 2px; }
@@ -709,24 +717,25 @@
 
     /* ── Footer ── */
     footer {
-      background: #0f172a; color: #fff;
-      padding: 40px 48px;
+      background: #fff; color: #333;
+      padding: 28px 48px;
+      border-top: 1px solid #f0f0f0;
     }
     .footer-inner {
       max-width: 1100px; margin: 0 auto;
       display: flex; align-items: center; justify-content: space-between;
       flex-wrap: wrap; gap: 18px;
     }
-    .footer-logo-name { font-family: var(--df); font-size: 1.3rem; font-weight: 700; }
-    .footer-logo-sub { font-family: var(--af); font-style: italic; font-size: 0.78rem; color: #ef4444; }
-    .footer-copy { font-size: 0.76rem; color: #888; }
+    .footer-logo-name { font-family: var(--df); font-size: 18px; font-weight: 900; color: var(--p); letter-spacing: -0.5px; line-height: 1.1; }
+    .footer-logo-sub { font-family: var(--af); font-size: 15px; font-weight: 700; color: var(--a); letter-spacing: 1px; line-height: 1; }
+    .footer-copy { font-size: 12px; color: #aaa; }
     .footer-links { display: flex; gap: 18px; align-items: center; }
-    .footer-links a { font-size: 0.8rem; color: #aaa; transition: color .2s; }
-    .footer-links a:hover { color: #fff; }
+    .footer-links a { font-size: 12px; color: #aaa; transition: color .2s; }
+    .footer-links a:hover { color: var(--p); }
     .footer-cta {
       background: var(--a); color: #fff;
-      padding: 11px 22px; border-radius: 9px;
-      font-size: 0.85rem; font-weight: 700;
+      padding: 11px 24px; border-radius: 999px;
+      font-size: 13px; font-weight: 700;
       transition: background .2s;
     }
     .footer-cta:hover { background: var(--ah); }
@@ -887,12 +896,16 @@
     <div class="hero-left">
       <div class="hero-badge-pill">Репетитор · Павлодар</div>
       <h1 class="hero-h1">
-        <span class="hw">НАУЧУ</span>
-        <span class="hw"> ТЕБЯ</span>
-        <span class="hw"> ГОВОРИТЬ</span>
-        <span class="hero-inline-badge hw">Первый урок — бесплатно!</span>
+        <div class="hero-row">
+          <span class="hw">НАУЧУ</span>
+          <span class="hw">ТЕБЯ</span>
+        </div>
+        <div class="hero-row">
+          <span class="hw">ГОВОРИТЬ</span>
+          <span class="hero-inline-badge hw">Первый урок — бесплатно!</span>
+        </div>
       </h1>
-      <p class="hero-cursive">на английском языке</p>
+      <div class="hero-cursive">на английском языке</div>
       <div class="hero-cta">
         <a href="https://wa.me/87074292567" target="_blank" class="btn-primary shiny-cta">Записаться на урок</a>
         <a href="#about" class="btn-arrow">→</a>
@@ -906,29 +919,20 @@
 
       <!-- IELTS badge -->
       <div class="hero-badge-float">
-        <div class="hbf-icon">🎓</div>
-        <div>
-          <div class="hbf-label">Сертификат</div>
-          <div class="hbf-value">IELTS 7.5</div>
-        </div>
+        <div class="hbf-value">IELTS 7.5</div>
+        <div class="hbf-label">Личный результат</div>
       </div>
 
       <!-- SAT badge (hidden mobile) -->
       <div class="hero-badge-float d-hide">
-        <div class="hbf-icon">📝</div>
-        <div>
-          <div class="hbf-label">Результат</div>
-          <div class="hbf-value">SAT 1450</div>
-        </div>
+        <div class="hbf-value">SAT 1450</div>
+        <div class="hbf-label">Личный результат</div>
       </div>
 
       <!-- Years badge (hidden mobile) -->
       <div class="hero-badge-float d-hide">
-        <div class="hbf-icon">⭐</div>
-        <div>
-          <div class="hbf-label">Опыт преподавания</div>
-          <div class="hbf-value">6 лет</div>
-        </div>
+        <div class="hbf-value">6 лет</div>
+        <div class="hbf-label">опыта преподавания</div>
       </div>
     </div>
   </div>
@@ -946,19 +950,19 @@
   <div id="stats-bar">
     <div class="stat-item">
       <div class="stat-value"><span id="counter-ielts">0.0</span></div>
-      <div class="stat-label">IELTS Score</div>
+      <div class="stat-label">IELTS личный балл</div>
     </div>
     <div class="stat-item">
       <div class="stat-value"><span id="counter-sat">0</span></div>
-      <div class="stat-label">SAT Score</div>
+      <div class="stat-label">SAT личный балл</div>
     </div>
     <div class="stat-item">
       <div class="stat-value"><span id="counter-ent">0</span></div>
-      <div class="stat-label">ЕНТ Балл</div>
+      <div class="stat-label">ЕНТ личный балл</div>
     </div>
     <div class="stat-item">
       <div class="stat-value"><span id="counter-years">0</span><span class="stat-suffix">+</span></div>
-      <div class="stat-label">Лет опыта</div>
+      <div class="stat-label">лет преподавания</div>
     </div>
   </div>
 </section>
@@ -971,9 +975,14 @@
     <p class="about-name">Айбек Толеген</p>
     <h2 class="about-title">Я ДИПЛОМИРОВАННЫЙ ПРЕПОДАВАТЕЛЬ<br>АНГЛИЙСКОГО ЯЗЫКА</h2>
     <p class="about-text">
-      Привет! Меня зовут Айбек, и я помогаю ученикам достигать высоких результатов на экзаменах IELTS, SAT и ЕНТ уже более 6 лет. Я сам прошёл этот путь — сдал IELTS на 7.5, SAT на 1450 баллов и поступил в Назарбаев Университет. Мои занятия — это не просто грамматика, это живое общение, реальные задачи и постоянный прогресс. Занимаюсь как онлайн, так и офлайн в Павлодаре. Первый урок — бесплатно!
+      С радостью помогу пройти путь в изучении английского, <strong>начиная от нуля и до сдачи международных экзаменов.</strong> Студент Назарбаев Университета (NU) — лучшего вуза Казахстана.
     </p>
-    <a href="#reviews" class="about-link">Смотреть отзывы и сертификаты →</a>
+    <a href="#reviews" class="about-link">
+      <span style="width:42px;height:42px;background:var(--p);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </span>
+      Дипломы и сертификаты
+    </a>
   </div>
 </section>
 
@@ -1005,8 +1014,7 @@
 <!-- ═══ GROUPS ═══ -->
 <section id="groups">
   <div class="section-heading reveal">
-    <p class="section-eyebrow">Форматы обучения</p>
-    <h2 class="section-title">Учебные <span>Группы</span></h2>
+    <h2 class="section-title"><span>ГРУППЫ</span> УЧЕНИКОВ</h2>
   </div>
 
   <div class="group-tabs">
@@ -1023,17 +1031,18 @@
       <span class="grp-age-badge">8–12 лет</span>
     </div>
     <div class="grp-content">
-      <span class="grp-tag">Дети</span>
-      <h3 class="grp-title">Английский для детей</h3>
+      <h3 class="grp-title grp-anim">МЛАДШАЯ ГРУППА</h3>
       <ul class="grp-list">
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Интерактивные игры и упражнения для лёгкого усвоения</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Разговорная практика с первого урока</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовка к Cambridge Young Learners</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Домашние задания с обратной связью</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Не более 4 детей в группе</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Освоит базовую грамматику и разговорный английский</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Научится говорить о себе, семье, окружающем мире</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовится к Cambridge A2 Key для детей</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span><strong>Полюбит английский</strong> ещё до того, как начнут объяснять сложности</span></li>
       </ul>
-      <div class="grp-info-box">
-        <strong>Расписание:</strong> 2 раза в неделю по 60 минут &nbsp;·&nbsp; <strong>Формат:</strong> Онлайн / Офлайн
+      <div class="grp-info-box grp-anim">
+        <strong style="color:var(--p);">Одновременно мои ученики легко освоят:</strong><br>
+        <span style="display:block;margin-top:6px;">· Основные глаголы и временные формы</span>
+        <span style="display:block;">· Чтение и базовое письмо</span>
+        <span style="display:block;">· Счёт, цвета и повседневную лексику</span>
       </div>
     </div>
   </div>
@@ -1046,17 +1055,18 @@
       <span class="grp-age-badge">13–17 лет</span>
     </div>
     <div class="grp-content">
-      <span class="grp-tag">Подростки</span>
-      <h3 class="grp-title">Английский для подростков</h3>
+      <h3 class="grp-title grp-anim">ПОДРОСТКИ</h3>
       <ul class="grp-list">
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовка к ЕНТ, IELTS, SAT и Cambridge</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Актуальные темы и современные материалы</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Разговорный клуб внутри группы</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Грамматика через живые примеры</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>До 5 человек в группе</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Сдаст ЕНТ на <strong>130+ баллов</strong> по английскому</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовится к Cambridge B2 First или IELTS</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Освоит SAT Reading and Writing</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span><strong>Поступит в лучшие вузы</strong> Казахстана и за рубежом</span></li>
       </ul>
-      <div class="grp-info-box">
-        <strong>Расписание:</strong> 2–3 раза в неделю по 60 минут &nbsp;·&nbsp; <strong>Формат:</strong> Онлайн / Офлайн
+      <div class="grp-info-box grp-anim">
+        <strong style="color:var(--pm);">На занятиях мы также отработаем:</strong><br>
+        <span style="display:block;margin-top:6px;">· Грамматику уровня Intermediate и Upper</span>
+        <span style="display:block;">· Эссе и форматы Writing для экзаменов</span>
+        <span style="display:block;">· Разговорную речь и аудирование</span>
       </div>
     </div>
   </div>
@@ -1069,17 +1079,18 @@
       <span class="grp-age-badge">18+</span>
     </div>
     <div class="grp-content">
-      <span class="grp-tag">Взрослые</span>
-      <h3 class="grp-title">Английский для взрослых</h3>
+      <h3 class="grp-title grp-anim">ВЗРОСЛЫЕ</h3>
       <ul class="grp-list">
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Деловой и разговорный английский</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовка к IELTS, TOEFL и собеседованиям</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Гибкое расписание под ваш график</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Практические кейсы и ролевые игры</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Индивидуальный подход даже в группе</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>IELTS от <strong>6.5 до 7.5+</strong> под ваши цели</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Разговорный клуб и деловой английский</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span>Гибкое расписание и онлайн-формат</span></li>
+        <li class="grp-anim"><div class="grp-check">✓</div><span><strong>Индивидуальный темп</strong> и программа под ваш уровень</span></li>
       </ul>
-      <div class="grp-info-box">
-        <strong>Расписание:</strong> Гибкое, по договорённости &nbsp;·&nbsp; <strong>Формат:</strong> Онлайн / Офлайн
+      <div class="grp-info-box grp-anim">
+        <strong style="color:var(--pm);">Чему вы научитесь:</strong><br>
+        <span style="display:block;margin-top:6px;">· Свободно говорить на повседневные темы</span>
+        <span style="display:block;">· Деловой и профессиональный английский</span>
+        <span style="display:block;">· Понимать фильмы и подкасты без субтитров</span>
       </div>
     </div>
   </div>
@@ -1151,37 +1162,41 @@
 
   <!-- Certs -->
   <div class="certs-grid" id="certs-panel">
-    <div class="cert-card tilt-card">
-      <div class="cert-card-top">
-        <div class="cert-badge">Cambridge</div>
-        <div class="cert-name">Cambridge C1</div>
-        <div class="cert-score">Advanced</div>
-      </div>
-      <p class="cert-desc">Сертификат C1 Advanced подтверждает высокий уровень владения английским языком.</p>
+    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">CAMBRIDGE ENGLISH</div>
+      <div style="font-size:11px;color:#999;margin-bottom:6px;">This is to certify that</div>
+      <div style="font-size:15px;font-weight:600;color:#222;margin-bottom:10px;">Aibek Tolegen</div>
+      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+      <div style="font-size:10px;color:#999;margin-bottom:4px;">has been awarded</div>
+      <div style="font-size:18px;font-weight:900;color:var(--p);font-family:var(--df);margin-bottom:4px;">C1 Advanced</div>
+      <div style="font-size:11px;color:#888;">Grade A · 2022</div>
     </div>
-    <div class="cert-card tilt-card">
-      <div class="cert-card-top">
-        <div class="cert-badge">IELTS</div>
-        <div class="cert-name">IELTS</div>
-        <div class="cert-score">7.5</div>
+    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">IELTS ACADEMIC</div>
+      <div style="font-size:11px;color:#999;margin-bottom:6px;">Overall Band Score</div>
+      <div style="font-size:48px;font-weight:900;color:var(--p);font-family:var(--df);line-height:1;margin-bottom:6px;">7.5</div>
+      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:#888;">
+        <span>Listening: 8.0</span><span>Reading: 7.5</span>
+        <span>Writing: 7.0</span><span>Speaking: 7.5</span>
       </div>
-      <p class="cert-desc">Международный экзамен по английскому языку. Результат подтверждён официально.</p>
     </div>
-    <div class="cert-card tilt-card">
-      <div class="cert-card-top">
-        <div class="cert-badge">SAT</div>
-        <div class="cert-name">SAT</div>
-        <div class="cert-score">1450</div>
+    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">SAT · COLLEGE BOARD</div>
+      <div style="font-size:11px;color:#999;margin-bottom:6px;">Total Score</div>
+      <div style="font-size:48px;font-weight:900;color:var(--a);font-family:var(--df);line-height:1;margin-bottom:6px;">1450</div>
+      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:#888;">
+        <span>Reading/Writing: 730</span><span>Math: 720</span>
       </div>
-      <p class="cert-desc">Американский вступительный экзамен. Высокий балл для поступления в ведущие вузы.</p>
     </div>
-    <div class="cert-card tilt-card">
-      <div class="cert-card-top">
-        <div class="cert-badge">ЕНТ</div>
-        <div class="cert-name">ЕНТ</div>
-        <div class="cert-score">135</div>
-      </div>
-      <p class="cert-desc">Единое национальное тестирование Казахстана. Личный результат — 135 баллов.</p>
+    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">ЕНТ · КАЗАХСТАН</div>
+      <div style="font-size:11px;color:#999;margin-bottom:6px;">Английский язык</div>
+      <div style="font-size:48px;font-weight:900;color:var(--p);font-family:var(--df);line-height:1;margin-bottom:6px;">135</div>
+      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+      <div style="font-size:11px;color:#888;">из 140 возможных баллов</div>
+      <div style="font-size:11px;color:var(--p);font-weight:600;margin-top:4px;">Студент NU</div>
     </div>
   </div>
 
@@ -1320,15 +1335,19 @@
       <h2>Свяжитесь со мной</h2>
 
       <div class="contact-item">
-        <div class="contact-icon">📞</div>
+        <div class="contact-icon" style="background:var(--p);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
         <div>
-          <div class="contact-label">Телефон</div>
+          <div class="contact-label">Номер телефона</div>
           <div class="contact-value"><a href="tel:+77074292567">+7 (707) 429-25-67</a></div>
         </div>
       </div>
 
       <div class="contact-item">
-        <div class="contact-icon">✈️</div>
+        <div class="contact-icon" style="background:var(--p);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </div>
         <div>
           <div class="contact-label">Telegram</div>
           <div class="contact-value"><a href="https://t.me/toolegen" target="_blank">@toolegen</a></div>
@@ -1336,9 +1355,11 @@
       </div>
 
       <div class="contact-item">
-        <div class="contact-icon">📍</div>
+        <div class="contact-icon" style="background:var(--p);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
         <div>
-          <div class="contact-label">Адрес</div>
+          <div class="contact-label">Адрес офиса</div>
           <div class="contact-value">г. Павлодар, ул. Академика Маргулана, 75</div>
         </div>
       </div>
@@ -1354,16 +1375,19 @@
 <!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="footer-inner">
-    <div>
-      <div class="footer-logo-name">AIBEK <span class="footer-logo-sub">english</span></div>
-      <div class="footer-copy" style="margin-top:6px;">© 2025 Айбек Толеген. Все права защищены.</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div>
+        <div class="footer-logo-name">AIBEK</div>
+        <div class="footer-logo-sub">english</div>
+      </div>
+      <div style="width:1px;height:30px;background:#eee;"></div>
+      <span style="font-size:12px;color:#aaa;">Репетитор английского языка в Павлодаре</span>
     </div>
-    <div class="footer-links">
-      <a href="#faq">FAQ</a>
-      <a href="#contacts">Контакты</a>
-      <a href="#">Политика конфиденциальности</a>
+    <div class="footer-copy">© 2025 Все права защищены</div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="#" class="footer-links" style="font-size:12px;color:#aaa;text-decoration:none;">Политика конфиденциальности</a>
+      <a href="#trial" class="footer-cta shiny-cta">Оставить заявку</a>
     </div>
-    <a href="https://wa.me/87074292567" target="_blank" class="footer-cta shiny-cta">Записаться на урок</a>
   </div>
 </footer>
 
