@@ -1,1403 +1,16 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aibek — Репетитор английского языка · Павлодар</title>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,700&family=Jost:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=Nunito:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Pacifico&family=Bebas+Neue&family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-
-  <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-
-  <style>
-    /* ── CSS Custom Properties ── */
-    :root {
-      --p: #1E3A8A;
-      --pm: #2563EB;
-      --pl: #DBEAFE;
-      --a: #DC2626;
-      --ah: #B91C1C;
-      --bg: #F4F4F8;
-      --df: 'Cormorant Garamond', serif;
-      --af: 'Jost', sans-serif;
-    }
-
-    /* ── Shiny CTA @property ── */
-    @property --shiny-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
-    @keyframes shinyRingRot { to { --shiny-angle: 360deg; } }
-
-    /* ── Keyframes ── */
-    @keyframes blobMorph {
-      0%,100%{border-radius:60% 40% 30% 70% / 60% 30% 70% 40%}
-      25%{border-radius:30% 60% 70% 40% / 50% 60% 30% 60%}
-      50%{border-radius:50% 30% 60% 40% / 40% 50% 60% 30%}
-      75%{border-radius:40% 60% 30% 70% / 60% 40% 50% 40%}
-    }
-    @keyframes floatA {
-      0%,100%{transform:translateY(0) rotate(0deg)}
-      50%{transform:translateY(-16px) rotate(4deg)}
-    }
-    @keyframes floatB {
-      0%,100%{transform:translateY(0) rotate(0deg)}
-      50%{transform:translateY(-10px) rotate(-3deg)}
-    }
-    @keyframes floatFlag {
-      0%,100%{transform:rotate(-4deg) scale(1)}
-      50%{transform:rotate(4deg) scale(1.06)}
-    }
-    @keyframes pulseCta {
-      0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}
-      50%{box-shadow:0 0 0 16px rgba(220,38,38,0)}
-    }
-
-    /* ── Reset & Base ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--af);
-      background: var(--bg);
-      color: #1a1a2e;
-      overflow-x: hidden;
-    }
-    body.anim-ready .hw,
-    body.anim-ready .hero-cursive,
-    body.anim-ready .hero-cta,
-    body.anim-ready .hero-badge-float { opacity: 1 !important; transform: none !important; }
-
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; display: block; }
-    button { cursor: pointer; font-family: inherit; border: none; }
-
-    /* ── Scroll Progress ── */
-    #scroll-progress {
-      position: fixed; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--p), var(--a));
-      transform: scaleX(0); transform-origin: 0 50%;
-      z-index: 1100; will-change: transform;
-    }
-
-    /* ── Shiny CTA ── */
-    .shiny-cta {
-      position: relative; isolation: isolate;
-      border: 2.5px solid transparent !important;
-    }
-    .shiny-cta::before {
-      content: ""; position: absolute; inset: -3px; border-radius: inherit;
-      padding: 3px; pointer-events: none; z-index: -1;
-      background: conic-gradient(from var(--shiny-angle), transparent 0%, rgba(255,20,20,0.55) 4%, #ff1414 9%, #ff4d4d 13%, #ff1414 17%, rgba(255,20,20,0.55) 22%, transparent 32%, transparent 100%);
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude;
-      animation: shinyRingRot 3s linear infinite;
-      filter: drop-shadow(0 0 8px rgba(255,20,20,1));
-    }
-    .shiny-cta::after {
-      content: ""; position: absolute; inset: 0; border-radius: inherit;
-      pointer-events: none; z-index: -1; overflow: hidden;
-      background: radial-gradient(circle at 50% 120%, rgba(255,20,20,0.9), transparent 60%);
-      opacity: 0; transition: opacity .5s ease;
-    }
-    .shiny-cta:hover::before { animation-duration: 1.1s; }
-    .shiny-cta:hover::after { opacity: 1; }
-
-    /* ── Tilt Card ── */
-    .tilt-card { transform-style: preserve-3d; will-change: transform; transition: box-shadow .3s; }
-
-    /* ── FAQ ── */
-    .faq-ans { max-height: 0; overflow: hidden; transition: max-height .4s cubic-bezier(.4,0,.2,1); }
-    .faq-ans.open { max-height: 300px; }
-
-    /* ── Navbar ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-      padding: 0 32px; height: 72px;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(255,255,255,0);
-      border-bottom: 1px solid transparent;
-      transition: background .3s, box-shadow .3s, border-color .3s;
-    }
-    .nav-logo {
-      display: flex; flex-direction: column; line-height: 1;
-      gap: 1px;
-    }
-    .nav-logo-name {
-      font-family: var(--df); font-size: 1.55rem; font-weight: 700;
-      color: var(--p); letter-spacing: 0.04em;
-    }
-    .nav-logo-sub {
-      font-family: var(--af); font-size: 0.78rem; font-weight: 600;
-      color: var(--a); letter-spacing: 0.12em; text-transform: lowercase;
-      font-style: italic;
-    }
-    .nav-subtitle {
-      font-size: 0.72rem; color: #666; font-family: var(--af);
-      letter-spacing: 0.02em;
-    }
-    .nav-links {
-      display: flex; align-items: center; gap: 28px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.85rem; font-weight: 500; color: #333;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--p); }
-    .nav-actions {
-      display: flex; align-items: center; gap: 10px;
-    }
-    .nav-btn {
-      padding: 8px 16px; border-radius: 8px; font-size: 0.82rem;
-      font-weight: 600; transition: background .2s, color .2s;
-    }
-    .nav-btn-wa {
-      background: #25d366; color: #fff;
-    }
-    .nav-btn-wa:hover { background: #1fa855; }
-    .nav-btn-tg {
-      background: #0088cc; color: #fff;
-    }
-    .nav-btn-tg:hover { background: #006ba3; }
-    .nav-cta {
-      background: var(--a); color: #fff;
-      padding: 10px 20px; border-radius: 9px;
-      font-size: 0.85rem; font-weight: 700;
-      animation: pulseCta 2.5s infinite;
-      transition: background .2s;
-    }
-    .nav-cta:hover { background: var(--ah); }
-    .burger-btn {
-      display: none; background: none; border: 2px solid var(--p);
-      color: var(--p); font-size: 1.35rem; padding: 4px 12px;
-      border-radius: 7px; font-weight: 700;
-    }
-    .mobile-menu {
-      display: none; flex-direction: column; gap: 8px;
-      position: fixed; top: 72px; left: 0; right: 0;
-      background: rgba(255,255,255,0.97);
-      backdrop-filter: blur(12px);
-      padding: 18px 24px;
-      max-height: 0; opacity: 0; overflow: hidden;
-      transition: max-height .36s ease, opacity .28s ease;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-      z-index: 998;
-    }
-    .mobile-menu a, .mobile-menu button {
-      display: block; padding: 12px 0;
-      font-size: 1rem; font-weight: 600; color: #222;
-      border-bottom: 1px solid #eee;
-      text-align: left; background: none;
-    }
-    .mobile-menu .mob-cta {
-      background: var(--a); color: #fff; border-radius: 8px;
-      padding: 12px; text-align: center; border: none; margin-top: 8px;
-    }
-    .mob-socials { display: flex; gap: 10px; margin-top: 10px; }
-    .mob-socials a {
-      flex: 1; text-align: center; border-radius: 8px; padding: 10px;
-      font-weight: 600; border-bottom: none; color: #fff;
-    }
-
-    /* ── Hero ── */
-    #hero {
-      min-height: 100svh; background: #fff;
-      position: relative; overflow: hidden;
-      display: flex; flex-direction: column;
-      padding-top: 72px;
-    }
-    .hero-inner {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 40px; align-items: center;
-      max-width: 1280px; margin: 0 auto;
-      padding: 60px 48px 0;
-      position: relative; z-index: 2; flex: 1;
-    }
-    .hero-deco-a {
-      position: absolute; top: -60px; left: -40px;
-      font-family: var(--df); font-size: clamp(280px, 35vw, 520px);
-      font-weight: 700; color: var(--p); opacity: 0.05;
-      line-height: 1; pointer-events: none; z-index: 0;
-      animation: floatA 8s ease-in-out infinite;
-    }
-    .hero-blob-bg {
-      position: absolute; top: 0; right: -120px;
-      width: 55vw; max-width: 780px; height: 100%;
-      background: linear-gradient(135deg, var(--pl) 0%, rgba(219,234,254,0.3) 100%);
-      animation: blobMorph 9s ease-in-out infinite;
-      pointer-events: none; z-index: 0;
-    }
-    .hero-statue {
-      position: absolute; right: 0; bottom: 0; height: 90%;
-      object-fit: contain; object-position: bottom;
-      opacity: 0.28; pointer-events: none; z-index: 1;
-    }
-    .hero-uk-flag {
-      position: absolute; bottom: 110px; right: 370px;
-      width: 58px; height: 42px;
-      animation: floatFlag 5s ease-in-out infinite;
-      z-index: 3; pointer-events: none;
-    }
-    .hero-left { position: relative; z-index: 3; }
-    .hero-badge-pill {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--pl); color: var(--p);
-      padding: 7px 18px; border-radius: 999px;
-      font-size: 0.78rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 20px;
-    }
-    .hero-badge-pill::before {
-      content: ''; width: 8px; height: 8px; border-radius: 50%;
-      background: var(--p); display: block;
-    }
-    .hero-h1 {
-      font-family: var(--df); font-size: clamp(40px, 5.6vw, 76px);
-      font-weight: 900; line-height: 0.92;
-      color: #111; margin-bottom: 10px;
-      text-transform: uppercase; letter-spacing: -2px;
-    }
-    .hero-row {
-      display: flex; align-items: baseline; gap: 14px;
-      flex-wrap: wrap;
-    }
-    .hero-row + .hero-row { margin-top: 8px; align-items: center; }
-    .hw { display: inline-block; opacity: 0; }
-    .hero-inline-badge {
-      display: inline-flex; align-items: center;
-      background: var(--a); color: #fff;
-      font-family: var(--af); font-size: 12px; font-weight: 700;
-      padding: 8px 18px; border-radius: 999px;
-      text-transform: none; letter-spacing: 0; line-height: 1; flex-shrink: 0;
-    }
-    .hero-cursive {
-      font-family: var(--af);
-      font-size: clamp(30px, 4.4vw, 58px); font-weight: 700;
-      color: var(--pm); margin-bottom: 20px; opacity: 0;
-      line-height: 1; letter-spacing: -1px; margin-top: -2px;
-    }
-    .hero-cta {
-      display: flex; align-items: center; gap: 12px;
-      flex-wrap: wrap; opacity: 0; margin-top: 4px;
-    }
-    .btn-primary {
-      background: var(--a); color: #fff;
-      padding: 17px 36px; border-radius: 999px;
-      font-size: 16px; font-weight: 700;
-      transition: background .2s;
-    }
-    .btn-primary:hover { background: var(--ah); }
-    .btn-arrow {
-      width: 54px; height: 54px; border-radius: 50%;
-      background: #111; color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; transition: background .2s; flex-shrink: 0;
-    }
-    .btn-arrow:hover { background: var(--p); }
-
-    /* Hero right */
-    .hero-photo-wrap {
-      position: relative; z-index: 3;
-      display: flex; justify-content: center; align-items: flex-end;
-    }
-    .hero-photo-blob {
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, var(--pl), rgba(219,234,254,0.4));
-      border-radius: 60% 40% 45% 55% / 55% 45% 55% 45%;
-      animation: blobMorph 11s ease-in-out infinite reverse;
-    }
-    .hero-photo {
-      position: relative; z-index: 2;
-      width: 100%; max-width: 420px;
-      object-fit: cover; object-position: top;
-      filter: drop-shadow(0 20px 60px rgba(30,58,138,0.18));
-    }
-    .hero-badge-float {
-      position: absolute;
-      background: #fff; border-radius: 18px;
-      padding: 14px 20px; box-shadow: 0 10px 36px rgba(0,0,0,0.13);
-      opacity: 0; z-index: 4;
-      animation: floatA 3.5s ease-in-out infinite;
-    }
-    .hero-badge-float:nth-child(3) { top: 40px; left: -16px; }
-    .hero-badge-float:nth-child(4) { top: 130px; right: -10px; animation: floatB 4.2s ease-in-out infinite 0.5s; }
-    .hero-badge-float:nth-child(5) {
-      bottom: 90px; left: 8px;
-      background: var(--p); color: #fff;
-      animation: floatA 3.2s ease-in-out infinite 0.9s;
-    }
-    .hbf-value {
-      font-size: 25px; font-weight: 900;
-      font-family: var(--df); line-height: 1;
-    }
-    .hero-badge-float:nth-child(3) .hbf-value { color: var(--p); }
-    .hero-badge-float:nth-child(4) .hbf-value { color: var(--a); }
-    .hero-badge-float:nth-child(5) .hbf-value { color: #fff; }
-    .hbf-label { font-size: 11px; color: #888; margin-top: 3px; }
-    .hero-badge-float:nth-child(5) .hbf-label { color: rgba(255,255,255,0.72); }
-
-    /* Stats bar */
-    #stats-bar {
-      background: var(--p); color: #fff;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      text-align: center; padding: 28px 48px;
-      margin-top: 40px; position: relative; z-index: 2;
-    }
-    .stat-item { padding: 8px; border-right: 1px solid rgba(255,255,255,0.15); }
-    .stat-item:last-child { border-right: none; }
-    .stat-value {
-      font-family: var(--df); font-size: 2.4rem; font-weight: 700;
-      line-height: 1; display: flex; align-items: baseline;
-      justify-content: center; gap: 4px;
-    }
-    .stat-suffix { font-size: 1.2rem; }
-    .stat-label { font-size: 0.72rem; font-weight: 500; opacity: 0.75; margin-top: 5px; letter-spacing: 0.06em; text-transform: uppercase; }
-
-    /* ── About ── */
-    #about {
-      background: #fff; padding: 100px 48px;
-      position: relative; overflow: hidden;
-    }
-    .about-big-ben {
-      position: absolute; right: -20px; top: 50%;
-      transform: translateY(-50%);
-      height: 85%; object-fit: contain;
-      opacity: 0.25; pointer-events: none;
-    }
-    .about-inner {
-      max-width: 760px; margin: 0 auto;
-      text-align: center; position: relative; z-index: 2;
-    }
-    .about-label {
-      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #888; font-weight: 600; margin-bottom: 8px;
-    }
-    .about-name {
-      font-family: var(--af); font-size: clamp(52px, 8vw, 96px);
-      font-weight: 700; color: var(--pm); margin-bottom: 10px;
-      line-height: 1; letter-spacing: -1px;
-    }
-    .about-title {
-      font-family: var(--df); font-size: clamp(1.1rem, 2.2vw, 1.65rem);
-      font-weight: 700; color: #0f172a; line-height: 1.25;
-      text-transform: uppercase; margin-bottom: 24px;
-    }
-    .about-text {
-      font-size: 1.02rem; line-height: 1.75; color: #444;
-      margin-bottom: 28px;
-    }
-    .about-link {
-      display: inline-flex; align-items: center; gap: 12px;
-      color: var(--p); font-weight: 600; font-size: 15px;
-      transition: opacity .2s;
-    }
-    .about-link:hover { opacity: 0.7; }
-
-    /* ── Benefits ── */
-    #benefits {
-      background: var(--bg); padding: 100px 48px;
-      position: relative; overflow: hidden;
-    }
-    .benefits-sky-deco {
-      position: absolute; left: -30px; top: 50%;
-      transform: translateY(-50%);
-      height: 80%; object-fit: contain;
-      opacity: 0.20; pointer-events: none;
-    }
-    .benefits-flag-deco {
-      position: absolute; right: -20px; top: 50%;
-      transform: translateY(-50%);
-      height: 75%; object-fit: contain;
-      opacity: 0.28; pointer-events: none;
-    }
-    .section-heading {
-      text-align: center; position: relative; z-index: 2;
-      margin-bottom: 12px;
-    }
-    .section-eyebrow {
-      font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase;
-      color: #888; font-weight: 600; margin-bottom: 8px;
-    }
-    .section-title {
-      font-family: var(--df); font-size: clamp(1.8rem, 3.5vw, 3rem);
-      font-weight: 700; color: #0f172a; line-height: 1.15;
-    }
-    .section-title span { color: var(--pm); }
-    .gallery-note {
-      text-align: center; font-size: 0.78rem; color: #888;
-      margin-bottom: 24px; position: relative; z-index: 2;
-    }
-
-    /* ── Groups ── */
-    #groups {
-      background: #fff; padding: 100px 48px;
-      position: relative;
-    }
-    .group-tabs {
-      display: flex; gap: 0;
-      background: #f1f5f9; border-radius: 12px;
-      padding: 6px; width: fit-content;
-      margin: 32px auto;
-    }
-    .group-tab {
-      padding: 11px 28px; border-radius: 8px;
-      font-size: 0.88rem; font-weight: 700;
-      background: transparent; color: #555;
-      transition: background .25s, color .25s;
-      border: none;
-    }
-    .group-panel {
-      max-width: 1100px; margin: 0 auto;
-      align-items: stretch; gap: 0;
-      border-radius: 18px; overflow: hidden;
-      box-shadow: 0 8px 48px rgba(30,58,138,0.10);
-    }
-    .grp-photo-wrap {
-      position: relative; width: 340px; flex-shrink: 0; overflow: hidden;
-    }
-    .grp-photo {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .grp-photo-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(30,58,138,0.7) 0%, transparent 60%);
-    }
-    .grp-age-badge {
-      position: absolute; bottom: 18px; left: 18px;
-      background: var(--a); color: #fff;
-      padding: 5px 14px; border-radius: 999px;
-      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.06em;
-    }
-    .grp-content {
-      flex: 1; padding: 40px 44px; background: #fff;
-    }
-    .grp-tag {
-      background: var(--pl); color: var(--p);
-      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 4px 12px; border-radius: 999px;
-      display: inline-block; margin-bottom: 14px;
-    }
-    .grp-title {
-      font-family: var(--df); font-size: 1.7rem; font-weight: 700;
-      margin-bottom: 18px; color: #0f172a;
-    }
-    .grp-list { list-style: none; margin-bottom: 24px; }
-    .grp-list li {
-      display: flex; align-items: flex-start; gap: 10px;
-      padding: 6px 0; font-size: 0.92rem; color: #333;
-    }
-    .grp-check {
-      width: 20px; height: 20px; border-radius: 50%;
-      background: var(--pl); color: var(--p);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.68rem; font-weight: 800; flex-shrink: 0; margin-top: 2px;
-    }
-    .grp-info-box {
-      background: var(--bg); border-radius: 10px;
-      padding: 14px 18px; font-size: 0.82rem; color: #555;
-    }
-    .grp-info-box strong { color: var(--p); }
-
-    /* ── Pricing ── */
-    #pricing {
-      background: var(--bg); padding: 100px 48px;
-    }
-    .pricing-cards {
-      display: flex; gap: 28px; max-width: 860px;
-      margin: 48px auto 0; justify-content: center;
-    }
-    .price-card {
-      flex: 1; border-radius: 20px; overflow: hidden;
-      box-shadow: 0 4px 32px rgba(30,58,138,0.12);
-      background: #fff;
-    }
-    .price-card-header {
-      background: var(--p); color: #fff;
-      padding: 26px 28px 22px;
-    }
-    .price-type {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; opacity: 0.75; margin-bottom: 4px;
-    }
-    .price-name {
-      font-family: var(--df); font-size: 1.55rem; font-weight: 700;
-    }
-    .price-body { padding: 28px; }
-    .price-amount {
-      font-family: var(--df); font-size: 2.6rem; font-weight: 700;
-      color: var(--p); margin-bottom: 4px;
-    }
-    .price-period {
-      font-size: 0.8rem; color: #777; margin-bottom: 22px;
-    }
-    .price-cta {
-      width: 100%; padding: 14px; border-radius: 10px;
-      background: var(--a); color: #fff;
-      font-size: 0.95rem; font-weight: 700;
-      transition: background .2s;
-    }
-    .price-cta:hover { background: var(--ah); }
-
-    /* ── Reviews ── */
-    #reviews {
-      background: #fff; padding: 100px 48px;
-    }
-    .reviews-heading-wrap { text-align: center; margin-bottom: 36px; }
-    .reviews-cursive {
-      font-family: var(--af); font-style: italic;
-      font-size: clamp(1.3rem, 2.5vw, 2rem); font-weight: 400;
-      color: var(--pm); display: block; margin-bottom: 4px;
-    }
-    .reviews-title {
-      font-family: var(--df); font-size: clamp(1.6rem, 3vw, 2.5rem);
-      font-weight: 700; color: #0f172a;
-    }
-    .reviews-tabs {
-      display: flex; gap: 0; background: #f1f5f9;
-      border-radius: 12px; padding: 5px;
-      width: fit-content; margin: 0 auto 40px;
-    }
-    .reviews-tab-btn {
-      padding: 10px 26px; border-radius: 8px;
-      font-size: 0.85rem; font-weight: 700;
-      transition: background .25s, color .25s;
-      border: none; background: transparent;
-    }
-    .certs-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 18px; max-width: 1100px; margin: 0 auto;
-    }
-    .cert-card {
-      border-radius: 14px; overflow: hidden;
-      box-shadow: 0 4px 24px rgba(30,58,138,0.10);
-      background: #fff;
-    }
-    .cert-card-top {
-      background: linear-gradient(135deg, var(--p), var(--pm));
-      color: #fff; padding: 22px;
-    }
-    .cert-badge {
-      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em;
-      text-transform: uppercase; opacity: 0.75;
-    }
-    .cert-name {
-      font-family: var(--df); font-size: 1.5rem; font-weight: 700;
-      margin-top: 6px;
-    }
-    .cert-score {
-      font-family: var(--df); font-size: 2rem; font-weight: 700;
-      color: #fff; margin-top: 4px;
-    }
-    .cert-desc {
-      padding: 16px; font-size: 0.82rem; color: #555;
-    }
-    .reviews-grid {
-      display: none; grid-template-columns: repeat(3, 1fr);
-      gap: 24px; max-width: 1000px; margin: 0 auto;
-    }
-    .review-card {
-      border-radius: 16px; padding: 24px;
-      box-shadow: 0 4px 24px rgba(30,58,138,0.09);
-      background: #fff;
-    }
-    .review-stars { color: #f59e0b; font-size: 1rem; margin-bottom: 12px; }
-    .review-text { font-size: 0.9rem; color: #444; line-height: 1.6; margin-bottom: 18px; }
-    .review-author { display: flex; align-items: center; gap: 12px; }
-    .review-avatar {
-      width: 42px; height: 42px; border-radius: 50%;
-      background: var(--pl); display: flex; align-items: center;
-      justify-content: center; font-weight: 800; color: var(--p);
-      font-size: 1rem;
-    }
-    .review-name { font-weight: 700; font-size: 0.88rem; }
-    .review-score { font-size: 0.76rem; color: #888; }
-
-    /* ── Trial CTA ── */
-    #trial {
-      background: var(--bg); padding: 100px 48px;
-    }
-    .trial-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 60px; align-items: center;
-    }
-    .trial-heading {
-      font-family: var(--df); font-size: clamp(1.8rem, 3.5vw, 3rem);
-      font-weight: 700; line-height: 1.15; margin-bottom: 18px; color: #0f172a;
-    }
-    .trial-heading span { color: var(--a); }
-    .trial-text { font-size: 1rem; color: #555; line-height: 1.7; margin-bottom: 28px; }
-    .trial-right { position: relative; }
-    .trial-blob {
-      position: absolute; inset: -30px;
-      background: linear-gradient(135deg, var(--pl), rgba(219,234,254,0.3));
-      border-radius: 60% 40% 45% 55% / 55% 45% 55% 45%;
-      animation: blobMorph 10s ease-in-out infinite;
-    }
-    .trial-img {
-      position: relative; z-index: 2;
-      border-radius: 16px; box-shadow: 0 8px 48px rgba(30,58,138,0.15);
-      width: 100%;
-    }
-
-    /* ── FAQ ── */
-    #faq {
-      background: #fff; padding: 100px 48px;
-    }
-    .faq-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 340px 1fr;
-      gap: 60px; align-items: start;
-    }
-    .faq-heading {
-      font-family: var(--df); font-size: clamp(1.6rem, 2.8vw, 2.5rem);
-      font-weight: 700; color: #0f172a; line-height: 1.2;
-    }
-    .faq-heading span { color: var(--pm); }
-    .faq-list { display: flex; flex-direction: column; gap: 10px; }
-    .faq-item { border-radius: 12px; overflow: hidden; }
-    .faq-header {
-      background: var(--p); color: #fff;
-      padding: 16px 20px; cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-      font-weight: 700; font-size: 0.9rem; line-height: 1.4;
-      transition: background .25s;
-      gap: 12px;
-    }
-    .faq-icon {
-      font-size: 1.4rem; font-weight: 400; flex-shrink: 0;
-      width: 24px; text-align: center;
-    }
-    .faq-ans-inner {
-      padding: 18px 20px; font-size: 0.9rem;
-      color: #444; line-height: 1.7;
-    }
-
-    /* ── Contacts ── */
-    #contacts {
-      background: var(--bg); padding: 100px 48px;
-    }
-    .contacts-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 48px; align-items: start;
-    }
-    .contacts-map {
-      border-radius: 16px; overflow: hidden;
-      box-shadow: 0 4px 32px rgba(30,58,138,0.10);
-      height: 360px;
-    }
-    .contacts-map iframe { width: 100%; height: 100%; border: none; }
-    .contacts-info h2 {
-      font-family: var(--df); font-size: 2rem; font-weight: 700;
-      margin-bottom: 24px; color: #0f172a;
-    }
-    .contact-item {
-      display: flex; align-items: flex-start; gap: 14px;
-      margin-bottom: 18px;
-    }
-    .contact-icon {
-      width: 48px; height: 48px; border-radius: 14px;
-      display: flex; align-items: center;
-      justify-content: center; flex-shrink: 0;
-    }
-    .contact-label { font-size: 0.72rem; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.08em; }
-    .contact-value { font-size: 0.98rem; font-weight: 600; color: #222; margin-top: 2px; }
-    .contacts-btns { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
-    .contacts-btn {
-      padding: 13px 22px; border-radius: 10px;
-      font-size: 0.88rem; font-weight: 700; color: #fff;
-      transition: opacity .2s;
-    }
-    .contacts-btn:hover { opacity: 0.88; }
-    .contacts-btn-wa { background: #25d366; }
-    .contacts-btn-tg { background: #0088cc; }
-
-    /* ── Footer ── */
-    footer {
-      background: #fff; color: #333;
-      padding: 28px 48px;
-      border-top: 1px solid #f0f0f0;
-    }
-    .footer-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 18px;
-    }
-    .footer-logo-name { font-family: var(--df); font-size: 18px; font-weight: 900; color: var(--p); letter-spacing: -0.5px; line-height: 1.1; }
-    .footer-logo-sub { font-family: var(--af); font-size: 15px; font-weight: 700; color: var(--a); letter-spacing: 1px; line-height: 1; }
-    .footer-copy { font-size: 12px; color: #aaa; }
-    .footer-links { display: flex; gap: 18px; align-items: center; }
-    .footer-links a { font-size: 12px; color: #aaa; transition: color .2s; }
-    .footer-links a:hover { color: var(--p); }
-    .footer-cta {
-      background: var(--a); color: #fff;
-      padding: 11px 24px; border-radius: 999px;
-      font-size: 13px; font-weight: 700;
-      transition: background .2s;
-    }
-    .footer-cta:hover { background: var(--ah); }
-
-    /* ── Tweaks Panel ── */
-    #tweaks-panel {
-      position: fixed; right: 0; top: 50%;
-      transform: translateY(-50%);
-      z-index: 1050;
-      display: flex; align-items: center;
-    }
-    .tweaks-toggle {
-      background: var(--p); color: #fff;
-      width: 36px; height: 80px; border-radius: 10px 0 0 10px;
-      display: flex; align-items: center; justify-content: center;
-      writing-mode: vertical-rl; font-size: 0.7rem; font-weight: 700;
-      letter-spacing: 0.1em; cursor: pointer;
-      border: none; transition: background .2s;
-    }
-    .tweaks-toggle:hover { background: var(--pm); }
-    .tweaks-body {
-      background: #fff; box-shadow: -4px 0 32px rgba(0,0,0,0.14);
-      padding: 20px; width: 220px;
-      border-radius: 12px 0 0 12px;
-      display: none;
-    }
-    .tweaks-body.open { display: block; }
-    .tweaks-section { margin-bottom: 18px; }
-    .tweaks-label {
-      font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em;
-      text-transform: uppercase; color: #888; margin-bottom: 8px;
-    }
-    .tweaks-options { display: flex; flex-wrap: wrap; gap: 6px; }
-    .tweaks-opt {
-      padding: 5px 12px; border-radius: 6px; border: 1.5px solid #e0e0e0;
-      font-size: 0.76rem; font-weight: 600; cursor: pointer;
-      background: #f9f9f9; transition: background .18s, border-color .18s, color .18s;
-    }
-    .tweaks-opt:hover, .tweaks-opt.active {
-      background: var(--p); color: #fff; border-color: var(--p);
-    }
-
-    /* ── Utility classes ── */
-    .d-hide { display: none !important; }
-    .m-only { display: none; }
-    .landmark-deco { pointer-events: none; }
-
-    /* ── Responsive ── */
-    @media (max-width: 1024px) {
-      .certs-grid { grid-template-columns: repeat(2, 1fr); }
-      .faq-inner { grid-template-columns: 1fr; gap: 36px; }
-      .trial-inner { grid-template-columns: 1fr; gap: 40px; }
-      .contacts-inner { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 0 20px; }
-      .nav-links, .nav-actions, .nav-subtitle { display: none !important; }
-      .nav-cta { display: none; }
-      .burger-btn { display: block; }
-      .mobile-menu { display: flex; }
-      .m-only { display: block; }
-
-      .hero-inner {
-        grid-template-columns: 1fr;
-        padding: 32px 24px 0;
-        gap: 24px;
-      }
-      .hero-photo-wrap { order: -1; max-height: 340px; overflow: hidden; }
-      .hero-h1 { font-size: 2rem; }
-      .hero-cursive { font-size: 1.2rem; }
-      .d-hide { display: none !important; }
-      .hero-blob-bg { display: none; }
-      .hero-statue { display: none; }
-      .hero-uk-flag { display: none; }
-
-      #stats-bar { grid-template-columns: repeat(2, 1fr); padding: 20px 16px; }
-      .stat-item:nth-child(2) { border-right: none; }
-
-      #about, #benefits, #groups, #pricing, #reviews, #trial, #faq, #contacts { padding: 64px 24px; }
-      .hero-inner { padding: 32px 24px 0; }
-
-      .group-tabs { width: 100%; justify-content: stretch; }
-      .group-tab { flex: 1; padding: 10px 12px; font-size: 0.78rem; }
-      .group-panel { flex-direction: column !important; }
-      .grp-photo-wrap { width: 100%; height: 220px; }
-      .grp-content { padding: 24px 20px; }
-
-      .pricing-cards { flex-direction: column; }
-
-      .certs-grid { grid-template-columns: repeat(2, 1fr); }
-      .reviews-grid { grid-template-columns: 1fr; }
-
-      .faq-inner { grid-template-columns: 1fr; }
-      .contacts-inner { grid-template-columns: 1fr; }
-      .trial-inner { grid-template-columns: 1fr; }
-
-      footer { padding: 32px 24px; }
-      .footer-inner { flex-direction: column; align-items: flex-start; }
-
-      .landmark-deco.d-hide { display: block !important; opacity: 0.12; }
-    }
-
-    @media (max-width: 480px) {
-      .certs-grid { grid-template-columns: 1fr; }
-      .hero-badge-float { display: none; }
-    }
-  </style>
-</head>
-<body>
-
-<!-- Scroll Progress -->
-<div id="scroll-progress"></div>
-
-<!-- ═══ NAVBAR ═══ -->
-<nav>
-  <a href="#" class="nav-logo">
-    <span class="nav-logo-name">AIBEK</span>
-    <span class="nav-logo-sub">english</span>
-  </a>
-  <span class="nav-subtitle d-hide" style="display:block">Репетитор английского языка · Павлодар</span>
-  <ul class="nav-links">
-    <li><a href="#about">О репетиторе</a></li>
-    <li><a href="#groups">Группы</a></li>
-    <li><a href="#pricing">Цены</a></li>
-    <li><a href="#faq">FAQ</a></li>
-  </ul>
-  <div class="nav-actions">
-    <a href="https://wa.me/87074292567" target="_blank" rel="noopener" class="nav-btn nav-btn-wa">WhatsApp</a>
-    <a href="https://t.me/toolegen" target="_blank" rel="noopener" class="nav-btn nav-btn-tg">Telegram</a>
-    <a href="https://wa.me/87074292567" class="nav-cta shiny-cta">Оставить заявку</a>
-  </div>
-  <button class="burger-btn" onclick="toggleMobileMenu()" aria-label="Меню">☰</button>
-</nav>
-
-<!-- Mobile dropdown -->
-<div class="mobile-menu" id="mobile-menu">
-  <a href="#about" onclick="toggleMobileMenu()">О репетиторе</a>
-  <a href="#groups" onclick="toggleMobileMenu()">Группы</a>
-  <a href="#pricing" onclick="toggleMobileMenu()">Цены</a>
-  <a href="#faq" onclick="toggleMobileMenu()">FAQ</a>
-  <a href="#contacts" onclick="toggleMobileMenu()">Контакты</a>
-  <div class="mob-socials">
-    <a href="https://wa.me/87074292567" target="_blank" style="background:#25d366">WhatsApp</a>
-    <a href="https://t.me/toolegen" target="_blank" style="background:#0088cc">Telegram</a>
-  </div>
-  <a href="https://wa.me/87074292567" class="mob-cta">Оставить заявку</a>
-</div>
-
-<!-- ═══ HERO ═══ -->
-<section id="hero">
-  <div class="hero-deco-a landmark-deco">А</div>
-  <div class="hero-blob-bg landmark-deco"></div>
-  <img src="project/uploads/Statue_of_Liberty_Colmar_01.png" alt="" class="hero-statue landmark-deco d-hide" />
-
-  <div class="hero-inner">
-    <!-- Left column -->
-    <div class="hero-left">
-      <div class="hero-badge-pill">Репетитор · Павлодар</div>
-      <h1 class="hero-h1">
-        <div class="hero-row">
-          <span class="hw">НАУЧУ</span>
-          <span class="hw">ТЕБЯ</span>
-        </div>
-        <div class="hero-row">
-          <span class="hw">ГОВОРИТЬ</span>
-          <span class="hero-inline-badge hw">Первый урок — бесплатно!</span>
-        </div>
-      </h1>
-      <div class="hero-cursive">на английском языке</div>
-      <div class="hero-cta">
-        <a href="https://wa.me/87074292567" target="_blank" class="btn-primary shiny-cta">Записаться на урок</a>
-        <a href="#about" class="btn-arrow">→</a>
-      </div>
-    </div>
-
-    <!-- Right column -->
-    <div class="hero-photo-wrap">
-      <div class="hero-photo-blob"></div>
-      <img src="project/uploads/photo-1781354916837.png" alt="Айбек — репетитор английского" class="hero-photo" />
-
-      <!-- IELTS badge -->
-      <div class="hero-badge-float">
-        <div class="hbf-value">IELTS 7.5</div>
-        <div class="hbf-label">Личный результат</div>
-      </div>
-
-      <!-- SAT badge (hidden mobile) -->
-      <div class="hero-badge-float d-hide">
-        <div class="hbf-value">SAT 1450</div>
-        <div class="hbf-label">Личный результат</div>
-      </div>
-
-      <!-- Years badge (hidden mobile) -->
-      <div class="hero-badge-float d-hide">
-        <div class="hbf-value">6 лет</div>
-        <div class="hbf-label">опыта преподавания</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- UK Flag SVG -->
-  <svg class="hero-uk-flag d-hide" viewBox="0 0 60 42" xmlns="http://www.w3.org/2000/svg">
-    <rect width="60" height="42" fill="#012169"/>
-    <path d="M0,0 L60,42 M60,0 L0,42" stroke="#fff" stroke-width="6"/>
-    <path d="M0,0 L60,42 M60,0 L0,42" stroke="#C8102E" stroke-width="4"/>
-    <path d="M30,0 V42 M0,21 H60" stroke="#fff" stroke-width="10"/>
-    <path d="M30,0 V42 M0,21 H60" stroke="#C8102E" stroke-width="6"/>
-  </svg>
-
-  <!-- Stats bar -->
-  <div id="stats-bar">
-    <div class="stat-item">
-      <div class="stat-value"><span id="counter-ielts">0.0</span></div>
-      <div class="stat-label">IELTS личный балл</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value"><span id="counter-sat">0</span></div>
-      <div class="stat-label">SAT личный балл</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value"><span id="counter-ent">0</span></div>
-      <div class="stat-label">ЕНТ личный балл</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-value"><span id="counter-years">0</span><span class="stat-suffix">+</span></div>
-      <div class="stat-label">лет преподавания</div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ ABOUT ═══ -->
-<section id="about" style="background:#fff; padding:100px 48px; position:relative; overflow:hidden;">
-  <img src="project/uploads/big_ben_4.png" alt="" class="about-big-ben landmark-deco d-hide" />
-  <div class="about-inner reveal">
-    <p class="about-label">О репетиторе</p>
-    <p class="about-name">Айбек Толеген</p>
-    <h2 class="about-title">Я ДИПЛОМИРОВАННЫЙ ПРЕПОДАВАТЕЛЬ<br>АНГЛИЙСКОГО ЯЗЫКА</h2>
-    <p class="about-text">
-      С радостью помогу пройти путь в изучении английского, <strong>начиная от нуля и до сдачи международных экзаменов.</strong> Студент Назарбаев Университета (NU) — лучшего вуза Казахстана.
-    </p>
-    <a href="#reviews" class="about-link">
-      <span style="width:42px;height:42px;background:var(--p);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </span>
-      Дипломы и сертификаты
-    </a>
-  </div>
-</section>
-
-<!-- ═══ BENEFITS ═══ -->
-<section id="benefits">
-  <img src="project/uploads/picture_17-grafikov-kotorye-d_855_p0.png" alt="" class="benefits-sky-deco landmark-deco d-hide" />
-  <img src="project/uploads/1000014610-ce7160b6.png" alt="" class="benefits-flag-deco landmark-deco d-hide" />
-
-  <div class="section-heading reveal">
-    <p class="section-eyebrow">Почему я?</p>
-    <h2 class="section-title">Преимущества<br><span>ОБУЧЕНИЯ СО МНОЙ</span></h2>
-  </div>
-
-  <p class="gallery-note">Перетащите или прокрутите колёсиком над галереей</p>
-
-  <circular-gallery
-    style="display:block;width:100%;height:440px;"
-    bend="3"
-    border-radius="0.04"
-    scroll-ease="0.05"
-    font="700 28px Jost"
-    font-url="https://fonts.googleapis.com/css2?family=Jost:wght@700&family=Plus+Jakarta+Sans:wght@400&display=swap"
-    color-dark="#1f2937"
-    color-gray="#667085"
-    color-accent="#DC2626"
-  ></circular-gallery>
-</section>
-
-<!-- ═══ GROUPS ═══ -->
-<section id="groups">
-  <div class="section-heading reveal">
-    <h2 class="section-title"><span>ГРУППЫ</span> УЧЕНИКОВ</h2>
-  </div>
-
-  <div class="group-tabs">
-    <button class="group-tab" onclick="setGroup(0)" style="background:var(--a);color:#fff;">Дети 8–12</button>
-    <button class="group-tab" onclick="setGroup(1)">Подростки 13–17</button>
-    <button class="group-tab" onclick="setGroup(2)">Взрослые 18+</button>
-  </div>
-
-  <!-- Kids -->
-  <div class="group-panel" id="group-kids" style="display:flex;">
-    <div class="grp-photo-wrap">
-      <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&h=500&fit=crop&q=80" alt="Дети" class="grp-photo" />
-      <div class="grp-photo-overlay"></div>
-      <span class="grp-age-badge">8–12 лет</span>
-    </div>
-    <div class="grp-content">
-      <h3 class="grp-title grp-anim">МЛАДШАЯ ГРУППА</h3>
-      <ul class="grp-list">
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Освоит базовую грамматику и разговорный английский</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Научится говорить о себе, семье, окружающем мире</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовится к Cambridge A2 Key для детей</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span><strong>Полюбит английский</strong> ещё до того, как начнут объяснять сложности</span></li>
-      </ul>
-      <div class="grp-info-box grp-anim">
-        <strong style="color:var(--p);">Одновременно мои ученики легко освоят:</strong><br>
-        <span style="display:block;margin-top:6px;">· Основные глаголы и временные формы</span>
-        <span style="display:block;">· Чтение и базовое письмо</span>
-        <span style="display:block;">· Счёт, цвета и повседневную лексику</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Teens -->
-  <div class="group-panel" id="group-teens" style="display:none;">
-    <div class="grp-photo-wrap">
-      <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&h=500&fit=crop&q=80" alt="Подростки" class="grp-photo" />
-      <div class="grp-photo-overlay"></div>
-      <span class="grp-age-badge">13–17 лет</span>
-    </div>
-    <div class="grp-content">
-      <h3 class="grp-title grp-anim">ПОДРОСТКИ</h3>
-      <ul class="grp-list">
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Сдаст ЕНТ на <strong>130+ баллов</strong> по английскому</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Подготовится к Cambridge B2 First или IELTS</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Освоит SAT Reading and Writing</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span><strong>Поступит в лучшие вузы</strong> Казахстана и за рубежом</span></li>
-      </ul>
-      <div class="grp-info-box grp-anim">
-        <strong style="color:var(--pm);">На занятиях мы также отработаем:</strong><br>
-        <span style="display:block;margin-top:6px;">· Грамматику уровня Intermediate и Upper</span>
-        <span style="display:block;">· Эссе и форматы Writing для экзаменов</span>
-        <span style="display:block;">· Разговорную речь и аудирование</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Adults -->
-  <div class="group-panel" id="group-adults" style="display:none;">
-    <div class="grp-photo-wrap">
-      <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&h=500&fit=crop&q=80" alt="Взрослые" class="grp-photo" />
-      <div class="grp-photo-overlay"></div>
-      <span class="grp-age-badge">18+</span>
-    </div>
-    <div class="grp-content">
-      <h3 class="grp-title grp-anim">ВЗРОСЛЫЕ</h3>
-      <ul class="grp-list">
-        <li class="grp-anim"><div class="grp-check">✓</div><span>IELTS от <strong>6.5 до 7.5+</strong> под ваши цели</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Разговорный клуб и деловой английский</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span>Гибкое расписание и онлайн-формат</span></li>
-        <li class="grp-anim"><div class="grp-check">✓</div><span><strong>Индивидуальный темп</strong> и программа под ваш уровень</span></li>
-      </ul>
-      <div class="grp-info-box grp-anim">
-        <strong style="color:var(--pm);">Чему вы научитесь:</strong><br>
-        <span style="display:block;margin-top:6px;">· Свободно говорить на повседневные темы</span>
-        <span style="display:block;">· Деловой и профессиональный английский</span>
-        <span style="display:block;">· Понимать фильмы и подкасты без субтитров</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ PRICING ═══ -->
-<section id="pricing">
-  <div class="section-heading reveal">
-    <p class="section-eyebrow">Стоимость</p>
-    <h2 class="section-title">ВАРИАНТЫ <span>ЗАНЯТИЙ</span></h2>
-  </div>
-
-  <div class="pricing-cards">
-    <!-- Group -->
-    <div class="price-card tilt-card">
-      <div class="price-card-header">
-        <div class="price-type">До 5 человек</div>
-        <div class="price-name">Групповые занятия</div>
-      </div>
-      <div class="price-body">
-        <div class="price-amount">32 000 ₸</div>
-        <div class="price-period">8 занятий за месяц</div>
-        <ul class="grp-list" style="margin-bottom:22px;">
-          <li><div class="grp-check">✓</div><span>Мини-группы до 5 человек</span></li>
-          <li><div class="grp-check">✓</div><span>60 минут каждое занятие</span></li>
-          <li><div class="grp-check">✓</div><span>Разговорная практика</span></li>
-          <li><div class="grp-check">✓</div><span>Домашние задания</span></li>
-        </ul>
-        <a href="https://wa.me/87074292567" target="_blank" class="price-cta shiny-cta" style="display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:0.95rem;color:#fff;background:var(--a);">Записаться</a>
-      </div>
-    </div>
-
-    <!-- Individual -->
-    <div class="price-card tilt-card">
-      <div class="price-card-header">
-        <div class="price-type">1 на 1</div>
-        <div class="price-name">Индивидуальные занятия</div>
-      </div>
-      <div class="price-body">
-        <div class="price-amount">72 000 ₸</div>
-        <div class="price-period">Занятие 60 минут</div>
-        <ul class="grp-list" style="margin-bottom:22px;">
-          <li><div class="grp-check">✓</div><span>Персональная программа</span></li>
-          <li><div class="grp-check">✓</div><span>Гибкое расписание</span></li>
-          <li><div class="grp-check">✓</div><span>Максимальный прогресс</span></li>
-          <li><div class="grp-check">✓</div><span>Подготовка к любому экзамену</span></li>
-        </ul>
-        <a href="https://wa.me/87074292567" target="_blank" class="price-cta shiny-cta" style="display:block;text-align:center;padding:14px;border-radius:10px;font-weight:700;font-size:0.95rem;color:#fff;background:var(--a);">Записаться</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ REVIEWS ═══ -->
-<section id="reviews">
-  <div class="reviews-heading-wrap reveal">
-    <span class="reviews-cursive">Сертификаты</span>
-    <h2 class="reviews-title">И ОТЗЫВЫ УЧЕНИКОВ</h2>
-  </div>
-
-  <div class="reviews-tabs">
-    <button class="reviews-tab-btn" id="cert-tab-btn"
-      onclick="setReviewTab('certs')"
-      style="background:var(--a);color:#fff;">Сертификаты</button>
-    <button class="reviews-tab-btn" id="rev-tab-btn"
-      onclick="setReviewTab('reviews')"
-      style="background:transparent;color:var(--p);">Отзывы учеников</button>
-  </div>
-
-  <!-- Certs -->
-  <div class="certs-grid" id="certs-panel">
-    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
-      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">CAMBRIDGE ENGLISH</div>
-      <div style="font-size:11px;color:#999;margin-bottom:6px;">This is to certify that</div>
-      <div style="font-size:15px;font-weight:600;color:#222;margin-bottom:10px;">Aibek Tolegen</div>
-      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
-      <div style="font-size:10px;color:#999;margin-bottom:4px;">has been awarded</div>
-      <div style="font-size:18px;font-weight:900;color:var(--p);font-family:var(--df);margin-bottom:4px;">C1 Advanced</div>
-      <div style="font-size:11px;color:#888;">Grade A · 2022</div>
-    </div>
-    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
-      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">IELTS ACADEMIC</div>
-      <div style="font-size:11px;color:#999;margin-bottom:6px;">Overall Band Score</div>
-      <div style="font-size:48px;font-weight:900;color:var(--p);font-family:var(--df);line-height:1;margin-bottom:6px;">7.5</div>
-      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:#888;">
-        <span>Listening: 8.0</span><span>Reading: 7.5</span>
-        <span>Writing: 7.0</span><span>Speaking: 7.5</span>
-      </div>
-    </div>
-    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
-      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">SAT · COLLEGE BOARD</div>
-      <div style="font-size:11px;color:#999;margin-bottom:6px;">Total Score</div>
-      <div style="font-size:48px;font-weight:900;color:var(--a);font-family:var(--df);line-height:1;margin-bottom:6px;">1450</div>
-      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:#888;">
-        <span>Reading/Writing: 730</span><span>Math: 720</span>
-      </div>
-    </div>
-    <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
-      <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">ЕНТ · КАЗАХСТАН</div>
-      <div style="font-size:11px;color:#999;margin-bottom:6px;">Английский язык</div>
-      <div style="font-size:48px;font-weight:900;color:var(--p);font-family:var(--df);line-height:1;margin-bottom:6px;">135</div>
-      <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
-      <div style="font-size:11px;color:#888;">из 140 возможных баллов</div>
-      <div style="font-size:11px;color:var(--p);font-weight:600;margin-top:4px;">Студент NU</div>
-    </div>
-  </div>
-
-  <!-- Reviews -->
-  <div class="reviews-grid" id="reviews-panel">
-    <div class="review-card tilt-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">Благодаря Айбеку я набрала 7.0 на IELTS с первого раза! Очень структурированный подход и понятные объяснения. Рекомендую всем, кто серьёзно готовится к экзамену.</p>
-      <div class="review-author">
-        <div class="review-avatar">А</div>
-        <div>
-          <div class="review-name">Асель М.</div>
-          <div class="review-score">IELTS 7.0 ✓</div>
-        </div>
-      </div>
-    </div>
-    <div class="review-card tilt-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">Готовилась к ЕНТ и набрала 132 балла! Айбек объясняет доступно, всегда на связи и даёт чёткий план подготовки. Очень довольна результатом!</p>
-      <div class="review-author">
-        <div class="review-avatar">Г</div>
-        <div>
-          <div class="review-name">Гульнара К.</div>
-          <div class="review-score">ЕНТ 132 ✓</div>
-        </div>
-      </div>
-    </div>
-    <div class="review-card tilt-card">
-      <div class="review-stars">★★★★★</div>
-      <p class="review-text">Сдал SAT на 1390 после 3 месяцев подготовки. Айбек знает все нюансы теста и учит работать со временем. Уже поступил в университет мечты!</p>
-      <div class="review-author">
-        <div class="review-avatar">Д</div>
-        <div>
-          <div class="review-name">Даниял Н.</div>
-          <div class="review-score">SAT 1390 ✓</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ TRIAL CTA ═══ -->
-<section id="trial">
-  <div class="trial-inner">
-    <div class="trial-left reveal">
-      <h2 class="trial-heading">
-        ЗАПИШИТЕСЬ<br>на бесплатное<br><span>ПРОБНОЕ ЗАНЯТИЕ</span>
-      </h2>
-      <p class="trial-text">Первый урок — бесплатно и без обязательств. Познакомимся, определим ваш уровень и составим персональный план занятий.</p>
-      <a href="https://wa.me/87074292567" target="_blank" class="btn-primary shiny-cta" style="display:inline-block;">Записаться сейчас</a>
-    </div>
-    <div class="trial-right">
-      <div class="trial-blob"></div>
-      <img src="project/uploads/SmartSelect_20260614_193054_Chrome.png" alt="Расписание занятий" class="trial-img" />
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FAQ ═══ -->
-<section id="faq">
-  <div class="faq-inner">
-    <div>
-      <h2 class="faq-heading">
-        ЧАСТО<br>ЗАДАВАЕМЫЕ<br><span>ВОПРОСЫ</span>
-      </h2>
-    </div>
-    <div class="faq-list">
-
-      <div class="faq-item" id="faq-0">
-        <div class="faq-header" onclick="toggleFaq(0)" style="background:var(--a);">
-          <span>Сколько длятся занятия?</span>
-          <span class="faq-icon">−</span>
-        </div>
-        <div class="faq-ans open">
-          <div class="faq-ans-inner">Занятия длятся 60 минут. Такой формат оптимален для продуктивного усвоения материала — достаточно, чтобы разобрать тему, отработать её и получить домашнее задание.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" id="faq-1">
-        <div class="faq-header" onclick="toggleFaq(1)">
-          <span>Сколько человек в группе?</span>
-          <span class="faq-icon">+</span>
-        </div>
-        <div class="faq-ans">
-          <div class="faq-ans-inner">В группе не более 4–5 человек. Это позволяет уделять внимание каждому ученику и сохранять темп занятия, комфортный для всех.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" id="faq-2">
-        <div class="faq-header" onclick="toggleFaq(2)">
-          <span>Какие методики использует преподаватель?</span>
-          <span class="faq-icon">+</span>
-        </div>
-        <div class="faq-ans">
-          <div class="faq-ans-inner">Коммуникативный метод — основа моего подхода. Мы не зубрим правила, мы учимся говорить через практику. Также использую задания в формате реальных экзаменов IELTS, SAT, ЕНТ.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" id="faq-3">
-        <div class="faq-header" onclick="toggleFaq(3)">
-          <span>Возможно ли проведение онлайн-занятий?</span>
-          <span class="faq-icon">+</span>
-        </div>
-        <div class="faq-ans">
-          <div class="faq-ans-inner">Да, провожу занятия онлайн через Zoom или Google Meet. Для онлайн-урока нужен только компьютер с камерой и стабильный интернет. Формат ничуть не уступает очному.</div>
-        </div>
-      </div>
-
-      <div class="faq-item" id="faq-4">
-        <div class="faq-header" onclick="toggleFaq(4)">
-          <span>Как записаться на пробное занятие?</span>
-          <span class="faq-icon">+</span>
-        </div>
-        <div class="faq-ans">
-          <div class="faq-ans-inner">Напишите в WhatsApp +7 707 429-25-67 или в Telegram @toolegen. Первое занятие — полностью бесплатно. Мы познакомимся, определим ваш уровень и составим план.</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ CONTACTS ═══ -->
-<section id="contacts">
-  <div class="section-heading reveal" style="margin-bottom:48px;">
-    <p class="section-eyebrow">Где найти</p>
-    <h2 class="section-title">Контакты <span>и адрес</span></h2>
-  </div>
-  <div class="contacts-inner">
-    <div class="contacts-map">
-      <iframe
-        src="https://yandex.kz/map-widget/v1/?text=%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%2C+%D1%83%D0%BB%D0%B8%D1%86%D0%B0+%D0%9B%D0%BE%D0%BC%D0%BE%D0%B2%D0%B0%2C+186%D0%B0&z=16&l=map"
-        allowfullscreen title="Карта"></iframe>
-    </div>
-    <div class="contacts-info">
-      <h2>Свяжитесь со мной</h2>
-
-      <div class="contact-item">
-        <div class="contact-icon" style="background:var(--p);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-        </div>
-        <div>
-          <div class="contact-label">Номер телефона</div>
-          <div class="contact-value"><a href="tel:+77074292567">+7 (707) 429-25-67</a></div>
-        </div>
-      </div>
-
-      <div class="contact-item">
-        <div class="contact-icon" style="background:var(--p);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
-        </div>
-        <div>
-          <div class="contact-label">Telegram</div>
-          <div class="contact-value"><a href="https://t.me/toolegen" target="_blank">@toolegen</a></div>
-        </div>
-      </div>
-
-      <div class="contact-item">
-        <div class="contact-icon" style="background:var(--p);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div>
-          <div class="contact-label">Адрес офиса</div>
-          <div class="contact-value">г. Павлодар, ул. Академика Маргулана, 75</div>
-        </div>
-      </div>
-
-      <div class="contacts-btns">
-        <a href="https://wa.me/87074292567" target="_blank" class="contacts-btn contacts-btn-wa">WhatsApp</a>
-        <a href="https://t.me/toolegen" target="_blank" class="contacts-btn contacts-btn-tg">Telegram</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <div class="footer-inner">
-    <div style="display:flex;align-items:center;gap:12px;">
-      <div>
-        <div class="footer-logo-name">AIBEK</div>
-        <div class="footer-logo-sub">english</div>
-      </div>
-      <div style="width:1px;height:30px;background:#eee;"></div>
-      <span style="font-size:12px;color:#aaa;">Репетитор английского языка в Павлодаре</span>
-    </div>
-    <div class="footer-copy">© 2025 Все права защищены</div>
-    <div style="display:flex;align-items:center;gap:16px;">
-      <a href="#" class="footer-links" style="font-size:12px;color:#aaa;text-decoration:none;">Политика конфиденциальности</a>
-      <a href="#trial" class="footer-cta shiny-cta">Оставить заявку</a>
-    </div>
-  </div>
-</footer>
-
-<!-- ═══ TWEAKS PANEL ═══ -->
-<div id="tweaks-panel">
-  <div class="tweaks-body" id="tweaks-body"></div>
-  <button class="tweaks-toggle" onclick="toggleTweaks()" id="tweaks-toggle-btn">СТИЛЬ</button>
-</div>
-
-<!-- ═══ GALLERY ITEMS (must be before module import) ═══ -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIBEK english — Репетитор английского языка · Павлодар</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;0,800;0,900;1,800;1,900&family=Pacifico&family=Inter:wght@400;500;600&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,700&family=Jost:wght@400;500;600;700;800;900&family=Syne:wght@700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style id="font-override">:root{--df:'Cormorant Garamond',serif;--af:'Jost',sans-serif;}</style>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 <script>
 window.GALLERY_ITEMS = [
   { image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80", badge: "IELTS", title: "IELTS 7.5", desc: "Знаю экзамен изнутри. Помогу набрать 7.0+ по всем секциям." },
@@ -1407,313 +20,1005 @@ window.GALLERY_ITEMS = [
   { image: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80", badge: "NU", title: "Студент NU", desc: "Назарбаев Университет — лучший вуз Казахстана по рейтингу QS." },
   { image: "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=800&q=80", badge: "Ученики", title: "100+ учеников", desc: "Онлайн и оффлайн занятия с учениками по всему Казахстану." },
   { image: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=800&q=80", badge: "Cambridge", title: "Cambridge A2–C1", desc: "Подготовка к A2 Key, B2 First и C1 Advanced по программе Cambridge." },
-  { image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80", badge: "TOEFL", title: "TOEFL iBT", desc: "Подготовка к TOEFL iBT: Reading, Listening, Speaking и Writing." },
+  { image: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=800&q=80", badge: "TOEFL", title: "TOEFL iBT", desc: "Подготовка к TOEFL iBT: Reading, Listening, Speaking и Writing для учёбы за рубежом." },
   { image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80", badge: "Гарантия", title: "Гарантия 100%", desc: "Постоянный контроль прогресса и домашние задания на каждом уроке." }
 ];
 </script>
-
-<!-- Circular Gallery (ES Module) -->
 <script type="module" src="project/circular-gallery.js"></script>
 
-<!-- ═══ MAIN SCRIPT ═══ -->
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
+
+.tilt-card { transform-style:preserve-3d;will-change:transform;transition:box-shadow .3s; }
+.faq-ans { max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1); }
+.faq-ans.open { max-height:300px; }
+@keyframes blobMorph { 0%,100%{border-radius:60% 40% 30% 70% / 60% 30% 70% 40%} 25%{border-radius:30% 60% 70% 40% / 50% 60% 30% 60%} 50%{border-radius:50% 30% 60% 40% / 40% 50% 60% 30%} 75%{border-radius:40% 60% 30% 70% / 60% 40% 50% 40%} }
+@keyframes floatA { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-16px) rotate(4deg)} }
+@keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-10px) rotate(-3deg)} }
+@keyframes floatFlag { 0%,100%{transform:rotate(-4deg) scale(1)} 50%{transform:rotate(4deg) scale(1.06)} }
+@keyframes pulseCta { 0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)} 50%{box-shadow:0 0 0 16px rgba(220,38,38,0)} }
+@keyframes scanLine { 0%{top:0%;opacity:.7} 100%{top:100%;opacity:0} }
+@keyframes shimmerGrad { 0%{background-position:-200% center} 100%{background-position:200% center} }
+#scroll-progress { position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--p,#4C1D95),var(--a,#D97706));transform:scaleX(0);transform-origin:0 50%;z-index:1100;will-change:transform; }
+@property --shiny-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@keyframes shinyRingRot { to { --shiny-angle: 360deg; } }
+@keyframes shinyShimmer { to { rotate: 360deg; } }
+.shiny-cta { position:relative;isolation:isolate;border:2.5px solid transparent!important; }
+.shiny-cta::before {
+  content:"";position:absolute;inset:-3px;border-radius:inherit;padding:3px;pointer-events:none;z-index:-1;
+  background: conic-gradient(from var(--shiny-angle), transparent 0%, rgba(255,20,20,0.55) 4%, #ff1414 9%, #ff4d4d 13%, #ff1414 17%, rgba(255,20,20,0.55) 22%, transparent 32%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: shinyRingRot 3s linear infinite;
+  filter: drop-shadow(0 0 8px rgba(255,20,20,1));
+}
+.shiny-cta::after {
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;overflow:hidden;
+  background: radial-gradient(circle at 50% 120%, rgba(255,20,20,0.9), transparent 60%);
+  opacity:0;transition:opacity .5s ease;
+}
+.shiny-cta:hover::before { animation-duration: 1.1s; }
+.shiny-cta:hover::after { opacity:1; }
+.landmark-deco { z-index: 2 !important; }
+.sec-content { position: relative; z-index: 3; }
+.hw, .hero-cursive, .hero-sub, .hero-cta, .hero-badge-float { opacity: 0; }
+.anim-ready .hw, .anim-ready .hero-cursive, .anim-ready .hero-sub, .anim-ready .hero-cta, .anim-ready .hero-badge-float { opacity: 1; }
+@media (max-width: 768px) {
+  .d-hide { display:none!important }
+  .d-hide.landmark-deco { display:block!important;opacity:0.12!important }
+  .deco-skyscraper { display:none!important }
+  .m-col { flex-direction:column!important }
+  .m-center { text-align:center!important }
+  .m-center-flex { align-items:center!important;justify-content:center!important }
+  .m-full { width:100%!important;max-width:100%!important;flex:1 1 auto!important }
+  .m-p { padding:28px 16px!important }
+  .g-1col { grid-template-columns:1fr!important }
+  .g-2col { grid-template-columns:repeat(2,1fr)!important }
+  .hero-photo-wrap { min-height:260px!important }
+  .group-inner { flex-direction:column!important }
+  .price-card { flex-direction:column!important }
+  .price-left { flex:1 1 auto!important;border-right:none!important;border-bottom:1.5px solid #eee!important;min-height:auto!important }
+  .card-group { grid-template-columns:1fr!important }
+  .sec-g1 { grid-template-columns:1fr!important }
+  section { padding-left:16px!important;padding-right:16px!important }
+  nav > div { padding:10px 16px!important }
+  .reveal { text-align:center!important }
+  .faq-heading h2 { text-align:left!important }
+  .trial-grid { grid-template-columns:1fr!important;gap:24px!important }
+  .hero-row { justify-content:center!important }
+  .m-self-center { align-self:center!important }
+  .burger-btn { display:flex!important }
+  .mobile-menu { display:block!important }
+  .nav-cta { display:none!important }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+  .group-inner { flex-direction:column!important }
+  .price-card { flex-direction:column!important }
+  .price-left { flex:1 1 auto!important;border-right:none!important;border-bottom:1.5px solid #eee!important }
+  .card-group { grid-template-columns:repeat(2,1fr)!important }
+  .sec-g1 { grid-template-columns:1fr!important }
+  .tab-hide { display:none!important }
+  .hero-photo-wrap { min-height:360px!important }
+}
+@media (min-width: 769px) {
+  .m-only { display:none!important }
+}
+</style>
+
+<style>:root{--p:#1E3A8A;--pm:#2563EB;--pl:#DBEAFE;--a:#DC2626;--ah:#B91C1C;--bg:#F4F4F8;--bgW:#ffffff;}</style>
+</head>
+<body>
+
+
+
+<div style="background:#fff;overflow-x:hidden;font-family:'Inter',sans-serif;">
+
+<div id="scroll-progress"></div>
+
+<!-- ══════════ NAV ══════════ -->
+<nav id="site-nav" style="position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .35s,box-shadow .35s;background:rgba(255,255,255,0);box-shadow:none;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;">
+  <div style="max-width:1280px;margin:0 auto;padding:13px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <a href="#hero" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0;">
+      <div style="line-height:1;">
+        <div style="font-family:var(--df,'Nunito',sans-serif);font-weight:900;font-size:21px;color:var(--p);letter-spacing:-.5px;line-height:1.1;">AIBEK</div>
+        <div style="font-family:var(--af,'Pacifico',cursive);font-weight:700;font-size:17px;color:var(--a);letter-spacing:1px;line-height:1;">english</div>
+      </div>
+      <div style="width:1px;height:34px;background:rgba(0,0,0,0.1);margin:0 4px;" class="d-hide"></div>
+      <span style="font-size:11px;color:#777;line-height:1.4;max-width:130px;" class="d-hide">Репетитор английского языка · Павлодар</span>
+    </a>
+    <div style="display:flex;align-items:center;gap:4px;" class="d-hide">
+      <a href="#about" style="font-size:13px;font-weight:500;color:#444;text-decoration:none;padding:8px 14px;border-radius:999px;transition:background .2s,color .2s;" style-hover="background:#EEF4FF;color:var(--p);">О репетиторе</a>
+      <a href="#groups" style="font-size:13px;font-weight:500;color:#444;text-decoration:none;padding:8px 14px;border-radius:999px;transition:background .2s,color .2s;" style-hover="background:#EEF4FF;color:var(--p);">Группы</a>
+      <a href="#pricing" style="font-size:13px;font-weight:500;color:#444;text-decoration:none;padding:8px 14px;border-radius:999px;transition:background .2s,color .2s;" style-hover="background:#EEF4FF;color:var(--p);">Цены</a>
+      <a href="#faq" style="font-size:13px;font-weight:500;color:#444;text-decoration:none;padding:8px 14px;border-radius:999px;transition:background .2s,color .2s;" style-hover="background:#EEF4FF;color:var(--p);">FAQ</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <a href="https://wa.me/87074292567" target="_blank" style="display:flex;align-items:center;gap:6px;padding:9px 18px;border:1.5px solid #ddd;border-radius:999px;font-size:13px;font-weight:500;color:#333;text-decoration:none;background:#fff;transition:all .2s;" class="d-hide mag-btn" style-hover="border-color:#25D366;background:#F0FFF4;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="https://t.me/toolegen" target="_blank" style="display:flex;align-items:center;gap:6px;padding:9px 18px;border:1.5px solid #ddd;border-radius:999px;font-size:13px;font-weight:500;color:#333;text-decoration:none;background:#fff;transition:all .2s;" class="d-hide mag-btn" style-hover="border-color:#0088cc;background:#EFF9FF;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="#0088cc"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        Telegram
+      </a>
+      <a href="#trial" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--a);border-radius:999px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;" class="mag-btn nav-cta" style-hover="background:var(--ah);">
+        Оставить заявку
+      </a>
+      <button onclick="toggleMenu()" aria-label="Меню" class="m-only burger-btn" style="display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid #e0e0e0;border-radius:12px;background:#fff;cursor:pointer;font-size:20px;color:var(--p);line-height:1;flex-shrink:0;">☰</button>
+    </div>
+  </div>
+  <!-- Mobile dropdown menu -->
+  <div class="m-only mobile-menu" style="display:none;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s;background:#fff;border-top:1px solid rgba(0,0,0,0.05);max-height:0;opacity:0;">
+    <div style="padding:14px 20px 22px;display:flex;flex-direction:column;gap:4px;">
+      <a href="#about" onclick="closeMenu()" style="font-size:16px;font-weight:600;color:#333;text-decoration:none;padding:13px 14px;border-radius:12px;">О репетиторе</a>
+      <a href="#groups" onclick="closeMenu()" style="font-size:16px;font-weight:600;color:#333;text-decoration:none;padding:13px 14px;border-radius:12px;">Группы</a>
+      <a href="#pricing" onclick="closeMenu()" style="font-size:16px;font-weight:600;color:#333;text-decoration:none;padding:13px 14px;border-radius:12px;">Цены</a>
+      <a href="#faq" onclick="closeMenu()" style="font-size:16px;font-weight:600;color:#333;text-decoration:none;padding:13px 14px;border-radius:12px;">FAQ</a>
+      <a href="#contacts" onclick="closeMenu()" style="font-size:16px;font-weight:600;color:#333;text-decoration:none;padding:13px 14px;border-radius:12px;">Контакты</a>
+      <div style="display:flex;gap:10px;margin-top:10px;">
+        <a href="https://wa.me/87074292567" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px solid #25D366;border-radius:12px;font-size:14px;font-weight:600;color:#25D366;text-decoration:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a href="https://t.me/toolegen" target="_blank" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border:1.5px solid #0088cc;border-radius:12px;font-size:14px;font-weight:600;color:#0088cc;text-decoration:none;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#0088cc"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero" style="position:relative;min-height:100svh;display:flex;flex-direction:column;background:#fff;overflow:hidden;padding-top:64px;">
+  <!-- Deco large А -->
+  <div class="hero-deco-a" style="position:absolute;left:-20px;top:-70px;font-family:var(--df,'Nunito',sans-serif);font-size:clamp(260px,38vw,520px);font-weight:900;font-style:italic;color:rgba(37,99,235,0.05);line-height:1;pointer-events:none;user-select:none;z-index:2;letter-spacing:-20px;" aria-hidden="true">А</div>
+  <!-- Animated blob (desktop) -->
+  <div style="position:absolute;right:-140px;top:5%;width:640px;height:640px;background:linear-gradient(135deg,var(--pl) 0%,rgba(37,99,235,0.08) 100%);border-radius:60% 40% 30% 70% / 60% 30% 70% 40%;animation:blobMorph 10s ease-in-out infinite;z-index:0;opacity:0.55;" class="d-hide" aria-hidden="true"></div>
+  <!-- UK Flag -->
+  <div style="position:absolute;right:28px;bottom:90px;animation:floatFlag 5s ease-in-out infinite;z-index:3;" class="d-hide" aria-hidden="true">
+    <svg width="86" height="86" viewBox="0 0 100 100"><defs><clipPath id="ukclip"><circle cx="50" cy="50" r="50"/></clipPath></defs><g clip-path="url(#ukclip)"><rect width="100" height="100" fill="#012169"/><line x1="0" y1="0" x2="100" y2="100" stroke="#fff" stroke-width="22"/><line x1="100" y1="0" x2="0" y2="100" stroke="#fff" stroke-width="22"/><line x1="0" y1="0" x2="100" y2="100" stroke="#C8102E" stroke-width="14"/><line x1="100" y1="0" x2="0" y2="100" stroke="#C8102E" stroke-width="14"/><rect x="39" y="0" width="22" height="100" fill="#fff"/><rect x="0" y="39" width="100" height="22" fill="#fff"/><rect x="42" y="0" width="16" height="100" fill="#C8102E"/><rect x="0" y="42" width="100" height="16" fill="#C8102E"/></g></svg>
+  </div>
+
+  <!-- Landmark deco: Liberty + Big Ben -->
+  <img src="project/uploads/Statue_of_Liberty_Colmar_01.png" aria-hidden="true" class="d-hide landmark-deco" style="position:absolute;right:0;bottom:0;height:80%;object-fit:contain;object-position:bottom right;opacity:0.28;mix-blend-mode:multiply;pointer-events:none;user-select:none;z-index:2;animation:floatA 14s ease-in-out infinite;"/>
+  <!-- Content grid -->
+  <div class="sec-content" style="flex:1;display:flex;align-items:center;max-width:1280px;margin:0 auto;padding:20px 28px 36px;width:100%;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;width:100%;" class="g-1col">
+
+      <!-- LEFT: Text -->
+      <div style="display:flex;flex-direction:column;gap:14px;" class="m-center">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:7px 18px;background:var(--pl);border-radius:999px;font-size:12px;font-weight:700;color:var(--p);width:fit-content;letter-spacing:.4px;text-transform:uppercase;" class="m-self-center">
+          Репетитор · Павлодар
+        </div>
+        <!-- H1 stagger words -->
+        <div style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(40px,5.6vw,76px);font-weight:900;line-height:0.92;letter-spacing:-2px;text-transform:uppercase;color:#111;">
+          <div class="hero-row" style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;">
+            <span class="hw" style="display:inline-block;">НАУЧУ</span>
+            <span class="hw" style="display:inline-block;">ТЕБЯ</span>
+          </div>
+          <div class="hero-row" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px;">
+            <span class="hw" style="display:inline-block;">ГОВОРИТЬ</span>
+            <div class="hw" style="display:inline-flex;align-items:center;padding:8px 18px;background:var(--a);border-radius:999px;font-size:12px;font-weight:700;color:#fff;text-transform:none;letter-spacing:0;line-height:1;flex-shrink:0;">
+              Первый урок — бесплатно!
+            </div>
+          </div>
+        </div>
+        <!-- Cursive accent -->
+        <div class="hero-cursive" style="font-family:var(--af,'Pacifico',cursive);font-size:clamp(30px,4.4vw,58px);font-weight:700;color:var(--pm);line-height:1;letter-spacing:-1px;margin-top:-2px;">
+          на английском языке
+        </div>
+        <!-- CTA -->
+        <div class="hero-cta m-center-flex" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px;">
+          <a href="#trial" style="display:inline-flex;align-items:center;gap:10px;padding:17px 36px;background:var(--a);border-radius:999px;font-size:16px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;" class="mag-btn shiny-cta" style-hover="background:var(--ah);">
+            Записаться на урок
+          </a>
+          <a href="#trial" style="display:flex;align-items:center;justify-content:center;width:54px;height:54px;background:#111;border-radius:50%;text-decoration:none;transition:background .2s;flex-shrink:0;" class="mag-btn" style-hover="background:var(--p);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- RIGHT: Photo + floating badges -->
+      <div class="hero-photo-wrap" style="position:relative;display:flex;justify-content:center;align-items:flex-end;min-height:420px;">
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,var(--pl),rgba(37,99,235,0.12));border-radius:40% 60% 55% 45% / 45% 40% 60% 55%;animation:blobMorph 8s ease-in-out infinite .4s;"></div>
+        <img src="project/uploads/photo-1781354916837.png" alt="Айбек Толеген — репетитор английского языка в Павлодаре" style="position:relative;z-index:1;width:88%;max-width:430px;object-fit:contain;object-position:bottom center;filter:drop-shadow(0 28px 56px rgba(30,58,138,0.18));"/>
+        <!-- Badge: IELTS -->
+        <div class="hero-badge-float" style="position:absolute;left:-16px;top:40px;background:#fff;border-radius:18px;padding:14px 20px;box-shadow:0 10px 36px rgba(0,0,0,0.13);animation:floatA 3.5s ease-in-out infinite;z-index:4;">
+          <div style="font-size:25px;font-weight:900;font-family:var(--df,'Nunito',sans-serif);color:var(--p);line-height:1;">IELTS 7.5</div>
+          <div style="font-size:11px;color:#888;margin-top:3px;">Личный результат</div>
+        </div>
+        <!-- Badge: SAT -->
+        <div class="hero-badge-float d-hide" style="position:absolute;right:-10px;top:130px;background:#fff;border-radius:18px;padding:14px 20px;box-shadow:0 10px 36px rgba(0,0,0,0.13);animation:floatB 4.2s ease-in-out infinite .5s;z-index:4;">
+          <div style="font-size:25px;font-weight:900;font-family:var(--df,'Nunito',sans-serif);color:var(--a);line-height:1;">SAT 1450</div>
+          <div style="font-size:11px;color:#888;margin-top:3px;">Личный результат</div>
+        </div>
+        <!-- Badge: Years -->
+        <div class="hero-badge-float d-hide" style="position:absolute;left:8px;bottom:90px;background:var(--p);border-radius:18px;padding:14px 20px;box-shadow:0 10px 36px rgba(30,58,138,0.3);animation:floatA 3.2s ease-in-out infinite .9s;z-index:4;">
+          <div style="font-size:24px;font-weight:900;font-family:var(--df,'Nunito',sans-serif);color:#fff;line-height:1;">6 лет</div>
+          <div style="font-size:11px;color:rgba(255,255,255,0.72);margin-top:3px;">опыта преподавания</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div id="stats-bar" style="background:var(--p);padding:22px 28px;position:relative;z-index:2;">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;" class="g-2col">
+      <div style="text-align:center;color:#fff;padding:10px 0;">
+        <div style="font-size:clamp(26px,3.2vw,42px);font-weight:900;font-family:var(--df,'Nunito',sans-serif);line-height:1;"><span id="stat-ielts">0.0</span></div>
+        <div style="font-size:12px;opacity:0.6;margin-top:5px;letter-spacing:.3px;">IELTS личный балл</div>
+      </div>
+      <div style="text-align:center;color:#fff;padding:10px 0;border-left:1px solid rgba(255,255,255,0.16);">
+        <div style="font-size:clamp(26px,3.2vw,42px);font-weight:900;font-family:var(--df,'Nunito',sans-serif);line-height:1;"><span id="stat-sat">0</span></div>
+        <div style="font-size:12px;opacity:0.6;margin-top:5px;letter-spacing:.3px;">SAT личный балл</div>
+      </div>
+      <div style="text-align:center;color:#fff;padding:10px 0;border-left:1px solid rgba(255,255,255,0.16);">
+        <div style="font-size:clamp(26px,3.2vw,42px);font-weight:900;font-family:var(--df,'Nunito',sans-serif);line-height:1;"><span id="stat-ent">0</span></div>
+        <div style="font-size:12px;opacity:0.6;margin-top:5px;letter-spacing:.3px;">ЕНТ личный балл</div>
+      </div>
+      <div style="text-align:center;color:#fff;padding:10px 0;border-left:1px solid rgba(255,255,255,0.16);">
+        <div style="font-size:clamp(26px,3.2vw,42px);font-weight:900;font-family:var(--df,'Nunito',sans-serif);line-height:1;"><span id="stat-years">0</span>+</div>
+        <div style="font-size:12px;opacity:0.6;margin-top:5px;letter-spacing:.3px;">лет преподавания</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section id="about" style="padding:88px 28px 72px;background:#fff;position:relative;overflow:hidden;">
+  <img src="project/uploads/big_ben_4.png" aria-hidden="true" class="d-hide landmark-deco" style="position:absolute;right:0;top:0;height:112%;object-fit:contain;object-position:right center;opacity:0.25;mix-blend-mode:multiply;pointer-events:none;user-select:none;z-index:2;animation:floatB 14s ease-in-out infinite;"/>
+  <div style="position:absolute;right:-80px;top:50%;transform:translateY(-50%);opacity:0.035;pointer-events:none;" class="d-hide" aria-hidden="true">
+    <svg width="500" height="500" viewBox="0 0 500 500"><ellipse cx="250" cy="250" rx="220" ry="200" fill="none" stroke="#1E3A8A" stroke-width="60"/><ellipse cx="250" cy="250" rx="140" ry="120" fill="none" stroke="#1E3A8A" stroke-width="30"/></svg>
+  </div>
+  <div class="sec-content reveal" style="max-width:800px;margin:0 auto;text-align:center;">
+    <p style="font-size:clamp(14px,1.8vw,18px);font-weight:600;color:#aaa;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;">Меня зовут</p>
+    <h2 style="font-family:var(--af,'Pacifico',cursive);font-size:clamp(52px,8vw,96px);font-weight:700;color:var(--pm);line-height:1;letter-spacing:-1px;margin-bottom:10px;">Айбек Толеген</h2>
+    <div style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(26px,4vw,50px);font-weight:900;color:#111;line-height:1.05;letter-spacing:-1px;text-transform:uppercase;margin-bottom:24px;">
+      Я ДИПЛОМИРОВАННЫЙ<br>ПРЕПОДАВАТЕЛЬ <span style="color:var(--a);">АНГЛИЙСКОГО</span><br><span style="color:var(--a);">ЯЗЫКА</span>
+    </div>
+    <p style="font-size:17px;color:#555;line-height:1.72;max-width:580px;margin:0 auto 32px;">
+      С радостью помогу пройти путь в изучении английского, <strong>начиная от нуля и до сдачи международных экзаменов.</strong> Студент Назарбаев Университета (NU) — лучшего вуза Казахстана.
+    </p>
+    <a href="#reviews" style="display:inline-flex;align-items:center;gap:12px;font-size:15px;font-weight:600;color:var(--p);text-decoration:none;transition:opacity .2s;" style-hover="opacity:0.7;">
+      <span style="width:42px;height:42px;background:var(--p);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;" class="mag-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </span>
+      Дипломы и сертификаты
+    </a>
+  </div>
+</section>
+
+<!-- ══════════ BENEFITS ══════════ -->
+<section id="benefits" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
+  <img src="project/uploads/1000014610-ce7160b6.png" aria-hidden="true" class="d-hide landmark-deco deco-skyscraper" style="position:absolute;left:-30px;bottom:-90px;height:95%;object-fit:contain;object-position:left bottom;opacity:0.20;mix-blend-mode:multiply;pointer-events:none;user-select:none;animation:floatB 15s ease-in-out infinite;"/>
+  <img src="project/uploads/picture_17-grafikov-kotorye-d_855_p0.png" aria-hidden="true" class="d-hide landmark-deco" style="position:absolute;right:-40px;bottom:-20px;width:560px;object-fit:contain;object-position:right bottom;opacity:0.28;mix-blend-mode:multiply;pointer-events:none;user-select:none;animation:floatA 12s ease-in-out infinite 1s;"/>
+  <div class="sec-content" style="max-width:1280px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:36px;" class="reveal">
+      <p style="font-family:var(--af,'Jost',sans-serif);font-size:24px;font-weight:400;color:var(--pm);margin-bottom:4px;font-style:italic;">Преимущества</p>
+      <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;">ОБУЧЕНИЯ <span style="color:var(--pm);">СО МНОЙ</span></h2>
+      <p style="font-size:13px;color:#999;margin-top:12px;display:inline-flex;align-items:center;gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(12 0)"/></svg>Перетащите или прокрутите колёсиком над галереей</p>
+    </div>
+    <circular-gallery style="display:block;width:100%;height:440px;" bend="3" border-radius="0.04" scroll-ease="0.05" font="700 28px Jost" font-url="https://fonts.googleapis.com/css2?family=Jost:wght@700&family=Plus+Jakarta+Sans:wght@400&display=swap" color-dark="#1f2937" color-gray="#667085" color-accent="#DC2626" class="cg-el"></circular-gallery>
+  </div>
+</section>
+
+<!-- ══════════ GROUPS ══════════ -->
+<section id="groups" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="sec-content" style="max-width:1280px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:28px;" class="reveal">
+      <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;"><span style="color:var(--pm);">ГРУППЫ</span> УЧЕНИКОВ</h2>
+    </div>
+    <div style="display:flex;justify-content:center;margin-bottom:32px;" class="reveal">
+      <div style="display:flex;gap:0;background:#F3F4F6;border-radius:16px;padding:5px;">
+        <button onclick="setGroup(0)" class="grp-tab" data-grp="0" style="padding:12px 22px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;background:var(--a);color:#fff;">Дети 8–12</button>
+        <button onclick="setGroup(1)" class="grp-tab" data-grp="1" style="padding:12px 22px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;background:transparent;color:#555;">Подростки 13–17</button>
+        <button onclick="setGroup(2)" class="grp-tab" data-grp="2" style="padding:12px 22px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .25s;background:transparent;color:#555;">Взрослые 18+</button>
+      </div>
+    </div>
+
+    <!-- Group 1: Kids 8-12 -->
+    <div id="group-kids" class="group-row group-inner" style="display:flex;align-items:stretch;gap:28px;margin-bottom:28px;border-radius:24px;overflow:hidden;background:var(--bg);">
+      <div style="flex:0 0 340px;min-height:300px;position:relative;overflow:hidden;" class="m-full">
+        <img class="grp-photo" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=700&h=500&fit=crop&q=80" alt="Дети 8-12 лет" style="width:100%;height:100%;min-height:300px;object-fit:cover;display:block;"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.62) 100%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:24px;">
+          <div style="background:var(--a);color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:12px;">Вашему ученику 8–12 лет</div>
+          <div style="font-size:52px;font-weight:900;font-family:var(--df,'Nunito',sans-serif);color:#fff;line-height:1;">8–12</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.72);margin-top:4px;">лет</div>
+        </div>
+      </div>
+      <div style="flex:1;padding:36px 36px 36px 20px;display:flex;flex-direction:column;justify-content:center;" class="m-p">
+        <h3 class="grp-anim" style="font-family:var(--df,'Nunito',sans-serif);font-size:22px;font-weight:900;color:#111;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:14px;">МЛАДШАЯ ГРУППА</h3>
+        <div class="grp-anim" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Освоит базовую грамматику и разговорный английский</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Научится говорить о себе, семье, окружающем мире</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Подготовится к Cambridge A2 Key для детей</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><strong>Полюбит английский</strong> ещё до того, как начнут объяснять сложности</div>
+        </div>
+        <div class="grp-anim" style="background:rgba(30,58,138,0.05);border-radius:12px;padding:14px 16px;">
+          <p style="font-size:13px;font-weight:600;color:var(--p);margin-bottom:8px;">Одновременно мои ученики легко освоят:</p>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#555;">
+            <span>· Основные глаголы и временные формы</span>
+            <span>· Чтение и базовое письмо</span>
+            <span>· Счёт, цвета и повседневную лексику</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group 2: Teens 13-17 -->
+    <div id="group-teens" class="group-row group-inner" style="display:none;align-items:stretch;gap:28px;margin-bottom:28px;border-radius:24px;overflow:hidden;background:var(--bg);">
+      <div style="flex:0 0 340px;min-height:300px;position:relative;overflow:hidden;" class="m-full">
+        <img class="grp-photo" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=700&h=500&fit=crop&q=80" alt="Подростки 13-17 лет" style="width:100%;height:100%;min-height:300px;object-fit:cover;display:block;"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.62) 100%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:24px;">
+          <div style="background:var(--a);color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:12px;">Вашему ученику 13–17 лет</div>
+          <div style="font-size:52px;font-weight:900;font-family:var(--df,'Nunito',sans-serif);color:#fff;line-height:1;">13–17</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.72);margin-top:4px;">лет</div>
+        </div>
+      </div>
+      <div style="flex:1;padding:36px 36px 36px 20px;display:flex;flex-direction:column;justify-content:center;" class="m-p">
+        <h3 class="grp-anim" style="font-family:var(--df,'Nunito',sans-serif);font-size:22px;font-weight:900;color:#111;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:14px;">ПОДРОСТКИ</h3>
+        <div class="grp-anim" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Сдаст ЕНТ на <strong>130+ баллов</strong> по английскому</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Подготовится к Cambridge B2 First или IELTS</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Освоит SAT Reading and Writing</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><strong>Поступит в лучшие вузы</strong> Казахстана и за рубежом</div>
+        </div>
+        <div class="grp-anim" style="background:rgba(124,58,237,0.06);border-radius:12px;padding:14px 16px;">
+          <p style="font-size:13px;font-weight:600;color:var(--pm);margin-bottom:8px;">На занятиях мы также отработаем:</p>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#555;">
+            <span>· Грамматику уровня Intermediate и Upper</span>
+            <span>· Эссе и форматы Writing для экзаменов</span>
+            <span>· Разговорную речь и аудирование</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Group 3: Adults -->
+    <div id="group-adults" class="group-row group-inner" style="display:none;align-items:stretch;gap:28px;border-radius:24px;overflow:hidden;background:var(--bg);">
+      <div style="flex:0 0 340px;min-height:300px;position:relative;overflow:hidden;" class="m-full">
+        <img class="grp-photo" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=700&h=500&fit=crop&q=80" alt="Взрослые" style="width:100%;height:100%;min-height:300px;object-fit:cover;display:block;"/>
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,0.62) 100%);"></div>
+        <div style="position:absolute;bottom:0;left:0;right:0;padding:24px;">
+          <div style="background:var(--a);color:#fff;padding:8px 18px;border-radius:999px;font-size:13px;font-weight:700;display:inline-block;margin-bottom:12px;">Для взрослых</div>
+          <div style="font-size:52px;font-weight:900;font-family:var(--df,'Nunito',sans-serif);color:#fff;line-height:1;">18+</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.72);margin-top:4px;">лет</div>
+        </div>
+      </div>
+      <div style="flex:1;padding:36px 36px 36px 20px;display:flex;flex-direction:column;justify-content:center;" class="m-p">
+        <h3 class="grp-anim" style="font-family:var(--df,'Nunito',sans-serif);font-size:22px;font-weight:900;color:#111;text-transform:uppercase;letter-spacing:-.5px;margin-bottom:14px;">ВЗРОСЛЫЕ</h3>
+        <div class="grp-anim" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>IELTS от <strong>6.5 до 7.5+</strong> под ваши цели</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Разговорный клуб и деловой английский</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span>Гибкое расписание и онлайн-формат</div>
+          <div style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#444;line-height:1.5;"><span style="width:20px;height:20px;background:var(--pm);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><path d="M20 6L9 17l-5-5"/></svg></span><strong>Индивидуальный темп</strong> и программа под ваш уровень</div>
+        </div>
+        <div class="grp-anim" style="background:rgba(124,58,237,0.06);border-radius:12px;padding:14px 16px;">
+          <p style="font-size:13px;font-weight:600;color:var(--pm);margin-bottom:8px;">Чему вы научитесь:</p>
+          <div style="display:flex;flex-direction:column;gap:5px;font-size:13px;color:#555;">
+            <span>· Свободно говорить на повседневные темы</span>
+            <span>· Деловой и профессиональный английский</span>
+            <span>· Понимать фильмы и подкасты без субтитров</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section id="pricing" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
+  <div class="sec-content" style="max-width:900px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:40px;" class="reveal">
+      <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;"><span style="color:var(--pm);">ВАРИАНТЫ</span> ЗАНЯТИЙ</h2>
+      <p style="font-size:15px;color:#666;margin-top:10px;">С детьми 8–18 лет и взрослыми · Оффлайн или онлайн</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:860px;margin:0 auto;" class="g-1col">
+<!-- Pricing card 1: Group -->
+      <div class="price-card tilt-card" style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.08);display:flex;flex-direction:column;">
+        <!-- Card top accent -->
+        <div style="background:var(--p);padding:28px 28px 22px;position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);padding:6px 14px;border-radius:999px;margin-bottom:14px;width:fit-content;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span style="font-size:11px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;">До 5 человек</span>
+          </div>
+          <div style="font-family:var(--df,'Cormorant Garamond',serif);font-size:28px;font-weight:700;color:#fff;line-height:1.1;">Групповые<br>занятия</div>
+        </div>
+        <!-- Card body -->
+        <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:16px;flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;background:var(--pl);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--p)" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span style="font-size:14px;font-weight:500;color:#555;">8 занятий за месяц</span>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Стоимость</div>
+            <div style="font-family:var(--df,'Cormorant Garamond',serif);font-size:52px;font-weight:700;color:#111;line-height:1;letter-spacing:-1px;">32 000 <span style="font-size:32px;">₸</span></div>
+          </div>
+          <a href="https://wa.me/87074292567" target="_blank" style="display:inline-flex;align-items:center;justify-content:space-between;padding:15px 22px;background:var(--a);border-radius:14px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;margin-top:auto;" class="mag-btn shiny-cta" style-hover="background:var(--ah);">
+            <span>Записаться на урок</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Pricing card 2: Individual -->
+      <div class="price-card tilt-card" style="background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 4px 32px rgba(0,0,0,0.08);display:flex;flex-direction:column;">
+        <!-- Card top accent -->
+        <div style="background:var(--p);padding:28px 28px 22px;position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;">
+          <div style="position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);padding:6px 14px;border-radius:999px;margin-bottom:14px;width:fit-content;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            <span style="font-size:11px;font-weight:700;color:#fff;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;">1 на 1</span>
+          </div>
+          <div style="font-family:var(--df,'Cormorant Garamond',serif);font-size:28px;font-weight:700;color:#fff;line-height:1.1;">Индивидуальные<br>занятия</div>
+        </div>
+        <!-- Card body -->
+        <div style="padding:24px 28px 28px;display:flex;flex-direction:column;gap:16px;flex:1;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;background:#FEE2E2;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--a)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <span style="font-size:14px;font-weight:500;color:#555;">Занятие 60 минут</span>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#aaa;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Стоимость</div>
+            <div style="font-family:var(--df,'Cormorant Garamond',serif);font-size:52px;font-weight:700;color:#111;line-height:1;letter-spacing:-1px;">72 000 <span style="font-size:32px;">₸</span></div>
+          </div>
+          <a href="https://wa.me/87074292567" target="_blank" style="display:inline-flex;align-items:center;justify-content:space-between;padding:15px 22px;background:var(--a);border-radius:14px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;margin-top:auto;" class="mag-btn shiny-cta" style-hover="background:var(--ah);">
+            <span>Записаться на урок</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<section id="reviews" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="sec-content" style="max-width:1280px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:40px;" class="reveal">
+      <p style="font-family:var(--af,'Pacifico',cursive);font-size:34px;font-weight:700;color:var(--pm);margin-bottom:6px;">Сертификаты</p>
+      <h2 style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(26px,4vw,48px);font-weight:900;color:#111;text-transform:uppercase;letter-spacing:-1px;">И ОТЗЫВЫ <span style="color:var(--pm);">УЧЕНИКОВ</span></h2>
+    </div>
+    <!-- Tabs -->
+    <div style="display:flex;justify-content:center;gap:0;margin-bottom:36px;border-radius:999px;background:var(--bg);padding:5px;width:fit-content;margin-left:auto;margin-right:auto;">
+      <button onclick="setTab('certs')" id="cert-tab-btn" style="padding:11px 28px;border-radius:999px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all .2s;background:var(--a);color:#fff;">Сертификаты</button>
+      <button onclick="setTab('reviews')" id="rev-tab-btn" style="padding:11px 28px;border-radius:999px;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all .2s;background:transparent;color:var(--p);">Отзывы учеников</button>
+    </div>
+
+    <!-- Certificates tab -->
+    <div id="certs-panel">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="g-2col">
+        <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+          <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">CAMBRIDGE ENGLISH</div>
+          <div style="font-size:11px;color:#999;margin-bottom:6px;">This is to certify that</div>
+          <div style="font-size:15px;font-weight:600;color:#222;margin-bottom:10px;">Aibek Tolegen</div>
+          <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+          <div style="font-size:10px;color:#999;margin-bottom:4px;">has been awarded</div>
+          <div style="font-size:18px;font-weight:900;color:var(--p);font-family:var(--df,'Nunito',sans-serif);margin-bottom:4px;">C1 Advanced</div>
+          <div style="font-size:11px;color:#888;">Grade A · 2022</div>
+        </div>
+        <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+          <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">IELTS ACADEMIC</div>
+          <div style="font-size:11px;color:#999;margin-bottom:6px;">Overall Band Score</div>
+          <div style="font-size:48px;font-weight:900;color:var(--p);font-family:var(--df,'Nunito',sans-serif);line-height:1;margin-bottom:6px;">7.5</div>
+          <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:#888;">
+            <span>Listening: 8.0</span><span>Reading: 7.5</span>
+            <span>Writing: 7.0</span><span>Speaking: 7.5</span>
+          </div>
+        </div>
+        <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+          <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">SAT · COLLEGE BOARD</div>
+          <div style="font-size:11px;color:#999;margin-bottom:6px;">Total Score</div>
+          <div style="font-size:48px;font-weight:900;color:var(--a);font-family:var(--df,'Nunito',sans-serif);line-height:1;margin-bottom:6px;">1450</div>
+          <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:11px;color:#888;">
+            <span>Reading/Writing: 730</span><span>Math: 720</span>
+          </div>
+        </div>
+        <div class="tilt-card" style="background:#fff;border:1px solid #e8e8e8;border-radius:16px;padding:20px;cursor:default;box-shadow:0 2px 16px rgba(0,0,0,0.05);">
+          <div style="font-size:10px;font-weight:700;color:#666;letter-spacing:1px;margin-bottom:12px;">ЕНТ · КАЗАХСТАН</div>
+          <div style="font-size:11px;color:#999;margin-bottom:6px;">Английский язык</div>
+          <div style="font-size:48px;font-weight:900;color:var(--p);font-family:var(--df,'Nunito',sans-serif);line-height:1;margin-bottom:6px;">135</div>
+          <div style="height:1px;background:#eee;margin-bottom:10px;"></div>
+          <div style="font-size:11px;color:#888;">из 140 возможных баллов</div>
+          <div style="font-size:11px;color:var(--p);font-weight:600;margin-top:4px;">Студент NU</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews tab -->
+    <div id="reviews-panel" style="display:none;">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;" class="g-1col">
+        <div class="tilt-card" style="background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 24px rgba(0,0,0,0.07);cursor:default;">
+          <div style="display:flex;gap:2px;margin-bottom:12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p style="font-size:14px;color:#333;line-height:1.65;font-style:italic;margin-bottom:16px;">"Айбек помог мне сдать IELTS на 7.0 с первого раза. Уроки очень структурированные, Айбек знает экзамен изнутри."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;background:var(--pl);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--p);flex-shrink:0;">А</div>
+            <div><div style="font-size:13px;font-weight:600;color:#111;">Асель М.</div><div style="font-size:11px;color:#888;">IELTS 7.0</div></div>
+          </div>
+        </div>
+        <div class="tilt-card" style="background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 24px rgba(0,0,0,0.07);cursor:default;">
+          <div style="display:flex;gap:2px;margin-bottom:12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p style="font-size:14px;color:#333;line-height:1.65;font-style:italic;margin-bottom:16px;">"Мой сын сдал ЕНТ на 132 балла. Айбек грамотно выстраивает программу под каждого. Очень рекомендую!"</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;background:#FEE2E2;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--a);flex-shrink:0;">Г</div>
+            <div><div style="font-size:13px;font-weight:600;color:#111;">Гульнара К.</div><div style="font-size:11px;color:#888;">Мама ученика · ЕНТ 132</div></div>
+          </div>
+        </div>
+        <div class="tilt-card" style="background:#fff;border-radius:20px;padding:24px;box-shadow:0 4px 24px rgba(0,0,0,0.07);cursor:default;">
+          <div style="display:flex;gap:2px;margin-bottom:12px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="#F59E0B"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          </div>
+          <p style="font-size:14px;color:#333;line-height:1.65;font-style:italic;margin-bottom:16px;">"Готовился к SAT 3 месяца с Айбеком, набрал 1390. Отличная подача материала, много практики."</p>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;background:var(--pl);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--p);flex-shrink:0;">Д</div>
+            <div><div style="font-size:13px;font-weight:600;color:#111;">Даниял Н.</div><div style="font-size:11px;color:#888;">SAT 1390</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FREE TRIAL CTA ══════════ -->
+<section id="trial" style="padding:80px 28px;background:var(--bg);overflow:hidden;position:relative;">
+  <div class="sec-content trial-grid" style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
+    <!-- Left: Text -->
+    <div style="display:flex;flex-direction:column;gap:20px;" class="m-center reveal">
+      <div style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(30px,4.5vw,58px);font-weight:900;color:#111;line-height:1;letter-spacing:-1px;text-transform:uppercase;">
+        ЗАПИШИТЕСЬ<br>
+        <span style="font-family:var(--af,'Pacifico',cursive);font-size:clamp(34px,5vw,64px);font-weight:700;color:var(--pm);text-transform:none;letter-spacing:-1px;">на бесплатное</span><br>
+        ПРОБНОЕ ЗАНЯТИЕ
+      </div>
+      <p class="m-self-center" style="font-size:16px;color:#555;line-height:1.65;max-width:420px;">
+        Прежде чем записаться в группу или на индивидуальные занятия, давайте проведём пробный урок.
+      </p>
+      <div class="m-center-flex" style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:#444;">
+          <div style="width:6px;height:6px;background:var(--a);border-radius:50%;flex-shrink:0;"></div>
+          Оставьте контактные данные — свяжусь в течение часа
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;" class="m-center-flex">
+        <a href="https://wa.me/87074292567" target="_blank" style="display:inline-flex;align-items:center;gap:10px;padding:17px 34px;background:var(--a);border-radius:999px;font-size:16px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;" class="mag-btn shiny-cta" style-hover="background:var(--ah);">
+          Записаться на урок
+        </a>
+        <a href="#trial" style="display:flex;align-items:center;justify-content:center;width:54px;height:54px;background:#111;border-radius:50%;text-decoration:none;" class="mag-btn" style-hover="background:var(--p);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </a>
+      </div>
+    </div>
+    <!-- Right: Calendar deco -->
+    <div class="reveal" style="display:flex;justify-content:center;align-items:center;position:relative;">
+      <div style="position:absolute;width:340px;height:340px;background:var(--pl);border-radius:50%;opacity:0.45;filter:blur(60px);z-index:0;"></div>
+      <img src="project/uploads/SmartSelect_20260614_193054_Chrome.png" alt="Записаться на урок" style="position:relative;z-index:1;width:100%;max-width:420px;object-fit:contain;filter:drop-shadow(0 28px 48px rgba(0,0,0,0.18));animation:floatA 5s ease-in-out infinite;"/>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section id="faq" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="sec-content m-col" style="max-width:1280px;margin:0 auto;display:flex;gap:60px;align-items:flex-start;">
+    <!-- Left: heading -->
+    <div style="flex:0 0 280px;" class="faq-heading m-full m-center">
+      <h2 style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(28px,4vw,52px);font-weight:900;color:#111;line-height:1.05;letter-spacing:-1px;text-transform:uppercase;">ЧАСТО<br>ЗАДАВАЕМЫЕ<br><span style="color:var(--pm);">ВОПРОСЫ</span></h2>
+    </div>
+    <!-- Right: accordion -->
+    <div style="flex:1;display:flex;flex-direction:column;gap:0;" class="m-full">
+      
+        <div class="faq-item" data-faq="0" style="border-radius:16px;overflow:hidden;margin-bottom:8px;">
+          <div class="faq-head" onclick="toggleFaq(0)" style="background:var(--a);padding:18px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:background .2s;gap:16px;">
+            <span style="font-size:15px;font-weight:600;color:#fff;line-height:1.4;">Сколько длятся занятия?</span>
+            <span style="font-size:22px;font-weight:300;color:rgba(255,255,255,0.9);flex-shrink:0;line-height:1;transition:transform .3s;"><span class="faq-icon">−</span></span>
+          </div>
+          <div class="faq-ans open">
+            <div style="background:#F9F9FB;padding:16px 24px 20px;">
+              <p style="font-size:14px;color:#555;line-height:1.65;">Занятия длятся 60 минут — как в группах, так и индивидуально. Это оптимальное время для качественного усвоения материала.</p>
+            </div>
+          </div>
+        </div>
+      
+
+        <div class="faq-item" data-faq="1" style="border-radius:16px;overflow:hidden;margin-bottom:8px;">
+          <div class="faq-head" onclick="toggleFaq(1)" style="background:var(--p);padding:18px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:background .2s;gap:16px;">
+            <span style="font-size:15px;font-weight:600;color:#fff;line-height:1.4;">Сколько человек в группе?</span>
+            <span style="font-size:22px;font-weight:300;color:rgba(255,255,255,0.9);flex-shrink:0;line-height:1;transition:transform .3s;"><span class="faq-icon">+</span></span>
+          </div>
+          <div class="faq-ans">
+            <div style="background:#F9F9FB;padding:16px 24px 20px;">
+              <p style="font-size:14px;color:#555;line-height:1.65;">В группе не более 4–5 человек. Такой формат позволяет уделить внимание каждому и поддерживать высокое качество обучения.</p>
+            </div>
+          </div>
+        </div>
+      
+
+        <div class="faq-item" data-faq="2" style="border-radius:16px;overflow:hidden;margin-bottom:8px;">
+          <div class="faq-head" onclick="toggleFaq(2)" style="background:var(--p);padding:18px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:background .2s;gap:16px;">
+            <span style="font-size:15px;font-weight:600;color:#fff;line-height:1.4;">Какие методики использует преподаватель?</span>
+            <span style="font-size:22px;font-weight:300;color:rgba(255,255,255,0.9);flex-shrink:0;line-height:1;transition:transform .3s;"><span class="faq-icon">+</span></span>
+          </div>
+          <div class="faq-ans">
+            <div style="background:#F9F9FB;padding:16px 24px 20px;">
+              <p style="font-size:14px;color:#555;line-height:1.65;">Коммуникативный метод в сочетании с Cambridge-программой. Упор на разговорную речь, аудирование и подготовку к международным экзаменам: IELTS, SAT, ЕНТ.</p>
+            </div>
+          </div>
+        </div>
+      
+
+        <div class="faq-item" data-faq="3" style="border-radius:16px;overflow:hidden;margin-bottom:8px;">
+          <div class="faq-head" onclick="toggleFaq(3)" style="background:var(--p);padding:18px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:background .2s;gap:16px;">
+            <span style="font-size:15px;font-weight:600;color:#fff;line-height:1.4;">Возможно ли проведение онлайн-занятий?</span>
+            <span style="font-size:22px;font-weight:300;color:rgba(255,255,255,0.9);flex-shrink:0;line-height:1;transition:transform .3s;"><span class="faq-icon">+</span></span>
+          </div>
+          <div class="faq-ans">
+            <div style="background:#F9F9FB;padding:16px 24px 20px;">
+              <p style="font-size:14px;color:#555;line-height:1.65;">Да, провожу занятия онлайн через Zoom. Качество и интенсивность такие же, как при очном обучении — с домашними заданиями и контролем прогресса.</p>
+            </div>
+          </div>
+        </div>
+      
+
+        <div class="faq-item" data-faq="4" style="border-radius:16px;overflow:hidden;margin-bottom:8px;">
+          <div class="faq-head" onclick="toggleFaq(4)" style="background:var(--p);padding:18px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:background .2s;gap:16px;">
+            <span style="font-size:15px;font-weight:600;color:#fff;line-height:1.4;">Как записаться на пробное занятие?</span>
+            <span style="font-size:22px;font-weight:300;color:rgba(255,255,255,0.9);flex-shrink:0;line-height:1;transition:transform .3s;"><span class="faq-icon">+</span></span>
+          </div>
+          <div class="faq-ans">
+            <div style="background:#F9F9FB;padding:16px 24px 20px;">
+              <p style="font-size:14px;color:#555;line-height:1.65;">Напишите в WhatsApp +7 707 429-25-67 или Telegram @toolegen. Отвечу в течение часа и запишу на бесплатный первый урок.</p>
+            </div>
+          </div>
+        </div>
+      
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════ CONTACTS ══════════ -->
+<section id="contacts" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
+  <div class="sec-content sec-g1 reveal" style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;">
+    <!-- Yandex Map -->
+    <div style="border-radius:20px;overflow:hidden;min-height:380px;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
+      <iframe src="https://yandex.kz/map-widget/v1/?text=%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%2C+%D1%83%D0%BB%D0%B8%D1%86%D0%B0+%D0%9B%D0%BE%D0%BC%D0%BE%D0%B2%D0%B0%2C+186%D0%B0&z=16&l=map" width="100%" height="380" frameborder="0" allowfullscreen="true" style="display:block;border:none;" loading="lazy"></iframe>
+    </div>
+    <!-- Contact info -->
+    <div style="background:#fff;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;">
+      <h2 style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(26px,3.5vw,42px);font-weight:900;color:#111;text-transform:uppercase;letter-spacing:-1px;margin-bottom:4px;">КОНТАКТЫ</h2>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <a href="tel:+77074292567" style="display:flex;align-items:center;gap:16px;text-decoration:none;">
+          <div style="width:48px;height:48px;background:var(--p);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.07 1.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Номер телефона</div>
+            <div style="font-size:17px;font-weight:600;color:#111;">+7 (707) 429-25-67</div>
+          </div>
+        </a>
+        <a href="https://t.me/toolegen" target="_blank" style="display:flex;align-items:center;gap:16px;text-decoration:none;">
+          <div style="width:48px;height:48px;background:var(--p);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Telegram</div>
+            <div style="font-size:17px;font-weight:600;color:#111;">@toolegen</div>
+          </div>
+        </a>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="width:48px;height:48px;background:var(--p);border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">Адрес офиса</div>
+            <div style="font-size:15px;font-weight:600;color:#111;">г. Павлодар, ул. Академика Маргулана, 75</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;">
+        <a href="https://wa.me/87074292567" target="_blank" style="display:flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid #25D366;border-radius:999px;font-size:14px;font-weight:600;color:#25D366;text-decoration:none;transition:all .2s;" class="mag-btn" style-hover="background:#25D366;color:#fff;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp
+        </a>
+        <a href="https://t.me/toolegen" target="_blank" style="display:flex;align-items:center;gap:8px;padding:12px 22px;border:1.5px solid #0088cc;border-radius:999px;font-size:14px;font-weight:600;color:#0088cc;text-decoration:none;transition:all .2s;" class="mag-btn" style-hover="background:#0088cc;color:#fff;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+          Telegram
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer style="background:#fff;border-top:1px solid #f0f0f0;padding:28px;">
+  <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="line-height:1;">
+        <div style="font-family:var(--df,'Nunito',sans-serif);font-weight:900;font-size:18px;color:var(--p);letter-spacing:-.5px;line-height:1.1;">AIBEK</div>
+        <div style="font-family:var(--af,'Pacifico',cursive);font-weight:700;font-size:15px;color:var(--a);letter-spacing:1px;line-height:1;">english</div>
+      </div>
+      <div style="width:1px;height:30px;background:#eee;" class="d-hide"></div>
+      <span style="font-size:12px;color:#aaa;" class="d-hide">Репетитор английского языка в Павлодаре</span>
+    </div>
+    <div style="font-size:12px;color:#aaa;">© 2025 Все права защищены</div>
+    <div style="display:flex;align-items:center;gap:16px;">
+      <a href="#" style="font-size:12px;color:#aaa;text-decoration:none;transition:color .2s;" style-hover="color:var(--p);">Политика конфиденциальности</a>
+      <a href="#trial" style="display:inline-flex;align-items:center;gap:8px;padding:11px 24px;background:var(--a);border-radius:999px;font-size:13px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;" class="mag-btn" style-hover="background:var(--ah);">
+        Оставить заявку
+      </a>
+    </div>
+  </div>
+</footer>
+
+</div>
+
 <script>
-(function() {
-  // ── Mobile menu ──
-  let mobileMenuOpen = false;
-  window.toggleMobileMenu = function() {
-    mobileMenuOpen = !mobileMenuOpen;
-    const menu = document.querySelector('.mobile-menu');
-    const btn = document.querySelector('.burger-btn');
-    menu.style.maxHeight = mobileMenuOpen ? '420px' : '0';
-    menu.style.opacity = mobileMenuOpen ? '1' : '0';
-    btn.textContent = mobileMenuOpen ? '✕' : '☰';
-  };
+/* ============================================================
+   Vanilla runtime — reproduces the Claude Design prototype's
+   Component logic exactly (no framework, no DC engine).
+   ============================================================ */
+(function () {
+  "use strict";
 
-  // ── Nav scroll ──
-  window.addEventListener('scroll', function() {
-    const nav = document.querySelector('nav');
+  /* ---------- style-hover shim (DC applied hover styles) ---------- */
+  function parseDecls(s) {
+    return s.split(";").map(function (d) { return d.trim(); }).filter(Boolean)
+      .map(function (d) { var i = d.indexOf(":"); return [d.slice(0, i).trim(), d.slice(i + 1).trim()]; });
+  }
+  document.querySelectorAll("[style-hover]").forEach(function (el) {
+    var hover = parseDecls(el.getAttribute("style-hover"));
+    el.addEventListener("mouseenter", function () {
+      el._saved = {};
+      hover.forEach(function (kv) { el._saved[kv[0]] = el.style.getPropertyValue(kv[0]); el.style.setProperty(kv[0], kv[1]); });
+    });
+    el.addEventListener("mouseleave", function () {
+      hover.forEach(function (kv) { el.style.setProperty(kv[0], (el._saved && el._saved[kv[0]]) || ""); });
+    });
+  });
+
+  /* ---------- magnetic buttons (.mag-btn) ---------- */
+  document.querySelectorAll(".mag-btn").forEach(function (btn) {
+    btn.addEventListener("mousemove", function (e) {
+      var r = btn.getBoundingClientRect();
+      var mx = e.clientX - r.left - r.width / 2;
+      var my = e.clientY - r.top - r.height / 2;
+      btn.style.transform = "translate(" + mx * 0.22 + "px," + my * 0.3 + "px)";
+    });
+    btn.addEventListener("mouseleave", function () {
+      btn.style.transition = "transform .3s cubic-bezier(.2,.8,.3,1)";
+      btn.style.transform = "";
+      setTimeout(function () { btn.style.transition = ""; }, 320);
+    });
+  });
+
+  /* ---------- nav background on scroll ---------- */
+  var nav = document.getElementById("site-nav");
+  function onScroll() {
+    if (!nav) return;
     if (window.scrollY > 60) {
-      nav.style.background = 'rgba(255,255,255,0.96)';
-      nav.style.boxShadow = '0 2px 24px rgba(0,0,0,0.08)';
-      nav.style.borderBottom = '1px solid rgba(0,0,0,0.06)';
+      nav.style.background = "rgba(255,255,255,0.96)";
+      nav.style.boxShadow = "0 2px 24px rgba(0,0,0,0.08)";
+      nav.style.borderBottom = "1px solid rgba(0,0,0,0.06)";
     } else {
-      nav.style.background = 'rgba(255,255,255,0)';
-      nav.style.boxShadow = 'none';
-      nav.style.borderBottom = '1px solid transparent';
+      nav.style.background = "rgba(255,255,255,0)";
+      nav.style.boxShadow = "none";
+      nav.style.borderBottom = "1px solid transparent";
     }
-  });
-
-  // ── Group tabs ──
-  let activeGroup = 0;
-  window.setGroup = function(idx) {
-    if (idx === activeGroup) return;
-    const ids = ['group-kids', 'group-teens', 'group-adults'];
-    document.getElementById(ids[activeGroup]).style.display = 'none';
-    activeGroup = idx;
-    const el = document.getElementById(ids[idx]);
-    el.style.display = 'flex';
-    document.querySelectorAll('.group-tab').forEach(function(btn, i) {
-      btn.style.background = i === idx ? 'var(--a)' : 'transparent';
-      btn.style.color = i === idx ? '#fff' : '#555';
-    });
-    if (window.gsap) {
-      const g = window.gsap;
-      const photo = el.querySelector('.grp-photo');
-      const rows = el.querySelectorAll('.grp-anim');
-      const tl = g.timeline();
-      tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: 'power1.out' }, 0);
-      if (photo) tl.fromTo(photo, { xPercent: -6, scale: 1.08 }, { xPercent: 0, scale: 1, duration: 0.6, ease: 'power3.out' }, 0);
-      if (rows.length) tl.fromTo(rows, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: 'power2.out' }, 0.12);
-    }
-  };
-
-  // ── Reviews tabs ──
-  let activeTab = 'certs';
-  window.setReviewTab = function(tab) {
-    if (tab === activeTab) return;
-    activeTab = tab;
-    document.getElementById('certs-panel').style.display = tab === 'certs' ? 'grid' : 'none';
-    document.getElementById('reviews-panel').style.display = tab === 'reviews' ? 'grid' : 'none';
-    const certBtn = document.getElementById('cert-tab-btn');
-    const revBtn = document.getElementById('rev-tab-btn');
-    certBtn.style.background = tab === 'certs' ? 'var(--a)' : 'transparent';
-    certBtn.style.color = tab === 'certs' ? '#fff' : 'var(--p)';
-    revBtn.style.background = tab === 'reviews' ? 'var(--p)' : 'transparent';
-    revBtn.style.color = tab === 'reviews' ? '#fff' : 'var(--p)';
-    if (window.gsap) {
-      const panel = document.getElementById(tab === 'certs' ? 'certs-panel' : 'reviews-panel');
-      const cards = panel.querySelectorAll('.tilt-card');
-      window.gsap.fromTo(cards,
-        { y: 26, opacity: 0, scale: 0.96 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.06, ease: 'back.out(1.3)' }
-      );
-    }
-  };
-
-  // ── FAQ accordion ──
-  let openFaq = 0;
-  function applyFaqState() {
-    document.querySelectorAll('.faq-item').forEach(function(item, idx) {
-      const ans = item.querySelector('.faq-ans');
-      const header = item.querySelector('.faq-header');
-      const icon = item.querySelector('.faq-icon');
-      const isOpen = idx === openFaq;
-      ans.classList.toggle('open', isOpen);
-      header.style.background = isOpen ? 'var(--a)' : 'var(--p)';
-      icon.textContent = isOpen ? '−' : '+';
-    });
   }
-  window.toggleFaq = function(i) {
-    openFaq = openFaq === i ? -1 : i;
-    applyFaqState();
-  };
-  // Initialize first FAQ open
-  applyFaqState();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 
-  // ── Counter animation ──
-  function animateCounter(id, start, end, inc, isFloat, ms) {
-    const el = document.getElementById(id);
+  /* ---------- mobile menu ---------- */
+  var menuOpen = false;
+  function applyMenu() {
+    var panel = document.querySelector(".mobile-menu");
+    var burger = document.querySelector(".burger-btn");
+    if (panel) { panel.style.maxHeight = menuOpen ? "420px" : "0"; panel.style.opacity = menuOpen ? "1" : "0"; }
+    if (burger) burger.textContent = menuOpen ? "✕" : "☰";
+  }
+  window.toggleMenu = function () { menuOpen = !menuOpen; applyMenu(); };
+  window.closeMenu = function () { menuOpen = false; applyMenu(); };
+
+  /* ---------- group tabs ---------- */
+  var GROUP_IDS = ["group-kids", "group-teens", "group-adults"];
+  window.setGroup = function (idx) {
+    GROUP_IDS.forEach(function (id, i) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = i === idx ? "flex" : "none";
+    });
+    document.querySelectorAll(".grp-tab").forEach(function (b) {
+      var active = +b.getAttribute("data-grp") === idx;
+      b.style.background = active ? "var(--a)" : "transparent";
+      b.style.color = active ? "#fff" : "#555";
+    });
+    animateGroup(idx);
+  };
+  function animateGroup(idx) {
+    var g = window.gsap;
+    var el = document.getElementById(GROUP_IDS[idx]);
     if (!el) return;
-    let cur = start;
-    const t = setInterval(function() {
-      cur = Math.min(cur + inc, end);
-      el.textContent = isFloat ? cur.toFixed(1) : Math.round(cur);
-      if (cur >= end) clearInterval(t);
-    }, ms);
+    if (!g) { el.style.opacity = "1"; return; }
+    var photo = el.querySelector(".grp-photo");
+    var rows = el.querySelectorAll(".grp-anim");
+    g.killTweensOf([el].concat(photo ? [photo] : []).concat(Array.prototype.slice.call(rows)));
+    var tl = g.timeline();
+    tl.fromTo(el, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power1.out" }, 0);
+    if (photo) tl.fromTo(photo, { xPercent: -6, scale: 1.08, filter: "brightness(1.25)" },
+      { xPercent: 0, scale: 1, filter: "brightness(1)", duration: 0.6, ease: "power3.out" }, 0);
+    if (rows.length) tl.fromTo(rows, { y: 22, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.45, stagger: 0.06, ease: "power2.out" }, 0.12);
   }
 
-  function initCounters() {
-    const statsBar = document.getElementById('stats-bar');
-    if (!statsBar) return;
-    let started = false;
-    const obs = new IntersectionObserver(function(entries) {
-      if (entries[0].isIntersecting && !started) {
-        started = true;
-        animateCounter('counter-ielts', 0, 7.5, 0.1, true, 40);
-        animateCounter('counter-sat', 0, 1450, 22, false, 22);
-        animateCounter('counter-ent', 0, 135, 3, false, 32);
-        animateCounter('counter-years', 0, 6, 1, false, 90);
-      }
-    }, { threshold: 0.4 });
-    obs.observe(statsBar);
-  }
-  initCounters();
-
-  // ── Tilt cards ──
-  function initTiltCards() {
-    document.querySelectorAll('.tilt-card').forEach(function(card) {
-      card.addEventListener('mousemove', function(e) {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.transform = 'perspective(900px) rotateY(' + (x * 14) + 'deg) rotateX(' + (-y * 14) + 'deg) scale(1.025)';
-        card.style.boxShadow = (-x * 24) + 'px ' + (-y * 24) + 'px 44px rgba(30,58,138,0.16)';
-        card.style.transition = 'none';
-      });
-      card.addEventListener('mouseleave', function() {
-        card.style.transform = '';
-        card.style.boxShadow = '';
-        card.style.transition = 'box-shadow .3s, transform .35s';
-      });
-    });
-  }
-  initTiltCards();
-
-  // ── GSAP animations ──
-  function initGsap() {
-    if (!window.gsap || !window.ScrollTrigger) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Scroll progress
-    gsap.to('#scroll-progress', {
-      scaleX: 1, ease: 'none',
-      scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: 0.3 }
-    });
-
-    // Hero words stagger
-    gsap.fromTo('.hw',
-      { opacity: 0, y: 70 },
-      { opacity: 1, y: 0, stagger: 0.1, duration: 0.85, ease: 'power3.out', delay: 0.15 }
-    );
-    gsap.fromTo('.hero-cursive',
-      { opacity: 0, x: -50 },
-      { opacity: 1, x: 0, duration: 0.9, ease: 'power2.out', delay: 0.7 }
-    );
-    gsap.fromTo('.hero-cta',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out', delay: 1.15 }
-    );
-    gsap.fromTo('.hero-badge-float',
-      { opacity: 0, scale: 0.6 },
-      { opacity: 1, scale: 1, stagger: 0.18, duration: 0.75, ease: 'back.out(1.7)', delay: 1.35 }
-    );
-
-    // Parallax
-    gsap.to('.hero-photo-wrap', {
-      yPercent: -10, ease: 'none',
-      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 }
-    });
-    gsap.to('.hero-deco-a', {
-      yPercent: 28, ease: 'none',
-      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 2 }
-    });
-
-    // Reveal elements
-    document.querySelectorAll('.reveal').forEach(function(el) {
-      gsap.fromTo(el,
-        { opacity: 0, y: 48 },
-        { opacity: 1, y: 0, duration: 0.78, ease: 'power2.out',
-          scrollTrigger: { trigger: el, start: 'top 89%', toggleActions: 'play none none none' } }
-      );
-    });
-
-    // Pricing flip
-    gsap.fromTo('.price-card',
-      { opacity: 0, y: 60, rotationX: -28, transformPerspective: 900, transformOrigin: 'center top' },
-      { opacity: 1, y: 0, rotationX: 0, stagger: 0.16, duration: 0.85, ease: 'power3.out',
-        scrollTrigger: { trigger: '#pricing', start: 'top 78%' } }
-    );
-
-    // Landmark parallax
-    document.querySelectorAll('.landmark-deco').forEach(function(img, i) {
-      const yShift = i % 3 === 0 ? -18 : i % 3 === 1 ? 14 : -10;
-      gsap.to(img, {
-        yPercent: yShift, ease: 'none',
-        scrollTrigger: { trigger: img.closest('section'), start: 'top bottom', end: 'bottom top', scrub: 1.6 }
-      });
-    });
-
-    // FAQ heading slide
-    gsap.fromTo('.faq-heading',
-      { opacity: 0, x: -45 },
-      { opacity: 1, x: 0, duration: 0.82, ease: 'power2.out',
-        scrollTrigger: { trigger: '#faq', start: 'top 86%' } }
-    );
+  /* ---------- reviews / certs tabs ---------- */
+  window.setTab = function (tab) {
+    var certs = document.getElementById("certs-panel");
+    var reviews = document.getElementById("reviews-panel");
+    var certBtn = document.getElementById("cert-tab-btn");
+    var revBtn = document.getElementById("rev-tab-btn");
+    var isCerts = tab === "certs";
+    if (certs) certs.style.display = isCerts ? "" : "none";
+    if (reviews) reviews.style.display = isCerts ? "none" : "";
+    if (certBtn) { certBtn.style.background = isCerts ? "var(--a)" : "transparent"; certBtn.style.color = isCerts ? "#fff" : "var(--p)"; }
+    if (revBtn) { revBtn.style.background = isCerts ? "transparent" : "var(--p)"; revBtn.style.color = isCerts ? "var(--p)" : "#fff"; }
+    animateTab();
+  };
+  function animateTab() {
+    var g = window.gsap;
+    var panel = document.querySelector("#certs-panel[style*='display: '], #reviews-panel");
+    var cards = document.querySelectorAll("#reviews .tilt-card");
+    var visible = [];
+    cards.forEach(function (c) { if (c.offsetParent !== null) visible.push(c); });
+    if (!visible.length) return;
+    if (!g) { visible.forEach(function (c) { c.style.opacity = "1"; }); return; }
+    g.killTweensOf(visible);
+    g.fromTo(visible, { y: 26, opacity: 0, scale: 0.96 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.06, ease: "back.out(1.3)" });
   }
 
-  // Fallback if GSAP doesn't load
-  setTimeout(function() {
-    if (!window.gsap) {
-      document.body.classList.add('anim-ready');
-    } else {
-      initGsap();
+  /* ---------- FAQ accordion ---------- */
+  var openFaq = 0;
+  function renderFaq() {
+    document.querySelectorAll(".faq-item").forEach(function (it) {
+      var i = +it.getAttribute("data-faq");
+      var open = i === openFaq;
+      var head = it.querySelector(".faq-head");
+      var icon = it.querySelector(".faq-icon");
+      var ans = it.querySelector(".faq-ans");
+      if (head) head.style.background = open ? "var(--a)" : "var(--p)";
+      if (icon) icon.textContent = open ? "−" : "+";
+      if (ans) ans.classList.toggle("open", open);
+    });
+  }
+  window.toggleFaq = function (i) { openFaq = openFaq === i ? -1 : i; renderFaq(); };
+  renderFaq();
+
+  /* ---------- counters ---------- */
+  var started = false;
+  function setText(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+  function runCounters() {
+    if (started) return; started = true;
+    function run(id, end, inc, isFloat, ms) {
+      var cur = 0;
+      var t = setInterval(function () {
+        cur = Math.min(cur + inc, end);
+        setText(id, isFloat ? cur.toFixed(1) : Math.round(cur));
+        if (cur >= end) clearInterval(t);
+      }, ms);
     }
-  }, 1800);
-
-  // Also init immediately if GSAP is already loaded
-  if (window.gsap && window.ScrollTrigger) {
-    initGsap();
-  } else {
-    window.addEventListener('load', function() {
-      if (window.gsap && window.ScrollTrigger) initGsap();
-    });
+    run("stat-ielts", 7.5, 0.1, true, 40);
+    run("stat-sat", 1450, 22, false, 22);
+    run("stat-ent", 135, 3, false, 32);
+    run("stat-years", 6, 1, false, 90);
+  }
+  var statsBar = document.getElementById("stats-bar");
+  if (statsBar) {
+    new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) runCounters();
+    }, { threshold: 0.4 }).observe(statsBar);
   }
 
-  // ── Tweaks panel ──
-  const schemes = {
-    'blue-red':    { p: '#1E3A8A', pm: '#2563EB', pl: '#DBEAFE', a: '#DC2626', ah: '#B91C1C', bg: '#F4F4F8' },
-    'purple-gold': { p: '#4C1D95', pm: '#7C3AED', pl: '#EDE9FE', a: '#D97706', ah: '#B45309', bg: '#F5F3FF' },
-    'teal-coral':  { p: '#0F766E', pm: '#14B8A6', pl: '#CCFBF1', a: '#F43F5E', ah: '#E11D48', bg: '#F0FDFA' },
-    'dark-red':    { p: '#1F2937', pm: '#374151', pl: '#F3F4F6', a: '#DC2626', ah: '#B91C1C', bg: '#F3F4F6' }
-  };
-  const fontCombos = {
-    'playful':   { df: "'Nunito',sans-serif",           af: "'Pacifico',cursive" },
-    'brutal':    { df: "'Bebas Neue',sans-serif",        af: "'Bebas Neue',sans-serif" },
-    'luxury':    { df: "'Cormorant Garamond',serif",     af: "'Jost',sans-serif" },
-    'techy':     { df: "'Syne',sans-serif",              af: "'Outfit',sans-serif" },
-    'editorial': { df: "'Plus Jakarta Sans',sans-serif", af: "'Space Grotesk',sans-serif" }
-  };
-
-  function applyScheme(name) {
-    const s = schemes[name];
-    const r = document.documentElement;
-    Object.entries(s).forEach(function([k, v]) { r.style.setProperty('--' + k, v); });
-    document.querySelectorAll('.scheme-opt').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.scheme === name);
+  /* ---------- 3D tilt cards ---------- */
+  document.querySelectorAll(".tilt-card").forEach(function (card) {
+    card.addEventListener("mousemove", function (e) {
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width - 0.5;
+      var y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = "perspective(900px) rotateY(" + (x * 14) + "deg) rotateX(" + (-y * 14) + "deg) scale(1.025)";
+      card.style.boxShadow = (-x * 24) + "px " + (-y * 24) + "px 44px rgba(30,58,138,0.16)";
+      card.style.zIndex = "2";
+      card.style.transition = "box-shadow .15s";
     });
-  }
-
-  function applyFont(name) {
-    const f = fontCombos[name];
-    const r = document.documentElement;
-    r.style.setProperty('--df', f.df);
-    r.style.setProperty('--af', f.af);
-    document.querySelectorAll('.font-opt').forEach(function(b) {
-      b.classList.toggle('active', b.dataset.font === name);
+    card.addEventListener("mouseleave", function () {
+      card.style.transform = "";
+      card.style.boxShadow = "";
+      card.style.zIndex = "";
+      card.style.transition = "box-shadow .3s, transform .35s";
     });
-  }
-
-  let tweaksOpen = false;
-  window.toggleTweaks = function() {
-    tweaksOpen = !tweaksOpen;
-    const body = document.getElementById('tweaks-body');
-    body.classList.toggle('open', tweaksOpen);
-  };
-
-  // Build tweaks panel HTML
-  const tweaksBody = document.getElementById('tweaks-body');
-  const schemeNames = { 'blue-red': 'Blue/Red', 'purple-gold': 'Purple/Gold', 'teal-coral': 'Teal/Coral', 'dark-red': 'Dark/Red' };
-  const fontNames = { 'playful': 'Playful', 'brutal': 'Brutal', 'luxury': 'Luxury', 'techy': 'Techy', 'editorial': 'Editorial' };
-
-  let schemeHTML = '<div class="tweaks-section"><div class="tweaks-label">Цветовая схема</div><div class="tweaks-options">';
-  Object.keys(schemes).forEach(function(k) {
-    schemeHTML += '<button class="tweaks-opt scheme-opt' + (k === 'blue-red' ? ' active' : '') + '" data-scheme="' + k + '" onclick="applySchemeFromBtn(this)">' + schemeNames[k] + '</button>';
   });
-  schemeHTML += '</div></div>';
 
-  let fontHTML = '<div class="tweaks-section"><div class="tweaks-label">Шрифт</div><div class="tweaks-options">';
-  Object.keys(fontCombos).forEach(function(k) {
-    fontHTML += '<button class="tweaks-opt font-opt' + (k === 'luxury' ? ' active' : '') + '" data-font="' + k + '" onclick="applyFontFromBtn(this)">' + fontNames[k] + '</button>';
-  });
-  fontHTML += '</div></div>';
+  /* ---------- GSAP entrance / scroll animations ---------- */
+  function initGSAP() {
+    var g = window.gsap, ST = window.ScrollTrigger;
+    g.registerPlugin(ST);
+    document.body.classList.add("anim-ready");
 
-  tweaksBody.innerHTML = schemeHTML + fontHTML;
+    g.to("#scroll-progress", { scaleX: 1, ease: "none",
+      scrollTrigger: { trigger: document.body, start: "top top", end: "bottom bottom", scrub: 0.3 } });
 
-  window.applySchemeFromBtn = function(btn) { applyScheme(btn.dataset.scheme); };
-  window.applyFontFromBtn = function(btn) { applyFont(btn.dataset.font); };
+    var words = document.querySelectorAll(".hw");
+    if (words.length) g.fromTo(words, { opacity: 0, y: 70 },
+      { opacity: 1, y: 0, stagger: 0.1, duration: 0.85, ease: "power3.out", delay: 0.15 });
+    g.fromTo(".hero-cursive", { opacity: 0, x: -50 }, { opacity: 1, x: 0, duration: 0.9, ease: "power2.out", delay: 0.7 });
+    g.fromTo(".hero-cta", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out", delay: 1.15 });
+    g.fromTo(".hero-badge-float", { opacity: 0, scale: 0.6 },
+      { opacity: 1, scale: 1, stagger: 0.18, duration: 0.75, ease: "back.out(1.7)", delay: 1.35 });
 
+    g.to(".hero-photo-wrap", { yPercent: -10, ease: "none",
+      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 1.5 } });
+    g.to(".hero-deco-a", { yPercent: 28, ease: "none",
+      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 2 } });
+
+    document.querySelectorAll(".reveal").forEach(function (el) {
+      g.fromTo(el, { opacity: 0, y: 48 },
+        { opacity: 1, y: 0, duration: 0.78, ease: "power2.out",
+          scrollTrigger: { trigger: el, start: "top 89%", toggleActions: "play none none none" } });
+    });
+
+    g.fromTo(".price-card",
+      { opacity: 0, y: 60, rotationX: -28, transformPerspective: 900, transformOrigin: "center top" },
+      { opacity: 1, y: 0, rotationX: 0, stagger: 0.16, duration: 0.85, ease: "power3.out",
+        scrollTrigger: { trigger: "#pricing", start: "top 78%" } });
+
+    document.querySelectorAll(".landmark-deco").forEach(function (img, i) {
+      var section = img.closest("section") || img.parentElement;
+      var yShift = (i % 3 === 0) ? -18 : (i % 3 === 1) ? 14 : -10;
+      g.to(img, { yPercent: yShift, ease: "none",
+        scrollTrigger: { trigger: section, start: "top bottom", end: "bottom top", scrub: 1.6 } });
+    });
+
+    g.fromTo(".faq-heading", { opacity: 0, x: -45 },
+      { opacity: 1, x: 0, duration: 0.82, ease: "power2.out",
+        scrollTrigger: { trigger: "#faq", start: "top 86%" } });
+  }
+
+  function tryGSAP() {
+    if (window.gsap && window.ScrollTrigger) { initGSAP(); }
+    else { setTimeout(tryGSAP, 120); }
+  }
+  setTimeout(tryGSAP, 200);
+  // Safety: never leave hero elements invisible if GSAP fails to load.
+  setTimeout(function () { if (!window.gsap) document.body.classList.add("anim-ready"); }, 1800);
 })();
-</script>
 
+</script>
 </body>
 </html>
