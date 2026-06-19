@@ -67,7 +67,7 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
 .anim-ready .hw, .anim-ready .hero-cursive, .anim-ready .hero-sub, .anim-ready .hero-cta, .anim-ready .hero-badge-float { opacity: 1; }
 @media (max-width: 768px) {
   .d-hide { display:none!important }
-  .d-hide.landmark-deco { display:block!important;opacity:0.12!important }
+  .d-hide.landmark-deco { display:none!important }
   .deco-skyscraper { display:none!important }
   .m-col { flex-direction:column!important }
   .m-center { text-align:center!important }
@@ -171,6 +171,16 @@ html.dark .theme-toggle .moon{display:block;}
   .hp{display:none;}
   .group-inner{margin-bottom:18px!important;}
   .m-p{padding:24px 18px!important;}
+  /* --- performance: drop costly compositing/repaints on phones --- */
+  #site-nav{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+  #hero-aurora{animation:none!important;opacity:.7;}
+  .landmark-deco{display:none!important;}
+  [style*="blobMorph"]{animation:none!important;}
+  .tilt-card{will-change:auto!important;transform:none!important;}
+  .loc-card{min-height:300px!important;padding:28px!important;}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;}
 }
 @media (min-width:769px){ .swipe-hint{display:none!important;} }
 
@@ -222,7 +232,7 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 <div id="scroll-progress"></div>
 
 <!-- ══════════ NAV ══════════ -->
-<nav id="site-nav" style="position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .35s,box-shadow .35s;background:rgba(255,255,255,0);box-shadow:none;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;">
+<nav id="site-nav" style="position:fixed;top:0;left:0;right:0;z-index:1000;transition:background .35s,box-shadow .35s;background:rgba(255,255,255,0.96);box-shadow:0 1px 0 rgba(0,0,0,0.05);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(0,0,0,0.06);">
   <div style="max-width:1280px;margin:0 auto;padding:13px 28px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
     <a href="#hero" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0;">
       <div style="line-height:1;">
@@ -875,10 +885,37 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 <!-- ══════════ CONTACTS ══════════ -->
 <section id="contacts" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
   <div class="sec-content sec-g1 reveal" style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;">
-    <!-- Yandex Map -->
-    <div style="border-radius:20px;overflow:hidden;min-height:380px;box-shadow:0 4px 24px rgba(0,0,0,0.10);">
-      <iframe src="https://yandex.kz/map-widget/v1/?text=%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%2C+%D1%83%D0%BB%D0%B8%D1%86%D0%B0+%D0%9B%D0%BE%D0%BC%D0%BE%D0%B2%D0%B0%2C+186%D0%B0&z=16&l=map" width="100%" height="380" frameborder="0" allowfullscreen="true" style="display:block;border:none;" loading="lazy"></iframe>
-    </div>
+    <!-- Location card (replaces heavy map iframe) -->
+    <a href="https://yandex.kz/maps/?text=%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%90%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D0%B8%D0%BA%D0%B0%20%D0%9C%D0%B0%D1%80%D0%B3%D1%83%D0%BB%D0%B0%D0%BD%D0%B0%2C%2075" target="_blank" rel="noopener" class="loc-card" style="position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:380px;padding:40px;border-radius:20px;overflow:hidden;text-decoration:none;background:linear-gradient(140deg,var(--p) 0%,var(--pm) 58%,#3b82f6 100%);box-shadow:0 14px 40px rgba(30,58,138,0.28);">
+      <div aria-hidden="true" style="position:absolute;inset:0;opacity:.55;background-image:radial-gradient(rgba(255,255,255,.18) 1.5px,transparent 1.7px);background-size:22px 22px;"></div>
+      <div aria-hidden="true" style="position:absolute;right:-70px;bottom:-70px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 70%);"></div>
+      <div style="position:relative;display:flex;align-items:center;gap:15px;">
+        <div style="width:60px;height:60px;border-radius:18px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.72);margin-bottom:4px;">Где меня найти</div>
+          <div style="font-family:var(--df,'Cormorant Garamond',serif);font-size:28px;font-weight:700;color:#fff;line-height:1;">Павлодар</div>
+        </div>
+      </div>
+      <div style="position:relative;">
+        <div style="font-size:20px;font-weight:600;color:#fff;line-height:1.4;margin-bottom:20px;">ул. Академика Маргулана, 75</div>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.9);font-size:15px;font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            Пн–Сб: 9:00 – 21:00
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;color:rgba(255,255,255,0.9);font-size:15px;font-weight:500;">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>
+            Очно в Павлодаре и онлайн по всему миру
+          </div>
+        </div>
+        <span style="display:inline-flex;align-items:center;gap:10px;padding:14px 26px;background:rgb(255,255,255);border-radius:999px;font-size:15px;font-weight:700;color:var(--p);">
+          Построить маршрут
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </span>
+      </div>
+    </a>
     <!-- Contact info -->
     <div style="background:#fff;border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:20px;">
       <h2 style="font-family:var(--df,'Nunito',sans-serif);font-size:clamp(26px,3.5vw,42px);font-weight:900;color:#111;text-transform:uppercase;letter-spacing:-1px;margin-bottom:4px;">КОНТАКТЫ</h2>
@@ -993,15 +1030,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
     if (!nav) return;
     var dark = document.documentElement.classList.contains("dark");
     var base = dark ? "12,15,23" : "255,255,255";
-    if (window.scrollY > 60) {
-      nav.style.background = "rgba(" + base + ",0.96)";
-      nav.style.boxShadow = dark ? "0 2px 24px rgba(0,0,0,0.5)" : "0 2px 24px rgba(0,0,0,0.08)";
-      nav.style.borderBottom = dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)";
-    } else {
-      nav.style.background = "rgba(" + base + ",0)";
-      nav.style.boxShadow = "none";
-      nav.style.borderBottom = "1px solid transparent";
-    }
+    var scrolled = window.scrollY > 40;
+    nav.style.background = "rgba(" + base + "," + (scrolled ? "0.98" : "0.94") + ")";
+    nav.style.boxShadow = scrolled
+      ? (dark ? "0 4px 24px rgba(0,0,0,0.55)" : "0 4px 24px rgba(0,0,0,0.10)")
+      : (dark ? "0 1px 0 rgba(255,255,255,0.06)" : "0 1px 0 rgba(0,0,0,0.05)");
+    nav.style.borderBottom = dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)";
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
