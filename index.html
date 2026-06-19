@@ -108,6 +108,110 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
 </style>
 
 <style>:root{--p:#1E3A8A;--pm:#2563EB;--pl:#DBEAFE;--a:#DC2626;--ah:#B91C1C;--bg:#F4F4F8;--bgW:#ffffff;}</style>
+<style id="enhancements">
+/* ===== Scroll-reveal variants ===== */
+.reveal-up,.reveal-left,.reveal-right,.reveal-zoom{opacity:0;will-change:transform,opacity;}
+.reveal-up{transform:translateY(46px);}
+.reveal-left{transform:translateX(-46px);}
+.reveal-right{transform:translateX(46px);}
+.reveal-zoom{transform:scale(.92);}
+.in-view{opacity:1!important;transform:none!important;transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+
+/* ===== Hero animated background ===== */
+#hero-aurora{position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(40% 50% at 18% 22%,rgba(37,99,235,0.14),transparent 70%),
+            radial-gradient(38% 46% at 82% 28%,rgba(220,38,38,0.10),transparent 70%),
+            radial-gradient(46% 56% at 60% 88%,rgba(37,99,235,0.10),transparent 70%);
+  background-size:200% 200%;animation:auroraShift 18s ease-in-out infinite;}
+@keyframes auroraShift{0%,100%{background-position:0% 0%,100% 0%,50% 100%;}50%{background-position:40% 30%,60% 40%,40% 60%;}}
+#hero-particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.hp{position:absolute;bottom:-10%;font-family:var(--df,'Cormorant Garamond',serif);font-weight:700;color:rgba(37,99,235,0.10);user-select:none;line-height:1;animation:hpFloat linear infinite;}
+@keyframes hpFloat{0%{transform:translateY(0) rotate(0deg);opacity:0;}12%{opacity:1;}88%{opacity:1;}100%{transform:translateY(-118vh) rotate(38deg);opacity:0;}}
+
+/* ===== Swipe hint (mobile carousel) ===== */
+.swipe-hint{display:none;}
+@keyframes swipeNudge{0%,100%{transform:translateX(-7px);}50%{transform:translateX(7px);}}
+
+/* ===== Process / "Как проходят занятия" ===== */
+.proc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;}
+.proc-step{position:relative;background:#fff;border-radius:20px;padding:28px 22px;box-shadow:0 4px 28px rgba(30,58,138,0.07);border:1px solid #eef0f5;}
+.proc-num{width:50px;height:50px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-family:var(--df,'Cormorant Garamond',serif);font-weight:700;font-size:25px;color:#fff;background:linear-gradient(135deg,var(--p),var(--pm));margin-bottom:16px;}
+.proc-step:nth-child(even) .proc-num{background:linear-gradient(135deg,var(--a),var(--ah));}
+.proc-step h4{font-family:var(--df,'Cormorant Garamond',serif);font-size:21px;font-weight:700;color:#111;margin-bottom:8px;line-height:1.15;}
+.proc-step p{font-size:13.5px;color:#666;line-height:1.6;}
+.proc-arrow{position:absolute;right:-13px;top:48px;color:#c7d2e8;z-index:2;}
+.proc-step:last-child .proc-arrow{display:none;}
+
+/* ===== Theme toggle ===== */
+.theme-toggle{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid #e0e0e0;border-radius:12px;background:#fff;cursor:pointer;flex-shrink:0;color:var(--p);transition:background .2s,border-color .2s,color .2s;}
+.theme-toggle:hover{border-color:var(--p);}
+.theme-toggle .moon{display:none;}
+html.dark .theme-toggle .sun{display:none;}
+html.dark .theme-toggle .moon{display:block;}
+
+/* =========================================================
+   MOBILE refinements — spacing, rhythm, density
+   ========================================================= */
+@media (max-width:768px){
+  section{padding-top:54px!important;padding-bottom:54px!important;}
+  #hero{padding-top:58px!important;min-height:auto!important;}
+  .sec-content{padding-left:0!important;padding-right:0!important;}
+  #hero .sec-content{padding:14px 16px 28px!important;}
+  .hero-photo-wrap{min-height:330px!important;margin-top:6px;}
+  #stats-bar{padding:16px 14px!important;}
+  #stats-bar .g-2col{gap:4px!important;}
+  .proc-grid{grid-template-columns:1fr;gap:12px;}
+  .proc-step{padding:18px 18px;display:flex;gap:15px;align-items:flex-start;}
+  .proc-step .proc-num{margin-bottom:0;flex-shrink:0;width:46px;height:46px;font-size:22px;}
+  .proc-arrow{display:none!important;}
+  .swipe-hint{display:flex!important;align-items:center;justify-content:center;gap:9px;margin-top:16px;font-size:13px;font-weight:700;color:var(--pm);}
+  .swipe-hint svg{animation:swipeNudge 1.4s ease-in-out infinite;}
+  .benefits-desk-hint{display:none!important;}
+  circular-gallery{height:340px!important;}
+  .hp{display:none;}
+  .group-inner{margin-bottom:18px!important;}
+  .m-p{padding:24px 18px!important;}
+}
+@media (min-width:769px){ .swipe-hint{display:none!important;} }
+
+/* =========================================================
+   DARK MODE — overrides inline styles via attribute matchers
+   ========================================================= */
+html.dark{--p:#5b8def;--pm:#6ea0ff;--pl:rgba(91,141,239,0.18);--a:#f0494b;--ah:#d83c3e;--bg:#10131c;--bgW:#161b27;}
+html.dark,html.dark body{background:#0c0f17;color:#e8edf4;}
+html.dark [style*="background:#fff"],
+html.dark [style*="background:#ffffff"]{background:#161b27!important;}
+html.dark [style*="background:#F9F9FB"],
+html.dark [style*="background:#F3F4F6"],
+html.dark [style*="background:#f1f5f9"],
+html.dark [style*="background:#F4F4F8"]{background:#11151f!important;}
+html.dark [style*="background:#eee"]{background:rgba(255,255,255,0.09)!important;}
+html.dark [style*="color:#111"],
+html.dark [style*="color:#222"],
+html.dark [style*="color:#333"]{color:#eef2f8!important;}
+html.dark [style*="color:#444"],
+html.dark [style*="color:#555"],
+html.dark [style*="color:#666"]{color:#c4ccd8!important;}
+html.dark [style*="color:#777"],
+html.dark [style*="color:#888"],
+html.dark [style*="color:#999"],
+html.dark [style*="color:#aaa"],
+html.dark [style*="color:#bbb"]{color:#8b94a3!important;}
+html.dark [style*="solid #eee"],
+html.dark [style*="solid #e8e8e8"],
+html.dark [style*="solid #ddd"],
+html.dark [style*="solid #e0e0e0"],
+html.dark [style*="solid #f0f0f0"],
+html.dark [style*="solid #eef0f5"],
+html.dark [style*="solid rgba(0,0,0"]{border-color:rgba(255,255,255,0.12)!important;}
+html.dark .proc-step{background:#161b27!important;border-color:rgba(255,255,255,0.08)!important;}
+html.dark .proc-step h4{color:#eef2f8!important;}
+html.dark .proc-step p{color:#c4ccd8!important;}
+html.dark .theme-toggle{background:#161b27;border-color:rgba(255,255,255,0.14);color:#eef2f8;}
+html.dark .burger-btn{background:#161b27!important;border-color:rgba(255,255,255,0.14)!important;color:#eef2f8!important;}
+html.dark .landmark-deco{mix-blend-mode:screen!important;opacity:0.12!important;}
+html.dark .hp{color:rgba(120,160,255,0.13);}
+</style>
 </head>
 <body>
 
@@ -146,6 +250,10 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
       <a href="#trial" style="display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:var(--a);border-radius:999px;font-size:14px;font-weight:700;color:#fff;text-decoration:none;transition:background .2s;" class="mag-btn nav-cta" style-hover="background:var(--ah);">
         Оставить заявку
       </a>
+      <button onclick="toggleTheme()" aria-label="Сменить тему" class="theme-toggle">
+        <svg class="sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg>
+      </button>
       <button onclick="toggleMenu()" aria-label="Меню" class="m-only burger-btn" style="display:none;align-items:center;justify-content:center;width:44px;height:44px;border:1.5px solid #e0e0e0;border-radius:12px;background:#fff;cursor:pointer;font-size:20px;color:var(--p);line-height:1;flex-shrink:0;">☰</button>
     </div>
   </div>
@@ -173,6 +281,8 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
 
 <!-- ══════════ HERO ══════════ -->
 <section id="hero" style="position:relative;min-height:100svh;display:flex;flex-direction:column;background:#fff;overflow:hidden;padding-top:64px;">
+  <div id="hero-aurora" aria-hidden="true"></div>
+  <div id="hero-particles" aria-hidden="true"></div>
   <!-- Deco large А -->
   <div class="hero-deco-a" style="position:absolute;left:-20px;top:-70px;font-family:var(--df,'Nunito',sans-serif);font-size:clamp(260px,38vw,520px);font-weight:900;font-style:italic;color:rgba(37,99,235,0.05);line-height:1;pointer-events:none;user-select:none;z-index:2;letter-spacing:-20px;" aria-hidden="true">А</div>
   <!-- Animated blob (desktop) -->
@@ -300,9 +410,66 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
     <div style="text-align:center;margin-bottom:36px;" class="reveal">
       <p style="font-family:var(--af,'Jost',sans-serif);font-size:24px;font-weight:400;color:var(--pm);margin-bottom:4px;font-style:italic;">Преимущества</p>
       <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;">ОБУЧЕНИЯ <span style="color:var(--pm);">СО МНОЙ</span></h2>
-      <p style="font-size:13px;color:#999;margin-top:12px;display:inline-flex;align-items:center;gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(12 0)"/></svg>Перетащите или прокрутите колёсиком над галереей</p>
+      <p class="benefits-desk-hint" style="font-size:13px;color:#999;margin-top:12px;display:inline-flex;align-items:center;gap:8px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/><polyline points="9 18 3 12 9 6" transform="translate(12 0)"/></svg>Перетащите или прокрутите колёсиком над галереей</p>
     </div>
     <circular-gallery style="display:block;width:100%;height:440px;" bend="3" border-radius="0.04" scroll-ease="0.05" font="700 28px Jost" font-url="https://fonts.googleapis.com/css2?family=Jost:wght@700&family=Plus+Jakarta+Sans:wght@400&display=swap" color-dark="#1f2937" color-gray="#667085" color-accent="#DC2626" class="cg-el"></circular-gallery>
+    <div class="swipe-hint" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Листайте карусель пальцем
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROCESS ══════════ -->
+<section id="process" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="sec-content" style="max-width:1280px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:42px;" class="reveal">
+      <p style="font-family:var(--af,'Jost',sans-serif);font-size:24px;font-weight:400;color:var(--pm);margin-bottom:4px;font-style:italic;">Всё просто</p>
+      <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;">КАК ПРОХОДЯТ <span style="color:var(--pm);">ЗАНЯТИЯ</span></h2>
+      <p style="font-size:15px;color:#666;margin-top:10px;">От первого сообщения до результата — пять простых шагов</p>
+    </div>
+    <div class="proc-grid">
+      <div class="proc-step">
+        <div class="proc-num">1</div>
+        <div>
+          <h4>Заявка</h4>
+          <p>Оставляете заявку в WhatsApp или Telegram — отвечаю в течение часа.</p>
+        </div>
+        <svg class="proc-arrow" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">2</div>
+        <div>
+          <h4>Бесплатный пробный урок</h4>
+          <p>Знакомимся, определяю ваш уровень и цели обучения.</p>
+        </div>
+        <svg class="proc-arrow" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">3</div>
+        <div>
+          <h4>Личный план</h4>
+          <p>Составляю программу под вашу цель: ЕНТ, IELTS, SAT или разговорный.</p>
+        </div>
+        <svg class="proc-arrow" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">4</div>
+        <div>
+          <h4>Занятия</h4>
+          <p>Уроки по 60 минут с домашними заданиями и контролем прогресса.</p>
+        </div>
+        <svg class="proc-arrow" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+      <div class="proc-step">
+        <div class="proc-num">5</div>
+        <div>
+          <h4>Результат</h4>
+          <p>Вы достигаете цели: высокий балл или свободная речь.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -824,12 +991,14 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
   var nav = document.getElementById("site-nav");
   function onScroll() {
     if (!nav) return;
+    var dark = document.documentElement.classList.contains("dark");
+    var base = dark ? "12,15,23" : "255,255,255";
     if (window.scrollY > 60) {
-      nav.style.background = "rgba(255,255,255,0.96)";
-      nav.style.boxShadow = "0 2px 24px rgba(0,0,0,0.08)";
-      nav.style.borderBottom = "1px solid rgba(0,0,0,0.06)";
+      nav.style.background = "rgba(" + base + ",0.96)";
+      nav.style.boxShadow = dark ? "0 2px 24px rgba(0,0,0,0.5)" : "0 2px 24px rgba(0,0,0,0.08)";
+      nav.style.borderBottom = dark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)";
     } else {
-      nav.style.background = "rgba(255,255,255,0)";
+      nav.style.background = "rgba(" + base + ",0)";
       nav.style.boxShadow = "none";
       nav.style.borderBottom = "1px solid transparent";
     }
@@ -1017,6 +1186,65 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
   setTimeout(tryGSAP, 200);
   // Safety: never leave hero elements invisible if GSAP fails to load.
   setTimeout(function () { if (!window.gsap) document.body.classList.add("anim-ready"); }, 1800);
+
+  /* ---------- dark mode toggle (persisted) ---------- */
+  var THEME_KEY = "aibek-theme";
+  function setDark(on) {
+    document.documentElement.classList.toggle("dark", on);
+    try { localStorage.setItem(THEME_KEY, on ? "1" : "0"); } catch (e) {}
+    onScroll();
+  }
+  window.toggleTheme = function () {
+    setDark(!document.documentElement.classList.contains("dark"));
+  };
+  try { if (localStorage.getItem(THEME_KEY) === "1") setDark(true); } catch (e) {}
+
+  /* ---------- hero floating letters ---------- */
+  (function particles() {
+    var box = document.getElementById("hero-particles");
+    if (!box || window.innerWidth < 769) return;
+    var glyphs = ["A", "B", "C", "Hi", "Go", "Aa", "Th", "Wow", "Yes", "Ok", "He", "En", "Up", "Go!"];
+    for (var i = 0; i < 14; i++) {
+      var s = document.createElement("span");
+      s.className = "hp";
+      s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+      s.style.fontSize = Math.round(18 + Math.random() * 46) + "px";
+      s.style.left = Math.random() * 100 + "%";
+      var dur = 14 + Math.random() * 16;
+      s.style.animationDuration = dur + "s";
+      s.style.animationDelay = (-Math.random() * dur) + "s";
+      box.appendChild(s);
+    }
+  })();
+
+  /* ---------- extra scroll reveals (separate from GSAP .reveal) ---------- */
+  (function extraReveals() {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var el = e.target;
+        el.classList.add("in-view");
+        io.unobserve(el);
+        // remove classes after the transition so hover/tilt transforms still work
+        setTimeout(function () {
+          el.classList.remove("reveal-up", "reveal-left", "reveal-right", "reveal-zoom", "in-view");
+          el.style.transitionDelay = "";
+        }, 950);
+      });
+    }, { threshold: 0.12 });
+    function tag(sel, cls, stagger) {
+      document.querySelectorAll(sel).forEach(function (el, i) {
+        if (el.classList.contains("reveal")) return;
+        el.classList.add(cls || "reveal-up");
+        if (stagger) el.style.transitionDelay = (i * stagger) + "s";
+        io.observe(el);
+      });
+    }
+    tag(".proc-step", "reveal-up", 0.08);
+    tag("#reviews .tilt-card", "reveal-up", 0.06);
+    tag("#contacts .contact-item, #contacts a[href^='tel'], #contacts a[href*='t.me']", "reveal-left", 0.08);
+    tag("#faq .faq-item", "reveal-up", 0.05);
+  })();
 })();
 
 </script>
