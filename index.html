@@ -149,6 +149,35 @@ body { font-family: 'Inter', sans-serif; color: #111; overflow-x: hidden; }
 html.dark .theme-toggle .sun{display:none;}
 html.dark .theme-toggle .moon{display:block;}
 
+/* ===== Decorative background details (CSS-only, lightweight) ===== */
+#about .sec-content,#benefits .sec-content,#process .sec-content,#groups .sec-content,#pricing .sec-content,#reviews .sec-content,#trial .sec-content,#faq .sec-content,#contacts .sec-content{position:relative;z-index:1;}
+.deco-layer{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+.deco-layer>*{position:absolute;}
+.d-ring{border-radius:50%;border:2px solid rgba(37,99,235,0.12);}
+.d-ring.red{border-color:rgba(220,38,38,0.12);}
+.d-ring.thick{border-width:9px;}
+.d-disc{border-radius:50%;background:radial-gradient(circle at 32% 30%,rgba(37,99,235,0.10),rgba(37,99,235,0) 70%);}
+.d-disc.red{background:radial-gradient(circle at 32% 30%,rgba(220,38,38,0.09),rgba(220,38,38,0) 70%);}
+.d-square{border:2px solid rgba(37,99,235,0.12);border-radius:9px;}
+.d-square.red{border-color:rgba(220,38,38,0.12);}
+.d-dots{color:rgba(37,99,235,0.14);background-image:radial-gradient(currentColor 1.5px,transparent 1.7px);background-size:20px 20px;}
+.d-plus{color:rgba(37,99,235,0.18);font-weight:700;font-family:var(--af,'Jost',sans-serif);line-height:1;}
+.d-plus.red{color:rgba(220,38,38,0.18);}
+.d-glyph{font-family:var(--df,'Cormorant Garamond',serif);font-weight:700;color:rgba(37,99,235,0.06);line-height:.8;}
+.d-glyph.red{color:rgba(220,38,38,0.06);}
+.d-word{font-family:var(--df,'Cormorant Garamond',serif);font-style:italic;font-weight:700;color:rgba(37,99,235,0.06);white-space:nowrap;}
+.d-dash{border-top:2px dashed rgba(37,99,235,0.16);height:0;}
+.d-x{animation:floatA 9s ease-in-out infinite;}
+.d-y{animation:floatB 11s ease-in-out infinite;}
+html.dark .d-ring{border-color:rgba(120,160,255,0.16);}
+html.dark .d-ring.red{border-color:rgba(240,100,100,0.16);}
+html.dark .d-square{border-color:rgba(120,160,255,0.16);}
+html.dark .d-disc{background:radial-gradient(circle at 32% 30%,rgba(120,160,255,0.12),rgba(0,0,0,0) 70%);}
+html.dark .d-dots{color:rgba(120,160,255,0.15);}
+html.dark .d-plus{color:rgba(120,160,255,0.22);}
+html.dark .d-glyph,html.dark .d-word{color:rgba(140,170,255,0.08);}
+html.dark .d-dash{border-color:rgba(120,160,255,0.18);}
+
 /* =========================================================
    MOBILE refinements — spacing, rhythm, density
    ========================================================= */
@@ -176,6 +205,7 @@ html.dark .theme-toggle .moon{display:block;}
   #hero-aurora{animation:none!important;opacity:.7;}
   .landmark-deco{display:none!important;}
   [style*="blobMorph"]{animation:none!important;}
+  .deco-layer .d-x,.deco-layer .d-y{animation:none!important;}
   .tilt-card{will-change:auto!important;transform:none!important;}
   .loc-card{min-height:300px!important;padding:28px!important;}
 }
@@ -390,6 +420,13 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ ABOUT ══════════ -->
 <section id="about" style="padding:88px 28px 72px;background:#fff;position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-ring d-x" style="top:46px;left:6%;width:110px;height:110px;"></span>
+    <span class="d-square red d-y" style="bottom:56px;left:9%;width:64px;height:64px;transform:rotate(16deg);"></span>
+    <span class="d-dots" style="top:40px;right:5%;width:120px;height:84px;"></span>
+    <span class="d-plus" style="bottom:90px;right:11%;font-size:38px;">+</span>
+    <span class="d-glyph" style="top:8px;left:50%;transform:translateX(-50%);font-size:150px;">“</span>
+  </div>
   <img src="project/uploads/big_ben_4.png" aria-hidden="true" class="d-hide landmark-deco" style="position:absolute;right:0;top:0;height:112%;object-fit:contain;object-position:right center;opacity:0.25;mix-blend-mode:multiply;pointer-events:none;user-select:none;z-index:2;animation:floatB 14s ease-in-out infinite;"/>
   <div style="position:absolute;right:-80px;top:50%;transform:translateY(-50%);opacity:0.035;pointer-events:none;" class="d-hide" aria-hidden="true">
     <svg width="500" height="500" viewBox="0 0 500 500"><ellipse cx="250" cy="250" rx="220" ry="200" fill="none" stroke="#1E3A8A" stroke-width="60"/><ellipse cx="250" cy="250" rx="140" ry="120" fill="none" stroke="#1E3A8A" stroke-width="30"/></svg>
@@ -414,6 +451,13 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ BENEFITS ══════════ -->
 <section id="benefits" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-ring thick d-y" style="top:34px;right:7%;width:90px;height:90px;"></span>
+    <span class="d-plus red" style="top:60px;left:6%;font-size:34px;">+</span>
+    <span class="d-plus" style="top:120px;left:11%;font-size:22px;">+</span>
+    <span class="d-dots" style="bottom:24px;right:4%;width:120px;height:80px;"></span>
+    <span class="d-word" style="top:18px;left:46%;font-size:60px;">excellent</span>
+  </div>
   <img src="project/uploads/1000014610-ce7160b6.png" aria-hidden="true" class="d-hide landmark-deco deco-skyscraper" style="position:absolute;left:-30px;bottom:-90px;height:95%;object-fit:contain;object-position:left bottom;opacity:0.20;mix-blend-mode:multiply;pointer-events:none;user-select:none;animation:floatB 15s ease-in-out infinite;"/>
   <img src="project/uploads/picture_17-grafikov-kotorye-d_855_p0.png" aria-hidden="true" class="d-hide landmark-deco" style="position:absolute;right:-40px;bottom:-20px;width:560px;object-fit:contain;object-position:right bottom;opacity:0.28;mix-blend-mode:multiply;pointer-events:none;user-select:none;animation:floatA 12s ease-in-out infinite 1s;"/>
   <div class="sec-content" style="max-width:1280px;margin:0 auto;">
@@ -433,6 +477,13 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ PROCESS ══════════ -->
 <section id="process" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-ring d-x" style="bottom:40px;left:5%;width:120px;height:120px;"></span>
+    <span class="d-square d-y" style="top:50px;right:7%;width:58px;height:58px;transform:rotate(-14deg);"></span>
+    <span class="d-dash" style="top:54px;left:8%;width:140px;transform:rotate(-8deg);"></span>
+    <span class="d-plus red" style="bottom:70px;right:10%;font-size:32px;">+</span>
+    <span class="d-glyph red" style="top:-10px;right:30%;font-size:170px;">→</span>
+  </div>
   <div class="sec-content" style="max-width:1280px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:42px;" class="reveal">
       <p style="font-family:var(--af,'Jost',sans-serif);font-size:24px;font-weight:400;color:var(--pm);margin-bottom:4px;font-style:italic;">Всё просто</p>
@@ -485,6 +536,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ GROUPS ══════════ -->
 <section id="groups" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-disc d-x" style="top:30px;left:-40px;width:200px;height:200px;"></span>
+    <span class="d-ring red d-y" style="top:60px;right:6%;width:96px;height:96px;"></span>
+    <span class="d-plus" style="bottom:80px;left:8%;font-size:30px;">+</span>
+    <span class="d-word" style="bottom:30px;right:7%;font-size:58px;">Speak</span>
+  </div>
   <div class="sec-content" style="max-width:1280px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:28px;" class="reveal">
       <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;"><span style="color:var(--pm);">ГРУППЫ</span> УЧЕНИКОВ</h2>
@@ -592,6 +649,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ PRICING ══════════ -->
 <section id="pricing" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-ring d-y" style="top:40px;left:6%;width:120px;height:120px;"></span>
+    <span class="d-square red d-x" style="bottom:50px;right:8%;width:66px;height:66px;transform:rotate(20deg);"></span>
+    <span class="d-dots" style="top:30px;right:5%;width:110px;height:80px;"></span>
+    <span class="d-plus" style="bottom:90px;left:9%;font-size:34px;">+</span>
+  </div>
   <div class="sec-content" style="max-width:900px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:40px;" class="reveal">
       <h2 style="font-family:var(--df,'Cormorant Garamond',serif);font-size:clamp(28px,4vw,52px);font-weight:700;color:#111;text-transform:uppercase;letter-spacing:-1px;"><span style="color:var(--pm);">ВАРИАНТЫ</span> ЗАНЯТИЙ</h2>
@@ -664,6 +727,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ REVIEWS ══════════ -->
 <section id="reviews" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-glyph" style="top:20px;left:4%;font-size:200px;">“</span>
+    <span class="d-glyph red" style="bottom:-40px;right:4%;font-size:200px;">”</span>
+    <span class="d-ring d-x" style="top:80px;right:14%;width:80px;height:80px;"></span>
+    <span class="d-plus" style="bottom:80px;left:12%;font-size:28px;">+</span>
+  </div>
   <div class="sec-content" style="max-width:1280px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:40px;" class="reveal">
       <p style="font-family:var(--af,'Pacifico',cursive);font-size:34px;font-weight:700;color:var(--pm);margin-bottom:6px;">Сертификаты</p>
@@ -769,6 +838,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ FREE TRIAL CTA ══════════ -->
 <section id="trial" style="padding:80px 28px;background:var(--bg);overflow:hidden;position:relative;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-disc red d-x" style="top:-40px;right:-30px;width:220px;height:220px;"></span>
+    <span class="d-ring d-y" style="bottom:40px;left:5%;width:100px;height:100px;"></span>
+    <span class="d-plus" style="top:70px;left:8%;font-size:32px;">+</span>
+    <span class="d-word" style="bottom:24px;right:8%;font-size:54px;">Let's go</span>
+  </div>
   <div class="sec-content trial-grid" style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;">
     <!-- Left: Text -->
     <div style="display:flex;flex-direction:column;gap:20px;" class="m-center reveal">
@@ -805,6 +880,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ FAQ ══════════ -->
 <section id="faq" style="padding:80px 28px;background:#fff;position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-glyph" style="top:0;right:6%;font-size:200px;">?</span>
+    <span class="d-ring red d-y" style="bottom:50px;left:5%;width:90px;height:90px;"></span>
+    <span class="d-square d-x" style="top:70px;left:9%;width:54px;height:54px;transform:rotate(12deg);"></span>
+    <span class="d-dots" style="bottom:30px;right:6%;width:110px;height:80px;"></span>
+  </div>
   <div class="sec-content m-col" style="max-width:1280px;margin:0 auto;display:flex;gap:60px;align-items:flex-start;">
     <!-- Left: heading -->
     <div style="flex:0 0 280px;" class="faq-heading m-full m-center">
@@ -884,6 +965,12 @@ html.dark .hp{color:rgba(120,160,255,0.13);}
 
 <!-- ══════════ CONTACTS ══════════ -->
 <section id="contacts" style="padding:80px 28px;background:var(--bg);position:relative;overflow:hidden;">
+  <div class="deco-layer" aria-hidden="true">
+    <span class="d-ring d-x" style="top:36px;left:5%;width:104px;height:104px;"></span>
+    <span class="d-plus red" style="top:80px;right:8%;font-size:32px;">+</span>
+    <span class="d-dots" style="bottom:30px;left:6%;width:120px;height:80px;"></span>
+    <span class="d-square d-y" style="bottom:60px;right:10%;width:56px;height:56px;transform:rotate(-16deg);"></span>
+  </div>
   <div class="sec-content sec-g1 reveal" style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:stretch;">
     <!-- Location card (replaces heavy map iframe) -->
     <a href="https://yandex.kz/maps/?text=%D0%9F%D0%B0%D0%B2%D0%BB%D0%BE%D0%B4%D0%B0%D1%80%2C%20%D1%83%D0%BB%D0%B8%D1%86%D0%B0%20%D0%90%D0%BA%D0%B0%D0%B4%D0%B5%D0%BC%D0%B8%D0%BA%D0%B0%20%D0%9C%D0%B0%D1%80%D0%B3%D1%83%D0%BB%D0%B0%D0%BD%D0%B0%2C%2075" target="_blank" rel="noopener" class="loc-card" style="position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:380px;padding:40px;border-radius:20px;overflow:hidden;text-decoration:none;background:linear-gradient(140deg,var(--p) 0%,var(--pm) 58%,#3b82f6 100%);box-shadow:0 14px 40px rgba(30,58,138,0.28);">
